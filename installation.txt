@@ -1,0 +1,17 @@
+
+
+1. Rename application/config/sample_config.php To 'config.php'
+            Enter base_url
+             $config['base_url']
+
+2. Rename application/config/sample_database.php To 'database.php'
+          Edit data base details
+
+3. Rename facnc/config.default.php To 'config.php'
+          Enter url
+          $cnc_url
+4. Rename facnc/config_db_default.php To 'config_db.php'
+           Edit data base details
+
+
+
