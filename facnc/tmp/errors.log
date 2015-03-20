@@ -2102,3 +2102,50 @@
 [10-Mar-2015 15:54:31 Asia/Kolkata] 0:admin:maintenance_db.inc:837: mkdir() [<a href='function.mkdir'>function.mkdir</a>]: File exists
 [10-Mar-2015 15:54:31 Asia/Kolkata] 0:admin:maintenance_db.inc:837: mkdir() [<a href='function.mkdir'>function.mkdir</a>]: File exists
 [10-Mar-2015 15:54:31 Asia/Kolkata] 0:admin:maintenance_db.inc:837: mkdir() [<a href='function.mkdir'>function.mkdir</a>]: File exists
+[20-Mar-2015 11:47:41 Asia/Kolkata] 0::connect_db.inc:27: mysql_connect(): The mysql extension is deprecated and will be removed in the future: use mysqli or PDO instead
+[20-Mar-2015 11:47:41 Asia/Kolkata] 0::connect_db.inc:27: mysql_connect(): 
+[20-Mar-2015 11:47:41 Asia/Kolkata] 0::connect_db.inc:28: mysql_select_db() expects parameter 2 to be resource, boolean given
+[20-Mar-2015 11:47:41 Asia/Kolkata] 0::connect_db.inc:35: mysql_get_server_info(): The mysql extension is deprecated and will be removed in the future: use mysqli or PDO instead
+[20-Mar-2015 11:47:41 Asia/Kolkata] 0::connect_db.inc:61: mysql_query() expects parameter 2 to be resource, boolean given
+[20-Mar-2015 11:47:41 Asia/Kolkata] 0::connect_db.inc:61: mysql_query() expects parameter 2 to be resource, boolean given
+[20-Mar-2015 11:47:41 Asia/Kolkata] 0::connect_db.inc:156: mysql_errno() expects parameter 1 to be resource, boolean given
+[20-Mar-2015 11:47:41 Asia/Kolkata] 0::connect_db.inc:100: mysql_fetch_array() expects parameter 1 to be resource, null given
+[20-Mar-2015 11:50:00 Asia/Kolkata] 0::connect_db.inc:27: mysql_connect(): The mysql extension is deprecated and will be removed in the future: use mysqli or PDO instead
+[20-Mar-2015 11:50:00 Asia/Kolkata] 0::connect_db.inc:27: mysql_connect(): 
+[20-Mar-2015 11:50:00 Asia/Kolkata] 0::connect_db.inc:28: mysql_select_db() expects parameter 2 to be resource, boolean given
+[20-Mar-2015 11:50:00 Asia/Kolkata] 0::connect_db.inc:35: mysql_get_server_info(): The mysql extension is deprecated and will be removed in the future: use mysqli or PDO instead
+[20-Mar-2015 11:50:00 Asia/Kolkata] 0::connect_db.inc:61: mysql_query() expects parameter 2 to be resource, boolean given
+[20-Mar-2015 11:50:00 Asia/Kolkata] 0::connect_db.inc:61: mysql_query() expects parameter 2 to be resource, boolean given
+[20-Mar-2015 11:50:00 Asia/Kolkata] 0::connect_db.inc:156: mysql_errno() expects parameter 1 to be resource, boolean given
+[20-Mar-2015 11:50:00 Asia/Kolkata] 0::connect_db.inc:100: mysql_fetch_array() expects parameter 1 to be resource, null given
+[20-Mar-2015 11:50:08 Asia/Kolkata] 0::connect_db.inc:27: mysql_connect(): The mysql extension is deprecated and will be removed in the future: use mysqli or PDO instead
+[20-Mar-2015 11:50:08 Asia/Kolkata] 0::connect_db.inc:27: mysql_connect(): 
+[20-Mar-2015 11:50:08 Asia/Kolkata] 0::connect_db.inc:28: mysql_select_db() expects parameter 2 to be resource, boolean given
+[20-Mar-2015 11:50:08 Asia/Kolkata] 0::connect_db.inc:35: mysql_get_server_info(): The mysql extension is deprecated and will be removed in the future: use mysqli or PDO instead
+[20-Mar-2015 11:50:08 Asia/Kolkata] 0::connect_db.inc:61: mysql_query() expects parameter 2 to be resource, boolean given
+[20-Mar-2015 11:50:08 Asia/Kolkata] 0::connect_db.inc:61: mysql_query() expects parameter 2 to be resource, boolean given
+[20-Mar-2015 11:50:08 Asia/Kolkata] 0::connect_db.inc:156: mysql_errno() expects parameter 1 to be resource, boolean given
+[20-Mar-2015 11:50:08 Asia/Kolkata] 0::connect_db.inc:100: mysql_fetch_array() expects parameter 1 to be resource, null given
+[20-Mar-2015 11:50:39 Asia/Kolkata] 0::connect_db.inc:27: mysql_connect(): The mysql extension is deprecated and will be removed in the future: use mysqli or PDO instead
+[20-Mar-2015 11:50:39 Asia/Kolkata] 0::connect_db.inc:27: mysql_connect(): The mysql extension is deprecated and will be removed in the future: use mysqli or PDO instead
+[20-Mar-2015 11:50:59 Asia/Kolkata] 0::connect_db.inc:27: mysql_connect(): The mysql extension is deprecated and will be removed in the future: use mysqli or PDO instead
+[20-Mar-2015 11:50:59 Asia/Kolkata] 0::connect_db.inc:27: mysql_connect(): The mysql extension is deprecated and will be removed in the future: use mysqli or PDO instead
+[20-Mar-2015 11:51:01 Asia/Kolkata] 0:admin:connect_db.inc:27: mysql_connect(): The mysql extension is deprecated and will be removed in the future: use mysqli or PDO instead
+[20-Mar-2015 11:51:01 Asia/Kolkata] 0:admin:connect_db.inc:185: mysql_connect(): The mysql extension is deprecated and will be removed in the future: use mysqli or PDO instead
+[20-Mar-2015 11:51:14 Asia/Kolkata] 0:admin:connect_db.inc:27: mysql_connect(): The mysql extension is deprecated and will be removed in the future: use mysqli or PDO instead
+[20-Mar-2015 11:51:14 Asia/Kolkata] 0:admin:maintenance_db.inc:830: mkdir(): File exists
+[20-Mar-2015 11:51:14 Asia/Kolkata] 0:admin:maintenance_db.inc:837: mkdir(): File exists
+[20-Mar-2015 11:51:14 Asia/Kolkata] 0:admin:maintenance_db.inc:837: mkdir(): File exists
+[20-Mar-2015 11:51:14 Asia/Kolkata] 0:admin:maintenance_db.inc:837: mkdir(): File exists
+[20-Mar-2015 11:51:14 Asia/Kolkata] 0:admin:maintenance_db.inc:837: mkdir(): File exists
+[20-Mar-2015 11:51:14 Asia/Kolkata] 0:admin:maintenance_db.inc:837: mkdir(): File exists
+[20-Mar-2015 11:51:14 Asia/Kolkata] 0:admin:maintenance_db.inc:837: mkdir(): File exists
+[20-Mar-2015 11:52:46 Asia/Kolkata] 0::connect_db.inc:27: mysql_connect(): The mysql extension is deprecated and will be removed in the future: use mysqli or PDO instead
+[20-Mar-2015 11:52:46 Asia/Kolkata] 1::connect_db.inc:27: mysql_connect(): The mysql extension is deprecated and will be removed in the future: use mysqli or PDO instead
+[20-Mar-2015 11:52:48 Asia/Kolkata] 1:connectncabs:connect_db.inc:27: mysql_connect(): The mysql extension is deprecated and will be removed in the future: use mysqli or PDO instead
+[20-Mar-2015 12:01:44 Asia/Kolkata] 0::connect_db.inc:27: mysql_connect(): The mysql extension is deprecated and will be removed in the future: use mysqli or PDO instead
+[20-Mar-2015 12:01:44 Asia/Kolkata] 0::connect_db.inc:27: mysql_connect(): The mysql extension is deprecated and will be removed in the future: use mysqli or PDO instead
+[20-Mar-2015 12:01:44 Asia/Kolkata] 1::connect_db.inc:27: mysql_connect(): The mysql extension is deprecated and will be removed in the future: use mysqli or PDO instead
+[20-Mar-2015 12:01:44 Asia/Kolkata] 1::connect_db.inc:27: mysql_connect(): The mysql extension is deprecated and will be removed in the future: use mysqli or PDO instead
+[20-Mar-2015 12:01:44 Asia/Kolkata] 1:divya:connect_db.inc:27: mysql_connect(): The mysql extension is deprecated and will be removed in the future: use mysqli or PDO instead
+[20-Mar-2015 12:01:44 Asia/Kolkata] 1:divya:connect_db.inc:27: mysql_connect(): The mysql extension is deprecated and will be removed in the future: use mysqli or PDO instead

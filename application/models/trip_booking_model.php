@@ -336,39 +336,8 @@ $qry='SELECT TV.total_trip_amount,TV.start_km_reading,TV.end_km_reading,TV.end_k
 	}
 
 	}
-//cnc with simple intelligence
-	/*function selectAvailableVehicles($data){
-	//$qry='SELECT V.id as vehicle_id, V.registration_number,V.vehicle_model_id,V.vehicle_make_id FROM vehicles AS V LEFT JOIN trips T ON  V.id =T.vehicle_id AND T.organisation_id = '.$data['organisation_id'].' WHERE V.vehicle_type_id = '.$data['vehicle_type'].' AND V.vehicle_ac_type_id ='.$data['vehicle_ac_type'].' AND V.organisation_id = '.$data['organisation_id'].' AND ((T.pick_up_date IS NULL AND pick_up_time IS NULL AND T.drop_date IS NULL AND drop_time IS NULL ) OR ((CONCAT(T.pick_up_date," ", T.pick_up_time) NOT BETWEEN "'.$data['pickupdatetime'].'" AND "'.$data['dropdatetime'].'") AND (CONCAT( T.drop_date," ", T.drop_time ) NOT BETWEEN "'.$data['pickupdatetime'].'" AND "'.$data['dropdatetime'].'")) AND CONCAT( T.pick_up_date," ", T.pick_up_time ) >= CURDATE() AND CONCAT( T.drop_date," ", T.drop_time ) >= CURDATE() AND CONCAT( T.pick_up_date," ", T.pick_up_time ) < "'.$data['dropdatetime'].'" )';
-	//echo $qry;exit;	
-	$qry='SELECT V1.id as vehicle_id, V1.registration_number,V1.vehicle_model_id,V1.vehicle_make_id FROM vehicles V1 WHERE V1.vehicle_type_id ='.$data['vehicle_type'].' AND V1.vehicle_make_id ='.$data['vehicle_make'].' AND V1.vehicle_model_id ='.$data['vehicle_model'].' AND V1.vehicle_ac_type_id ='.$data['vehicle_ac_type'].' AND V1.organisation_id = '.$data['organisation_id'].' AND V1.id NOT IN (SELECT V.id FROM vehicles AS V LEFT JOIN trips T ON V.id =T.vehicle_id WHERE V.vehicle_type_id ='.$data['vehicle_type'].' AND V.vehicle_make_id ='.$data['vehicle_make'].' AND V.vehicle_model_id ='.$data['vehicle_model'].' AND V.vehicle_ac_type_id ='.$data['vehicle_ac_type'].' AND T.trip_status_id="'.TRIP_STATUS_CONFIRMED.'" AND V.organisation_id = '.$data['organisation_id'].' AND (((CONCAT( T.pick_up_date," ", T.pick_up_time ) BETWEEN "'.$data['pickupdatetime'].'" AND "'.$data['dropdatetime'].'") OR (CONCAT( T.drop_date," ", T.drop_time ) BETWEEN "'.$data['pickupdatetime'].'" AND "'.$data['dropdatetime'].'")) OR ("'.$data['pickupdatetime'].'" BETWEEN CONCAT( T.pick_up_date," ", T.pick_up_time ) AND CONCAT( T.drop_date," ", T.drop_time )) OR ("'.$data['dropdatetime'].'" BETWEEN CONCAT( T.pick_up_date, " ", T.pick_up_time ) AND CONCAT( T.drop_date, " ", T.drop_time ))))';
-//echo $qry;exit;	
-	$result=$this->db->query($qry);
-	$result=$result->result_array();
-	if(count($result)>0){
-	return $result;
-	}else{
-	return false;
-	}
 
-	}*/
-
-//taxi with intelligence
-
-	/*function selectAvailableVehicles($data){
-	//$qry='SELECT V.id as vehicle_id, V.registration_number,V.vehicle_model_id,V.vehicle_make_id FROM vehicles AS V LEFT JOIN trips T ON  V.id =T.vehicle_id AND T.organisation_id = '.$data['organisation_id'].' WHERE V.vehicle_type_id = '.$data['vehicle_type'].' AND V.vehicle_ac_type_id ='.$data['vehicle_ac_type'].' AND V.organisation_id = '.$data['organisation_id'].' AND ((T.pick_up_date IS NULL AND pick_up_time IS NULL AND T.drop_date IS NULL AND drop_time IS NULL ) OR ((CONCAT(T.pick_up_date," ", T.pick_up_time) NOT BETWEEN "'.$data['pickupdatetime'].'" AND "'.$data['dropdatetime'].'") AND (CONCAT( T.drop_date," ", T.drop_time ) NOT BETWEEN "'.$data['pickupdatetime'].'" AND "'.$data['dropdatetime'].'")) AND CONCAT( T.pick_up_date," ", T.pick_up_time ) >= CURDATE() AND CONCAT( T.drop_date," ", T.drop_time ) >= CURDATE() AND CONCAT( T.pick_up_date," ", T.pick_up_time ) < "'.$data['dropdatetime'].'" )';
-	//echo $qry;exit;	
-	$qry='SELECT V1.id as vehicle_id, SUBSTR(V1.registration_number, -4)as registration_number,V1.vehicle_model_id,V1.vehicle_make_id FROM vehicles V1 WHERE V1.vehicle_model_id ='.$data['vehicle_model'].' AND V1.vehicle_ac_type_id ='.$data['vehicle_ac_type'].' AND V1.organisation_id = '.$data['organisation_id'].' AND V1.id NOT IN (SELECT V.id FROM vehicles AS V LEFT JOIN trips T ON V.id =T.vehicle_id WHERE V.vehicle_model_id ='.$data['vehicle_model'].' AND V.vehicle_ac_type_id ='.$data['vehicle_ac_type'].' AND T.trip_status_id="'.TRIP_STATUS_CONFIRMED.'" AND V.organisation_id = '.$data['organisation_id'].' AND (((CONCAT( T.pick_up_date," ", T.pick_up_time ) BETWEEN "'.$data['pickupdatetime'].'" AND "'.$data['dropdatetime'].'") OR (CONCAT( T.drop_date," ", T.drop_time ) BETWEEN "'.$data['pickupdatetime'].'" AND "'.$data['dropdatetime'].'")) OR ("'.$data['pickupdatetime'].'" BETWEEN CONCAT( T.pick_up_date," ", T.pick_up_time ) AND CONCAT( T.drop_date," ", T.drop_time )) OR ("'.$data['dropdatetime'].'" BETWEEN CONCAT( T.pick_up_date, " ", T.pick_up_time ) AND CONCAT( T.drop_date, " ", T.drop_time ))))';
-	//echo $qry;exit;
-	$result=$this->db->query($qry);
-	$result=$result->result_array();
-	if(count($result)>0){
-	return $result;
-	}else{
-	return false;
-	}
-
-	}*/
-
+	/* INTELLIGENCE PORTION
 	function selectAvailableVehicles($data){
 
 		$onTripVehicleQry = "SELECT T.vehicle_id FROM trips T 
@@ -405,7 +374,7 @@ $qry='SELECT TV.total_trip_amount,TV.start_km_reading,TV.end_km_reading,TV.end_k
 			return false;
 		}
 
-	}
+	}*/
 
 
 
