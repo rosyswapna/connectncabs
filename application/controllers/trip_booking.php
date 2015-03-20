@@ -822,8 +822,8 @@ class Trip_booking extends CI_Controller {
 			
 	}
 
-	//get Available vehicles for trip booking
-	public function getAvailableVehicles(){
+	//get Available vehicles for trip booking INTELLIGENCE PORTION
+	/*public function getAvailableVehicles(){
 		if($_REQUEST['vehicle_ac_type'] &&  $_REQUEST['vehicle_model'] && $_REQUEST['pickupdatetime'] && $_REQUEST['dropdatetime']){
 			$data['vehicle_ac_type']=$_REQUEST['vehicle_ac_type'];
 			$data['vehicle_model']=$_REQUEST['vehicle_model'];
@@ -841,7 +841,7 @@ class Trip_booking extends CI_Controller {
 
 		}
 
-	}
+	}*/
 
 	public function getVehicle(){
 		if(isset($_REQUEST['id'])){
