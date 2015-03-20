@@ -55,7 +55,8 @@ class User extends CI_Controller {
 		$param4=$this->uri->segment(6);
 
 		//unset search session condition before navigation
-		$this->mysession->delete('condition');
+		if($param1 != 'trips')
+			$this->mysession->delete('condition');
 
         if($this->session_check()==true) {
 		if($param1==''){
@@ -945,10 +946,11 @@ class User extends CI_Controller {
 				$where_arry['driver_id']=$_REQUEST['drivers'];
 				$where_arry['trip_status_id']=$_REQUEST['trip_status_id'];
 				$where_arry['customer_group_id']=$_REQUEST['cgroups'];
-				$like_arry['customer_name']=$_REQUEST['customer'];	
+				$like_arry['customer_name']=$_REQUEST['customer'];
+				$this->mysession->set('condition',array("where"=>$where_arry,"like"=>$like_arry));	
 			}
 
-			$this->mysession->set('condition',array("where"=>$where_arry,"like"=>$like_arry));	
+				
 
 			//get session condition
 			if($this->mysession->get('condition')!=''){
