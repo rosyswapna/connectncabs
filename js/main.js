@@ -1615,7 +1615,7 @@ if( start_time < end_time){
 
 }
 else{
-alert("Correct drop time");
+//alert("Correct drop time");
 }
 
 var objDiff = diffDateTime(new_pickupdatetime, new_dropdatetime);
