@@ -390,7 +390,7 @@ $qry='SELECT TV.total_trip_amount,TV.start_km_reading,TV.end_km_reading,TV.end_k
 
 	}*/
 
-	function getVehiclesArray($condion=''){
+	function getVehiclesArray($condion='',$trim=False){
 	$this->db->from('vehicles');
 	$org_id=$this->session->userdata('organisation_id');
 	$this->db->where('organisation_id',$org_id);
@@ -402,7 +402,11 @@ $qry='SELECT TV.total_trip_amount,TV.start_km_reading,TV.end_km_reading,TV.end_k
 				//print_r($results);
 		
 			for($i=0;$i<count($results);$i++){
+			if($trim){
+			$values[$results[$i]->id]=SUBSTR($results[$i]->registration_number,-4);
+			}else{
 			$values[$results[$i]->id]=$results[$i]->registration_number;
+			}
 			}
 			if(!empty($values)){
 			return $values;
