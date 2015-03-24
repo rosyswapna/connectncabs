@@ -376,12 +376,12 @@ class Trip_booking extends CI_Controller {
 				}
 				//$this->form_validation->set_rules('available_vehicle','Registration Number','trim|required|xss_clean|regex_match[/^[A-Z]{2}[ -][0-9]{1,2}(?: [A-Z])?(?: [A-Z]*)? [0-9]{4}$/]');
 				if($data['vehicle_model'] ==gINVALID){
-					 $data['vehicle_model'] ='';
+					
 					 $err=False;
 					 $this->mysession->set('Err_Vmodel','Choose Model Type');
 				}
 				if($data['vehicle_ac_type'] ==gINVALID){
-					 $data['vehicle_ac_type'] ='';
+					
 					 $err=False;
 					 $this->mysession->set('Err_V_Ac','Choose AC Type');
 				}
