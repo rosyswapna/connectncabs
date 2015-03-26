@@ -390,19 +390,27 @@ $qry='SELECT TV.total_trip_amount,TV.start_km_reading,TV.end_km_reading,TV.end_k
 
 	}*/
 
-	function getVehiclesArray($condion=''){
+	function getVehiclesArray($condion='',$trim=False,$order_by=''){ 
 	$this->db->from('vehicles');
 	$org_id=$this->session->userdata('organisation_id');
 	$this->db->where('organisation_id',$org_id);
+
 	if($condion!=''){
-    $this->db->where($condion);
+		$this->db->where($condion);
+	} 
+	if($order_by!=''){
+	$this->db->order_by($order_by);
 	}
     $results = $this->db->get()->result();
 	
 				//print_r($results);
 		
 			for($i=0;$i<count($results);$i++){
+			if($trim){
+			$values[$results[$i]->id]=SUBSTR($results[$i]->registration_number,-4);
+			}else{
 			$values[$results[$i]->id]=$results[$i]->registration_number;
+			}
 			}
 			if(!empty($values)){
 			return $values;
