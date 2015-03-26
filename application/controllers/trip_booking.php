@@ -29,6 +29,7 @@ class Trip_booking extends CI_Controller {
 			else if($param2=='getAvailableVehicles') {
 		
 				$this->getAvailableVehicles();
+			
 			}else if($param2=='getCustomers') {
 +		
 +				$this->getCustomers();
@@ -56,6 +57,9 @@ class Trip_booking extends CI_Controller {
 			}else if($param2=='getVouchers') {
 		
 				$this->getVouchers();
+			}else if($param2=='getTripVoucher') {
+		
+				$this->getTripVoucher();
 			}else if($param2=='getTripExpenses') {
 		
 				$this->getTripExpenses();
@@ -376,12 +380,12 @@ class Trip_booking extends CI_Controller {
 				}
 				//$this->form_validation->set_rules('available_vehicle','Registration Number','trim|required|xss_clean|regex_match[/^[A-Z]{2}[ -][0-9]{1,2}(?: [A-Z])?(?: [A-Z]*)? [0-9]{4}$/]');
 				if($data['vehicle_model'] ==gINVALID){
-					
+					 $data['vehicle_model'] ='';
 					 $err=False;
 					 $this->mysession->set('Err_Vmodel','Choose Model Type');
 				}
 				if($data['vehicle_ac_type'] ==gINVALID){
-					
+					 $data['vehicle_ac_type'] ='';
 					 $err=False;
 					 $this->mysession->set('Err_V_Ac','Choose AC Type');
 				}
@@ -626,7 +630,8 @@ class Trip_booking extends CI_Controller {
 	{
 		
 		if(isset($_REQUEST['start_km_reading']) && isset($_REQUEST['end_km_reading']) && isset($_REQUEST['trip_id'])){
- 
+
+			//echo "<pre>";print_r($_REQUEST);echo "</pre>";exit; 
 
 			$data["trip_id"]		= $_REQUEST["trip_id"];
 			$data["tariff_id"]		= $_REQUEST["tariff_id"];
@@ -675,16 +680,13 @@ class Trip_booking extends CI_Controller {
 			$data["total_trip_amount"]	= $_REQUEST["total_trip_amount"];
 			$data["trip_narration"]		= $_REQUEST["trip_narration"];
 			$data["payment_type_id"]	= $_REQUEST["payment_type_id"];
+			$data["tax_group_id"]		= $_REQUEST["tax_group"];
 
 			//trip expense
 			if(isset($_REQUEST['expense'])){
 			$data['trip_expense'] = count($_REQUEST['expense'])?serialize($_REQUEST['expense']) : '';
 			}
 
-			$this->mysession->delete('tax_group');
-			if($_REQUEST['tax_group']){
-				$this->mysession->set('tax_group',$_REQUEST['tax_group']);
-			}
 			
 			$voucher=$this->getVouchers($data['trip_id'],$ajax='NO');
 			$ret = array();
@@ -786,7 +788,26 @@ class Trip_booking extends CI_Controller {
 		}
 	}
 	}
+	
+	public function getTripVoucher($trip_id='',$ajax='NO'){ 
+		if(isset($_REQUEST['trip_id']) && isset($_REQUEST['ajax'])){ 
+			$trip_id=$_REQUEST['trip_id'];
+			$ajax=$_REQUEST['ajax'];
+		}
+		$Tripvoucher=$this->trip_booking_model->getTripVoucher($trip_id);
+		if($Tripvoucher){
+			if($Tripvoucher['voucher']){
+				$Tripvoucher['voucher']->trip_expense = unserialize($Tripvoucher['voucher']->trip_expense);
+			}			
+		}
 
+		if($ajax=='NO'){
+			return $Tripvoucher;
+		}else{
+			header('Content-Type: application/json'); 
+			echo json_encode($Tripvoucher);
+		}
+	}
 
 	public function getTarrif(){
 		if($_REQUEST['tarrif_id'] && $_REQUEST['ajax']){
@@ -821,7 +842,6 @@ class Trip_booking extends CI_Controller {
 		}
 			
 	}
-
 	//get Available vehicles for trip booking INTELLIGENCE PORTION
 	/*public function getAvailableVehicles(){
 		if($_REQUEST['vehicle_ac_type'] &&  $_REQUEST['vehicle_model'] && $_REQUEST['pickupdatetime'] && $_REQUEST['dropdatetime']){

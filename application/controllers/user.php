@@ -55,8 +55,10 @@ class User extends CI_Controller {
 		$param4=$this->uri->segment(6);
 
 		//unset search session condition before navigation
-		/*if($param1 != 'trips')
-			$this->mysession->delete('condition');*/
+		/*if($param1!='trips'){
+		$this->mysession->delete('condition');
+		}*/
+		//print_r($this->mysession->get('condition'));
 
         if($this->session_check()==true) {
 		if($param1==''){
@@ -484,13 +486,10 @@ class User extends CI_Controller {
 				}
 			}
 			
-			//$data['driver_availability']=$this->driver_model->GetDriverForTripBooking(); INTELLIGENCE PORTION
-
+			//$data['driver_availability']=$this->driver_model->GetDriverForTripBooking();
 			$data['driver_availability']=$this->driver_model->getDriversArray();
 			$trim=True;
-			$order_by='registration_number asc';
-			$data['available_vehicles']=$this->trip_booking_model->getVehiclesArray($condion='',$trim,$order_by);
-
+			$data['available_vehicles']=$this->trip_booking_model->getVehiclesArray($condion='',$trim);
 				
 
 			//get notification and customer array
@@ -911,7 +910,6 @@ class User extends CI_Controller {
 
 	}
 
-	
 	//-----------------Show trip list-----------------------
 	public function Trips($param2){
 		if($this->session_check()==true|| $this->customer_session_check()==true || $this->driver_session_check()==true) 
@@ -988,7 +986,7 @@ class User extends CI_Controller {
 			if($param2=='')$this->mysession->delete('condition');
 			
 			
-			$tbl_arry=array('trip_statuses','customer_groups','payment_type','driver_payment_percentages','vehicle_payment_percentages');
+			$tbl_arry=array('trip_statuses','customer_groups','payment_type','driver_payment_percentages','vehicle_payment_percentages','vehicle_models');
 			for ($i=0;$i<count($tbl_arry);$i++){
 				$result=$this->user_model->getArray($tbl_arry[$i]);
 				if($result!=false){
@@ -1003,8 +1001,8 @@ class User extends CI_Controller {
 			$this->load->model('account_model');
 			$data['taxes']=$this->account_model->getTaxArray();
 			//print_r($data['taxes']);exit;
-			$trim=True;
-			$data['vehicles']=$this->trip_booking_model->getVehiclesArray($condion='',$trim);
+
+			$data['vehicles']=$this->trip_booking_model->getVehiclesArray();
 			$data['drivers']=$this->driver_model->getDriversArray();  
 			
 			
@@ -1187,7 +1185,7 @@ class User extends CI_Controller {
 				$data['customer_group_id']=$_REQUEST['customer_group_id'];
 				$where_arry['customer_group_id']=$_REQUEST['customer_group_id'];
 				}
-				$this->mysession->set('condition',array("where"=>$where_arry,"like"=>$like_arry));
+				$this->mysession->set('condition',array("where"=>$where_arry,"like"=>$like_arry,"customers"=>true));
 			}
 			if(is_null($this->mysession->get('condition'))){
 			$this->mysession->set('condition',array("where"=>$where_arry,"like"=>$like_arry,'customers'=>true));
@@ -1929,7 +1927,7 @@ public function profile() {
 			}
 	}
 	public function select_Box_Values(){
-		$tbl_arry=array('marital_statuses','bank_account_types','id_proof_types');
+		$tbl_arry=array('marital_statuses','bank_account_types','id_proof_types','driver_statuses');
 		$this->load->model('user_model');
 		for ($i=0;$i<count($tbl_arry);$i++){
 		$result=$this->user_model->getArray($tbl_arry[$i]);

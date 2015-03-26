@@ -701,7 +701,8 @@ function customer_group_list_row($label, $name, $selected_id=null, $all_option =
 		$show_inactive, $editkey);
 	echo "</td>\n</tr>\n";
 }
-//-------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------------------------
+
 //-------------------------taxi customer groups---------------------------------------------------
 function taxi_customer_group_list($name, $selected_id=null, $spec_option=false, $submit_on_change=false, 
 	$show_inactive=false)
@@ -809,6 +810,7 @@ function taxi_customer_list_row($label, $name, $selected_id=null, $all_option = 
 }
 
 //-------------------------------------------------------------------------------------------
+
 function customer_list($name, $selected_id=null, $spec_option=false, $submit_on_change=false, 
 	$show_inactive=false, $editkey = false)
 {
@@ -862,8 +864,8 @@ function customer_list_row($label, $name, $selected_id=null, $all_option = false
 		$show_inactive, $editkey);
 	echo "</td>\n</tr>\n";
 }
-
 //------------------------------------------------------------------------------------------------
+
 
 function customer_branches_list($customer_id, $name, $selected_id=null,
 	$spec_option = true, $enabled=true, $submit_on_change=false, $editkey = false)

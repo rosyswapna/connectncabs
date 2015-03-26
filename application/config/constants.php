@@ -52,7 +52,7 @@ define('CREDIT',2);
 
 define('PRODUCTION_MODE',1);
 define('DEVELOPMENT_MODE',2);
-define('PROJECT_MODE',PRODUCTION_MODE);
+define('PROJECT_MODE',DEVELOPMENT_MODE);
 
 define('FILE_READ_MODE', 0644);
 define('FILE_WRITE_MODE', 0666);
@@ -98,6 +98,10 @@ define('BEACON_LIGHT_BLUE',2);
 define('gINVALID',-1);
 
 define('OWNED_VEHICLE',1);
+
+//driver status
+define('OWNED_DRIVER',1);
+define('ATTACHED_DRIVER',2);
 /*
 |--------------------------------------------------------------------------
 | File Stream Modes

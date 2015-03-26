@@ -87,14 +87,6 @@ class Account extends CI_Controller {
 			else
 				$data['url'] = "facnc/sync_cnc.php?".$action."=Yes&cnc_token=".$this->session->userdata('session_id');
 
-			
-
-			
-			if(!is_null($this->mysession->get('tax_group'))){
-				$data['url'] .= "&TaxGroup=".$this->mysession->get('tax_group');
-			}
-			
-
 			$page='fa-modules/module';
 			
 			if($tab)
@@ -129,9 +121,9 @@ class Account extends CI_Controller {
 	{
 		if($this->org_user_session_check() == true) {
 			
-			//print_r($_REQUEST);exit;
-			$this->account_model->add_gl_trans($_REQUEST['driver_id'],$_REQUEST['amount']);
 			echo "ok";exit;
+			$this->account_model->add_gl_trans($_REQUEST['driver_id'],$_REQUEST['amount']);
+			
 
 		}else{
 			$this->notAuthorized();

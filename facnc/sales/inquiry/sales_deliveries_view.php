@@ -128,6 +128,7 @@ start_table_left(TABLESTYLE_NOBORDER);
 		ref_cells(_("#:"), 'DeliveryNumber', '',null, '', true,5);
 		date_cells(_("from:"), 'DeliveryAfterDate', '', null, -30);
 		taxi_customer_group_list_cells(_("Customer Group:"), 'CustomerGroup', null, true, true);
+		
 		null_date_cells(_("Trip Pickup Date:"), 'PickupDate', '', null);
 		submit_cells('SearchOrders', _("Search"),'',_('Select documents'), 'default');
 	end_row();
@@ -136,6 +137,7 @@ start_table_left(TABLESTYLE_NOBORDER);
 		date_cells(_("to:"), 'DeliveryToDate', '', null, 1);
 		taxi_customer_list_cells(_("Customer:"), 'Customer', null, true, true);
 		null_date_cells(_("Trip Drop Date:"), 'DropDate', '', null);
+		
 	end_row();
 
 //start_row();
