@@ -489,7 +489,8 @@ class User extends CI_Controller {
 			//$data['driver_availability']=$this->driver_model->GetDriverForTripBooking();
 			$data['driver_availability']=$this->driver_model->getDriversArray();
 			$trim=True;
-			$data['available_vehicles']=$this->trip_booking_model->getVehiclesArray($condion='',$trim);
+			$order_by='registration_number asc';
+			$data['available_vehicles']=$this->trip_booking_model->getVehiclesArray($condion='',$trim,$order_by);
 				
 
 			//get notification and customer array
@@ -1001,8 +1002,8 @@ class User extends CI_Controller {
 			$this->load->model('account_model');
 			$data['taxes']=$this->account_model->getTaxArray();
 			//print_r($data['taxes']);exit;
-
-			$data['vehicles']=$this->trip_booking_model->getVehiclesArray();
+			$trim=True;
+			$data['vehicles']=$this->trip_booking_model->getVehiclesArray($condion='',$trim);
 			$data['drivers']=$this->driver_model->getDriversArray();  
 			
 			
