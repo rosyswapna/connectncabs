@@ -89,6 +89,13 @@ class Trip_booking_model extends CI_Model {
 			return gINVALID;
 		}
 	}
+	
+	function checkVoucherNo($voucher_no){
+		$this->db->from('trip_vouchers');
+    		$this->db->where('voucher_no',$voucher_no);
+    		$qry = $this->db->get();
+		return ($qry->num_rows() == 1)?true:false;
+	}
 
 	function getTripVoucher($trip_id){
 

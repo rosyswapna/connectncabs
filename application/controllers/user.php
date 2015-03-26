@@ -539,7 +539,8 @@ class User extends CI_Controller {
 	$return_data['guestemail']			=	'';
 	$return_data['guestmobile']		=	'';
 	$return_data['remarks']			=	'';
-
+	$return_data['advance_amount'] 		= '';
+	
 	$return_data['trip_model']			=	'';		
 	$return_data['no_of_passengers']	=	'';
 	$return_data['pickupcity']			=	'';
@@ -663,6 +664,8 @@ class User extends CI_Controller {
 		$return_data['vehicle_model_id']		=$data['vehicle_model'];
 		
 		$return_data['remarks']			=$data['remarks'];
+		$return_data['advance_amount'] 		= $data['advance_amount'];
+		
 		$return_data['recurrent_yes']		=$data['recurrent_yes'];
 		$return_data['beacon_light']		=$data['beacon_light'];
 		$return_data['beacon_light_radio']	=$data['beacon_light_radio'];
@@ -784,6 +787,8 @@ class User extends CI_Controller {
 				$return_data['vehicle_make']				=	$data->vehicle_make_id;
 				$return_data['vehicle_model_id']				=	$data->vehicle_model_id;
 				$return_data['remarks']				=	$data->remarks;
+				$return_data['advance_amount'] 			=	$data->advance_amount;
+				
 				$return_data['recurrent_yes']				= 	'';
 				//$data1['seating_capacity']		=	$result->vehicle_seating_capacity_id;
 				//$data1['language']				=	$result->driver_language_id;
