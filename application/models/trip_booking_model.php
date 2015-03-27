@@ -441,7 +441,7 @@ $qry='SELECT TV.total_trip_amount,TV.start_km_reading,TV.end_km_reading,TV.end_k
 	} 
 	if($order_by!=''){
 	$this->db->order_by($order_by);
-        }
+        } 
     $results = $this->db->get()->result();
 	
 				//print_r($results);
@@ -454,6 +454,7 @@ $qry='SELECT TV.total_trip_amount,TV.start_km_reading,TV.end_km_reading,TV.end_k
 			}
 			}
 			if(!empty($values)){
+			asort($values);
 			return $values;
 			}
 			else{
