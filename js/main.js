@@ -673,6 +673,7 @@ function set_customer(email,mobile)
 	},function(data){
 	if(data!=false){
 		data=jQuery.parseJSON(data);
+		$('input[name="customer_id"]').val(data[0].id);
 		$('#customer').val(data[0].name);
 		$('#email').val(data[0].email);	
 		$('#mobile').val(data[0].mobile);

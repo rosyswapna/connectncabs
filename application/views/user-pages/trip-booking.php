@@ -33,7 +33,9 @@
 	<div class="first-column-trip-booking">
 		<?php	
 		$attributes = array('autocomplete'=>'off','id'=>'trip-form');
-		 echo form_open(base_url().'trip-booking/book-trip',$attributes);?>
+		 echo form_open(base_url().'trip-booking/book-trip',$attributes);
+		 echo form_hidden('customer_id',gINVALID).br();
+		?>
 		<fieldset class="body-border">
 		<legend class="body-head ">Trip Booking</legend>
 			<div class="inner-first-column-trip-booking div-with-50-percent-width-with-margin-10">
