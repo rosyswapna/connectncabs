@@ -89,6 +89,48 @@ class Trip_booking_model extends CI_Model {
 			return gINVALID;
 		}
 	}
+	
+	function checkVoucherNo($voucher_no){
+		$this->db->from('trip_vouchers');
+    		$this->db->where('voucher_no',$voucher_no);
+    		$qry = $this->db->get();
+		return ($qry->num_rows() == 1)?true:false;
+	}
+
+	function getTripVoucher($trip_id){
+
+		$retArray = array('trip'=>false,'voucher'=>false);
+
+		$org_id=$this->session->userdata('organisation_id');	
+
+		$this->db->select('ORG.name as company_name ,VO.name as ownership,T.customer_id,T.customer_group_id,T.remarks,T.vehicle_model_id,T.vehicle_ac_type_id,T.driver_id,T.vehicle_id,T.guest_id,V.vehicle_ownership_types_id,T.tariff_id,T.trip_status_id,T.id as trip_id,T.booking_date,T.drop_date,T.drop_time,T.pick_up_date,T.pick_up_time,VM.name as model,V.registration_number,T.pick_up_city,T.pick_up_area,G.name as guest_name,G.mobile as guest_info,T.drop_city,T.drop_area,C.name as customer_name,C.mobile as customer_mobile,CG.name as customer_group,D.name as driver,D.mobile as driver_info,D.driver_status_id');
+		$this->db->from('trips T');
+		$this->db->join('vehicle_models VM','VM.id=T.vehicle_model_id','left');
+		$this->db->join('vehicles V','V.id=T.vehicle_id','left');
+		$this->db->join('customers G','G.id=T.guest_id','left');
+		$this->db->join('customers C','C.id=T.customer_id','left');
+		$this->db->join('customer_groups CG','CG.id=T.customer_group_id','left');
+		$this->db->join('drivers D','D.id=T.driver_id','left');
+		$this->db->join('vehicle_ownership_types VO','V.vehicle_ownership_types_id=VO.id','left');
+		$this->db->join('organisations ORG','ORG.id = T.organisation_id','left');
+    		$this->db->where(array('T.organisation_id'=>$org_id,'T.id'=>$trip_id));
+    		$trip = $this->db->get();
+		if($trip->num_rows() == 1){
+			$retArray['trip'] = $trip->row();
+		}
+
+		$this->db->from('trip_vouchers');
+    		$this->db->where('trip_id',$trip_id);
+		//newly added-to be organisation based
+		$org_id=$this->session->userdata('organisation_id');
+		$this->db->where( 'organisation_id', $org_id );
+    		$voucher = $this->db->get();
+		if($voucher->num_rows() > 0){
+			$retArray['voucher'] = $voucher->row();
+		}
+
+		return $retArray;
+	}
 
 
 	function getdriverPercentages(){
@@ -390,17 +432,16 @@ $qry='SELECT TV.total_trip_amount,TV.start_km_reading,TV.end_km_reading,TV.end_k
 
 	}*/
 
-	function getVehiclesArray($condion='',$trim=False,$order_by=''){ 
+	function getVehiclesArray($condion='',$trim=False,$order_by=''){
 	$this->db->from('vehicles');
 	$org_id=$this->session->userdata('organisation_id');
 	$this->db->where('organisation_id',$org_id);
-
 	if($condion!=''){
-		$this->db->where($condion);
+    $this->db->where($condion);$this->db->where($condion);
 	} 
 	if($order_by!=''){
 	$this->db->order_by($order_by);
-	}
+        } 
     $results = $this->db->get()->result();
 	
 				//print_r($results);
@@ -413,6 +454,7 @@ $qry='SELECT TV.total_trip_amount,TV.start_km_reading,TV.end_km_reading,TV.end_k
 			}
 			}
 			if(!empty($values)){
+			asort($values);
 			return $values;
 			}
 			else{

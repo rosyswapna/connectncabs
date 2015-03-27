@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-	<?php
-	header('Cache-Control: max-age=900');
-	?>
+  <?php
+   header('Cache-Control: max-age=900');
+   ?>
 <html>
     <head>
         <meta charset="UTF-8">
