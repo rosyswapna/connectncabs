@@ -540,7 +540,7 @@ class User extends CI_Controller {
 	$return_data['guestmobile']		=	'';
 	$return_data['remarks']			=	'';
 	$return_data['advance_amount'] 		= '';
-	
+
 	$return_data['trip_model']			=	'';		
 	$return_data['no_of_passengers']	=	'';
 	$return_data['pickupcity']			=	'';
@@ -601,6 +601,7 @@ class User extends CI_Controller {
 	$return_data['customer_type']					= -1;
 	$return_data['available_vehicles']='';
 	$return_data['tariffs']='';
+	
 	
 	
 	
@@ -665,7 +666,7 @@ class User extends CI_Controller {
 		
 		$return_data['remarks']			=$data['remarks'];
 		$return_data['advance_amount'] 		= $data['advance_amount'];
-		
+
 		$return_data['recurrent_yes']		=$data['recurrent_yes'];
 		$return_data['beacon_light']		=$data['beacon_light'];
 		$return_data['beacon_light_radio']	=$data['beacon_light_radio'];
@@ -682,6 +683,8 @@ class User extends CI_Controller {
 		$return_data['available_vehicles']	='';
 		$return_data['available_driver']	=$data['driver_id'];
 		$return_data['available_vehicle']	=$data['vehicle_id'];
+
+		
 		
 	     if($data['recurrent_yes']==TRUE){
 		if($data['recurrent_continues']==TRUE){
@@ -788,7 +791,6 @@ class User extends CI_Controller {
 				$return_data['vehicle_model_id']				=	$data->vehicle_model_id;
 				$return_data['remarks']				=	$data->remarks;
 				$return_data['advance_amount'] 			=	$data->advance_amount;
-				
 				$return_data['recurrent_yes']				= 	'';
 				//$data1['seating_capacity']		=	$result->vehicle_seating_capacity_id;
 				//$data1['language']				=	$result->driver_language_id;
@@ -796,6 +798,9 @@ class User extends CI_Controller {
 				$return_data['available_vehicle']		=	$data->vehicle_id;
 				$return_data['available_vehicles']='';
 				$return_data['tariffs']='';
+
+				
+
 				if($return_data['available_vehicle']>0){
 					$driver_id = $this->trip_booking_model->getDriver($return_data['available_vehicle']);
 				}else{
@@ -894,8 +899,7 @@ class User extends CI_Controller {
 		}
 		
 		return $return_data;
-	}
-	
+	}	
 	
 	//------------------------------------------------------------------------------------------------------------------------------
 	
@@ -1007,8 +1011,8 @@ class User extends CI_Controller {
 			$this->load->model('account_model');
 			$data['taxes']=$this->account_model->getTaxArray();
 			//print_r($data['taxes']);exit;
-			$trim=True;
-			$data['vehicles']=$this->trip_booking_model->getVehiclesArray($condion='',$trim);
+
+			$data['vehicles']=$this->trip_booking_model->getVehiclesArray();
 			$data['drivers']=$this->driver_model->getDriversArray();  
 			
 			
