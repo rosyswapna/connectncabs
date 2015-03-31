@@ -613,7 +613,6 @@ function get_sql_for_sales_deliveries_view($selected_customer, $selected_stock_i
 	} //end no delivery number selected
 	$sql .= " ORDER BY voucher.id DESC ";
 
-	//echo $sql;
 	return $sql;
 }
 
