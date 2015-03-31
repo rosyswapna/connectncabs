@@ -65,7 +65,7 @@ $tariffs='';
 			<div class="scroll-container">
 			<div class="scroll">
 			<div class="scroll-item"><?php 
-			$class =  'id form-control'.$input_class['id'];
+			$class =  'id form-control'.@$input_class['id'];
 			echo form_input(array('name'=>'trip_id','class'=>$class ,'placeholder'=>'Trip Id','value'=>$trip_id,'id'=>'trip_id')); ?></div>
 			<div class="scroll-item">
 			<?php 
