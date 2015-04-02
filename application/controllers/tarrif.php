@@ -169,10 +169,10 @@ class Tarrif extends CI_Controller {
 	 $this->form_validation->set_rules('driver_bata','Driver Bata','trim|required|xss_clean');
 	 $this->form_validation->set_rules('night_halt','Night Halt','trim|required|xss_clean');
 	 $err=True;
-	if(!$this->date_check($data['from_date'])){
+	/*if(!$this->date_check($data['from_date'])){
 	$err=False;
 	$this->session->set_userdata('Err_dt','Invalid Date for Tariff Add!');
-	}
+	}*/
 	 if($data['tariff_master_id'] ==-1){
 	 $data['tariff_master_id'] ='';
 	 $err=False;
