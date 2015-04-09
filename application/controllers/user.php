@@ -987,7 +987,10 @@ class User extends CI_Controller {
 			
 				$where_arry['trip_id']=$_REQUEST['trip_id'];
 				$where_arry['trip_pick_date']=$_REQUEST['trip_pick_date'];
-				$where_arry['nt_continous']=$_REQUEST['nt_continous'];
+				if(isset($_REQUEST['nt_continous']))
+				$where_arry['nt_continous']=$_REQUEST['nt_continous'];  
+				else
+				$where_arry['nt_continous']='';
 				$where_arry['trip_drop_date']=$_REQUEST['trip_drop_date'];
 				$where_arry['vehicle_id']=$_REQUEST['vehicles'];
 				$where_arry['driver_id']=$_REQUEST['drivers'];
@@ -1001,7 +1004,7 @@ class User extends CI_Controller {
 			$condition = false;
 			if($this->mysession->get('condition')!=''){
 
-				$condition=$this->mysession->get('condition');//print_r($condition);exit;
+				$condition=$this->mysession->get('condition');
 				if(!isset($condition['trips'])){
 					$this->mysession->delete('condition');
 					//default conditions
