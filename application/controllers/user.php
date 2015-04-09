@@ -506,7 +506,7 @@ class User extends CI_Controller {
 			$data=$this->build_Trip_Data($trip_id);
 			
 			//set form arrays
-			$tbl_arry=array('booking_sources','available_drivers','trip_models','drivers','vehicle_types','vehicle_models','vehicle_makes','vehicle_ac_types','vehicle_fuel_types','vehicle_seating_capacity','vehicle_beacon_light_options','languages','payment_type','customer_types','customer_groups');
+			$tbl_arry=array('booking_sources','available_drivers','trip_models','drivers','vehicle_types','vehicle_models','vehicle_makes','vehicle_ac_types','vehicle_fuel_types','vehicle_seating_capacity','vehicle_beacon_light_options','languages','payment_type','customer_types','customer_groups','supplier_groups');
 			for ($i=0;$i<count($tbl_arry);$i++){
 				$result=$this->user_model->getArray($tbl_arry[$i]);
 				if($result!=false){
