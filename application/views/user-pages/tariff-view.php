@@ -50,10 +50,9 @@
 
 
 		<table><br/>
-	<?}?>
+	<?php }?>
 	</div>
 	<!--tariff table end-->
-
 
 </fieldset>
 </div>
