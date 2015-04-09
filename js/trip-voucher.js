@@ -255,6 +255,10 @@ $(document).ready(function(){
 	 
 					id='#trip-tariff';
 					res=generateTariffs(vehicle_model_id,vehicle_ac_type_id,data['voucher'].tariff_id,id,customer_id,newvoucher='no');
+					id='#driver-tariff';
+					generateTariffs(vehicle_model_id,vehicle_ac_type_id,data['voucher'].tariff_id,id,customer_id,newvoucher='no');
+					id='#vehicle-tariff';
+					generateTariffs(vehicle_model_id,vehicle_ac_type_id,data['voucher'].tariff_id,id,customer_id,newvoucher='no');
 					if(res===true){		
 				
 						setTimeout(function(){ 
@@ -1739,6 +1743,7 @@ $(document).ready(function(){
 				 $(id).append($("<option rate='-1' additional_kilometer_rate='-1' minimum_kilometers='-1'></option>").attr("value",'-1').text('--Select Tariffs--'));
 					$('.display-me').css('display','none');
 				}
+				//driver payment
 			
 			  });
 		

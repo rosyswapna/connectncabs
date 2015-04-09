@@ -780,8 +780,14 @@ margin-left:10px;
 .search-print{
 width:20%;
 float: right;
-margin-top: -50px;
+margin-top: -67px;
+padding-left:25px;
 }
 .trip-scroll{
 height:100px;
+}
+.tarrif-driver-vehicle-payment{
+height:40px;
+width:200px;
+margin-left:5px;
 }
