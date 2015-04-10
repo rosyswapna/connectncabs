@@ -749,18 +749,7 @@ $tariffs='';
 			<!---------------------------Driver payment block start---------------------------->
 			<fieldset class="body-border driver-payment" >
 	   			 <legend class="body-head">Driver Payment</legend>
-				<!-- tarrif for Driver Payment --> 
-				<div class="row-source-full-100-percent-width-with-margin-8">
-				<div class="form-group margin-bottom-0-px tarrif-driver-vehicle-payment">
-					<?php
-							$id="driver-tariff";
-							$class="form-control padding-2px-0-0-10-px voucher-text-box padding-2px";
-						echo form_label('Tariff','triptariflabel'); 
-						echo $this->form_functions->populate_dropdown('tariff',$tariffs='',$tariff='',$class,$id,$msg="Tariffs");?>
-						
-				</div>
-				</div>
-				<!--- tarrif ends-->
+				
 				<div class="row-source-full-100-percent-width-with-margin-8">
 				
 				<!-- col 1 -->
@@ -936,18 +925,7 @@ $tariffs='';
 				<fieldset class="body-border vehicle-payment">
    			 		<legend class="body-head">Vehicle Payment</legend>
 					
-					<!-- tarrif for Vehicle Payment --> 
-				<div class="row-source-full-100-percent-width-with-margin-8">
-				<div class="form-group margin-bottom-0-px tarrif-driver-vehicle-payment" >
-					<?php
-							$id="vehicle-tariff";
-							$class="form-control padding-2px-0-0-10-px voucher-text-box padding-2px";
-						echo form_label('Tariff','triptariflabel'); 
-						echo $this->form_functions->populate_dropdown('tariff',$tariffs='',$tariff='',$class,$id,$msg="Tariffs");?>
-						
-				</div>
-				</div>
-				<!--- tarrif ends-->
+					
 					
 						<div class="row-source-full-100-percent-width-with-margin-8">
 					<!-- col 1 -->

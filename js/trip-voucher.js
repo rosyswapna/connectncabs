@@ -255,10 +255,7 @@ $(document).ready(function(){
 	 
 					id='#trip-tariff';
 					res=generateTariffs(vehicle_model_id,vehicle_ac_type_id,data['voucher'].tariff_id,id,customer_id,newvoucher='no');
-					id='#driver-tariff';
-					generateTariffs(vehicle_model_id,vehicle_ac_type_id,data['voucher'].tariff_id,id,customer_id,newvoucher='no');
-					id='#vehicle-tariff';
-					generateTariffs(vehicle_model_id,vehicle_ac_type_id,data['voucher'].tariff_id,id,customer_id,newvoucher='no');
+					
 					if(res===true){		
 				
 						setTimeout(function(){ 
