@@ -40,6 +40,9 @@ $trip_status_id='';
 if(!isset($customer_group_id)){
 $customer_group_id='';
 }
+if(!isset($supplier_group_id)){
+$supplier_group_id='';
+}
 if(!isset($customer_name)){
 $customer_name='';
 }
@@ -103,7 +106,9 @@ $tariffs='';
 						<td><div class="scroll-item"><?php 
 						$class =  'customer form-control'.$input_class['customer'];
 						echo form_input(array('name'=>'customer','class'=>$class ,'placeholder'=>'Name','value'=>$customer_name,'id'=>'c_name')); ?></div></td>
-						
+						<td><div class="scroll-item"><?php $class="form-control".@$input_class['suppliers']; $id='suppliers';
+						echo $this->form_functions->populate_dropdown('suppliers',$supplier_groups,$supplier_group_id,$class,$id,$msg="Supplier");?></div></td>
+
 						</tr>
 				</tbody>
 			</table>

@@ -127,6 +127,7 @@ float:none;
 }
 .list-org-table tr > td{
 border-top:none !important;
+width:200px;
 }
 .tbl-settings{
 width:100%;

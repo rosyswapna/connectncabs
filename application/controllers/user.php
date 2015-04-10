@@ -1040,7 +1040,7 @@ class User extends CI_Controller {
 			if($param2=='')$this->mysession->delete('condition');
 			
 			
-			$tbl_arry=array('trip_statuses','customer_groups','payment_type','driver_payment_percentages','vehicle_payment_percentages','vehicle_models');
+			$tbl_arry=array('trip_statuses','customer_groups','payment_type','driver_payment_percentages','vehicle_payment_percentages','vehicle_models','supplier_groups');
 			for ($i=0;$i<count($tbl_arry);$i++){
 				$result=$this->user_model->getArray($tbl_arry[$i]);
 				if($result!=false){
