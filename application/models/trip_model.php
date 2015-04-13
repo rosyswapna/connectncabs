@@ -32,6 +32,10 @@ class Trip_model extends CI_Model {
 				$qry.=' AND T.id ="'.$where['trip_id'].'"';
 					
 			}
+			if($where['supplier_group_id'] > 0){
+				$qry.=' AND V.supplier_group_id ="'.$where['supplier_group_id'].'"';
+					
+			}
 
 			if($where['trip_pick_date'] != null && $where['trip_drop_date']!= null){
 				$qry.=' AND (T.drop_date BETWEEN "'.$where['trip_pick_date'].'" AND "'.$where['trip_drop_date'].'")';
