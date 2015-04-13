@@ -55,7 +55,7 @@
 						echo $this->form_functions->populate_dropdown('ownership',$vehicle_ownership_types,$ownership,$class,$id,$msg='Vehicle Ownership')?> </td>
 					    <td><?php $class="form-control";
 							  $id='supplier';
-						echo $this->form_functions->populate_dropdown('supplier',$supplier_groups,@$supplier_group__id,$class,$id,$msg="Supplier Group");?> </td>
+						echo $this->form_functions->populate_dropdown('supplier',$supplier_groups,@$supplier,$class,$id,$msg="Supplier Group");?> </td>
 
 					    
 					    <td><?php $class="form-control";
