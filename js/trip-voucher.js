@@ -56,7 +56,7 @@ $(document).ready(function(){
 	});
 
 	//voucher number 
-	$('#voucherno').on('keyup',function(){
+	/*$('#voucherno').on('keyup',function(){
 
 		var voucherno = $(this).val();
 		var _status = $(this).is('[readonly=readonly]');
@@ -64,7 +64,7 @@ $(document).ready(function(){
 			IsVoucherNoUnique(voucherno);	
 		}
 		
-	});
+	});*/
 
 	
 	
@@ -560,6 +560,9 @@ $(document).ready(function(){
 	    	if(new_voucher == 1 && tax_group == ''){
 			error = true;
 		}
+
+		
+
 	    	var trip_id=$(this).attr('trip_id');
 	    	var driver_id=$(this).attr('driver_id');
 	
@@ -598,7 +601,7 @@ $(document).ready(function(){
 		data['adthrsrate']= adthrrate=$('.adthrsrate').val();
 		adthr=$('.adthrs').val();
 	    
-
+		IsVoucherNoUnique(voucherno);
 	
 		trip_narration="Minimum ";
 		if($('.totalamount').attr('amount-class-to-be-selected')=='totalhramount'){
