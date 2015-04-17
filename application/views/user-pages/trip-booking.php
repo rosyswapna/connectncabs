@@ -50,9 +50,13 @@
 						<div class="form-group">
 						<?php $class="form-control row-source-50-percent-width-with-margin-8";
 						echo $this->form_functions->populate_dropdown('booking_source',$booking_sources,$booking_source,$class,$id='',$msg="Source");?><?php
-						echo form_input(array('name'=>'source','class'=>'form-control row-source-50-percent-width-with-margin-8','id'=>'source','placeholder'=>'Source','value'=>$source)); ?>
+						echo form_input(array('name'=>'source','class'=>'form-control row-source-50-percent-width-with-margin-8','id'=>'source','placeholder'=>'Source','value'=>$source)); 
+
+						echo form_input(array('name'=>'source_mobile','class'=>'form-control row-source-50-percent-width-with-margin-8','id'=>'source_mobile','placeholder'=>'Mobile','value'=>$source_mobile));
+
+						echo form_input(array('name'=>'source_email','class'=>'form-control row-source-50-percent-width-with-margin-8','id'=>'source_email','placeholder'=>'Email','value'=>@$source_email));
 						
-						<?php echo $this->form_functions->form_error_session('booking_sources', '<p class="text-red">', '</p>').$this->form_functions->form_error_session('source', '<p class="text-red">', '</p>'); ?>
+						echo $this->form_functions->form_error_session('booking_sources', '<p class="text-red">', '</p>').$this->form_functions->form_error_session('source', '<p class="text-red">', '</p>'); ?>
 						</div>
 						
 					</fieldset>

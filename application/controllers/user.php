@@ -553,18 +553,20 @@ class User extends CI_Controller {
 	
 	$return_data=array();
 	
-	$return_data['trip_id']			=	'';
-	$return_data['guest_id']			=	gINVALID;
-	$return_data['booking_source']		=	'';
-	$return_data['source']				=	'';
-	$return_data['customer']			=	'';
-	$return_data['new_customer']		=	true;
-	$return_data['email']				=	'';
-	$return_data['mobile']				=	'';
-	$return_data['advanced']			=	'';
-	$return_data['advanced_vehicle']		=	'';
-	$return_data['guest']				=	'';
-	$return_data['email']				=	'';
+	$return_data['trip_id']			= '';
+	$return_data['guest_id']		= gINVALID;
+	$return_data['booking_source']		= '';
+	$return_data['source']			= '';
+	$return_data['source_mobile'] 		= '';
+	$return_data['source_email'] 		= '';
+	$return_data['customer']		= '';
+	$return_data['new_customer']		= true;
+	$return_data['email']			= '';
+	$return_data['mobile']			= '';
+	$return_data['advanced']		= '';
+	$return_data['advanced_vehicle']	= '';
+	$return_data['guest']			= '';
+	$return_data['email']			= '';
 	$return_data['customer_group']		=	'';
 	$return_data['guestname']		=	'';
 	$return_data['guestemail']			=	'';
@@ -650,10 +652,13 @@ class User extends CI_Controller {
 		$return_data['advanced_vehicle']	=$data['advanced_vehicle'];
 		
 		$return_data['customer_group']		=$data['customer_group'];
-	     if(isset($data['guest_id'])){
+	     	/*if(isset($data['guest_id'])){
 		$return_data['guest_id']		=$data['guest_id'];
-		}
-		$return_data['guest']			=$data['guest'];
+		}*/
+		if($data['guestname'] !='' || $data['guestemail'] !='' || $data['guestmobile'] != '')
+			$return_data['guest'] = true;
+		else
+			$return_data['guest'] = false;	
 		$return_data['guestname']		=$data['guestname'];
 		$return_data['guestemail']		=$data['guestemail'];
 		$return_data['guestmobile']		=$data['guestmobile'];
@@ -665,6 +670,8 @@ class User extends CI_Controller {
 		$return_data['booking_source']		=$data['booking_source'];
 				
 		$return_data['source']			=$data['source'];
+		$return_data['source_mobile']		=$data['source_mobile'];
+		$return_data['source_email']		=$data['source_email'];
 	
 		$return_data['trip_model']		=$data['trip_model'];
 		
@@ -754,7 +761,7 @@ class User extends CI_Controller {
 					$return_data['customer_group']='';
 				}
 				
-				if(isset($data->guest_id) && $data->guest_id > 0){
+				/*if(isset($data->guest_id) && $data->guest_id > 0){
 					$dbdata=array('id'=>$data->guest_id);
 					$guest 	=	$this->customers_model->getCustomerDetails($dbdata);
 					$guest 	=$guest[0];
@@ -768,7 +775,16 @@ class User extends CI_Controller {
 					$return_data['guestname']='';
 					$return_data['guestemail']='';
 					$return_data['guestmobile']='';
-				}
+				}*/
+				$return_data['guestname'] = $data->guest_name;
+				$return_data['guestemail'] = $data->guest_email;
+				$return_data['guestmobile'] = $data->guest_mobile;
+				if($data->guest_name !='' || $data->guest_email!='' || $data->guest_mobile!= '')
+					$return_data['guest'] = true;
+				else
+					$return_data['guest'] = false;	
+				$return_data['source_mobile'] = $data->source_mobile;
+				$return_data['source_email'] = $data->source_email;
 				
 				$dbdata=array('id'=>$data->customer_id);	
 				$customer 	=	$this->customers_model->getCustomerDetails($dbdata);

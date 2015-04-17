@@ -721,7 +721,7 @@ $('.add-reccurent-dates').attr('count',Number(count)+1);
 
 	//guest passengerchecking in db
 
-	$('#guestemail,#guestmobile').on('keyup click',function(){
+	/*$('#guestemail,#guestmobile').on('keyup click',function(){
 		var email=$('#guestemail').val();
 		var mobile=$('#guestmobile').val();
 	
@@ -761,7 +761,7 @@ $('.add-reccurent-dates').attr('count',Number(count)+1);
 		      		}
 			});
 		}
-	});
+	});*/
 	//----------------------------------------------
 
 	//clear customer information fields
