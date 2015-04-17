@@ -59,6 +59,8 @@ if (!isset($_POST['customer_id']))
 start_table_left(TABLESTYLE_NOBORDER);
 start_row();
 
+echo text_cells_ex('Invoice ID', 'invoice_id','5');
+    
 if (!@$_GET['popup']){
 	if(isset($_GET['CustomerPaymentInquiry']))
 		hidden('customer_id');
