@@ -239,7 +239,7 @@ function print_invoices()
 			
 
 			$rep->NewLine(3);
-			$rep->Text($rep->words_column+100,"Net Payable : Rs. ".$DisplayBalance);
+			$rep->Text($rep->words_column,"Net Payable : Rs. ".$DisplayBalance);
 
 			$rep->row = $rep->totals_row;	
 
