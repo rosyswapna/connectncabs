@@ -339,7 +339,9 @@ function get_sql_for_trip_invoices()
 			AND trans.tran_date >= '$date_after'
 			AND trans.tran_date <= '$date_to'
 			AND trans.branch_code = branch.branch_code";
-
+	if ($_POST['invoice_id'] >0)
+   		$sql .= " AND trans.trans_no = ".db_escape($_POST['invoice_id']);
+	
    	if ($_POST['customer_id'] != ALL_TEXT)
    		$sql .= " AND trans.debtor_no = ".db_escape($_POST['customer_id']);
 

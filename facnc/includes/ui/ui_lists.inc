@@ -816,7 +816,7 @@ function customer_list($name, $selected_id=null, $spec_option=false, $submit_on_
 {
 	global $all_items;
 
-	$sql = "SELECT debtor_no, name, curr_code, inactive FROM ".TB_PREF."debtors_master ";
+	$sql = "SELECT debtor_no, name, curr_code, inactive FROM ".TB_PREF."debtors_master";
 
 	$mode = get_company_pref('no_customer_list');
 
@@ -826,7 +826,7 @@ function customer_list($name, $selected_id=null, $spec_option=false, $submit_on_
 	$ret = combo_input($name, $selected_id, $sql, 'debtor_no', 'debtor_ref',
 	array(
 	    'format' => '_format_add_curr',
-	    'order' => array('debtor_ref'),
+	    'order' => array('name'),
 		'search_box' => $mode!=0,
 		'type' => 1,
 		'size' => 20,
