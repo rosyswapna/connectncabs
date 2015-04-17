@@ -85,6 +85,7 @@ function get_cnc_voucher($id = 0)
 	$sql = "SELECT 
 		cust.id AS cnc_cust_id,
 		cust.name AS customer_name,
+		IFNULL(guest.name,trip.guest_name) AS username,
 		custg.name AS group_name,
 		custg.id AS group_id,
 		vehicle.registration_number AS vehicle_no,
@@ -116,6 +117,7 @@ function get_cnc_voucher($id = 0)
 	$sql .= " LEFT JOIN tariffs ON tariffs.id = trip.tariff_id";
 	$sql .= " LEFT JOIN tariff_masters ON tariff_masters.id = tariffs.tariff_master_id";
 	$sql .= " LEFT JOIN customers cust ON cust.id = trip.customer_id";
+	$sql .= " LEFT JOIN customers guest ON guest.id = trip.guest_id";
 	$sql .= " LEFT JOIN customer_groups custg ON custg.id = trip.customer_group_id";
 	$sql .= " WHERE voucher.id = ".db_escape($id);
 	$result = db_query($sql, "could not get voucher");

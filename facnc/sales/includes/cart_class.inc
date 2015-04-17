@@ -666,7 +666,7 @@ class line_details
 			$this->voucher_no	= $cnc_voucher['voucher_str'];
 			$this->vehicle_model	= $cnc_voucher['vehicle_model'];
 			$this->vehicle_no	= $cnc_voucher['vehicle_no'];
-			$this->username		= $cnc_voucher['customer_name'];
+			$this->username		= $cnc_voucher['username'];
 			$this->particulars      = $cnc_voucher['trip_narration'];
 			$this->pickup_date	= $cnc_voucher['pick_up_date'];
 			$this->cnc_line_amount 	= $cnc_voucher['amount'];
