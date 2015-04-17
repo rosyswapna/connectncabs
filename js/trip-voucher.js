@@ -603,11 +603,17 @@ $(document).ready(function(){
 		trip_narration="Minimum ";
 		if($('.totalamount').attr('amount-class-to-be-selected')=='totalhramount'){
 	    		var base_km_hr='H';
-			 trip_narration=trip_narration+basehr+' Hr @  Rs.'+basehramount+' + Additional '+adthr+' Hr @  Rs.'+adthrrate+'/Hr';
+			 trip_narration=trip_narration+basehr+' Hr @  Rs.'+basehramount+' for '+no_of_days+' day(s)';
+			 if(Number(adthr) > 0){
+			 	trip_narration=trip_narration+' + Additional '+adthr+' Hr @  Rs.'+adthrrate+'/Hr';
+			 }
+			 
 		}else if($('.totalamount').attr('amount-class-to-be-selected')=='totalkmamount'){
 	 		var base_km_hr='K';
-		
-			 trip_narration=trip_narration+basekm+' KM @ Rs. '+basekmamount+' + Additional '+adtkm+' KM @  Rs.'+adtkmrate+'/KM';
+			trip_narration=trip_narration+basekm+' KM @ Rs. '+basekmamount+' for '+no_of_days+' day(s)';
+			if(Number(adtkm) > 0){
+			 	trip_narration=trip_narration+ ' + Additional '+adtkm+' KM @  Rs.'+adtkmrate+'/KM';
+			}	
 		}
 	    
 		data['basedriverkm']=driverbasekm=$('.basedriverkm').val();
