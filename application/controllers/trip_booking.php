@@ -982,12 +982,12 @@ class Trip_booking extends CI_Controller {
 		
 		//if(($data['pick_up_date'].' '.$data['pick_up_time'])>=$date){
 			if($c_contact != ""){ 
-				$this->sms->sendSms($c_contact,$message);
+				//$this->sms->sendSms($c_contact,$message);
 				
 			}
 			
 			if($d_contact != ""){
-				$this->sms->sendSms($d_contact,$dr_message);
+				//$this->sms->sendSms($d_contact,$dr_message);
 			}
 			
 			
@@ -1034,8 +1034,8 @@ class Trip_booking extends CI_Controller {
 		$driver_mob=$driver[0]->mobile;
 		$message='Hi Customer,Trip ID:'.$id.' had been cancelled.Thank You for choosing Connect N cabs.Good Day..!!';
 		$dr_message='Hi,Trip ID:'.$id.' had been cancelled.Thank You for choosing Connect N cabs.Good Day..!!';
-	$this->sms->sendSms($customer['mob'],$message);
-	$this->sms->sendSms($driver_mob,$dr_message);
+	//$this->sms->sendSms($customer['mob'],$message);
+	//$this->sms->sendSms($driver_mob,$dr_message);
 	if($customer['email']!=''){
 	$subject=PRODUCT_NAME;
 	$this->send_email->emailMe($customer['email'],$subject,$message);
