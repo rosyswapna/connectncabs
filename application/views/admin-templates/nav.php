@@ -26,6 +26,19 @@
                                 
                             </ul>
                         </li>
+
+			<li class="treeview">
+                            <a href="#">
+                                <i class="fa fa-wrench"></i>
+                                <span>Accounts</span>
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </a>
+                            <ul class="treeview-menu">
+					<li><a href="<?php echo base_url().'account/admin/DisplaySetup';?>"><i class="fa fa-angle-double-right"></i> Display Setup</a></li>
+			   </ul>
+                        </li>
+
+
                         <?php }else if($this->session->userdata('isLoggedIn')==true && $this->session->userdata('type')==ORGANISATION_ADMINISTRATOR){ ?>
                         <li>
                             <a href="<?php echo base_url().'organization/admin';?>">

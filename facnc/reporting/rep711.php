@@ -37,7 +37,7 @@ function get_delivery_no($src_id){
 
 function get_trip($voucher = 0)
 {
-	$sql = "SELECT vehicle.registration_number as vehicle_no,trip.pick_up_date as trip_date,voucher.id as voucher_no,voucher.total_trip_amount as amount,voucher.voucher_no AS voucher_str,IFNULL(guest.name,trip.guest_name) AS username,trip.advance_amount,trip.payment_no,voucher.remarks as voucher_description,v_ac.name as vehicle_ac_type_name,v_model.name as vehicle_model_name";
+	$sql = "SELECT vehicle.registration_number as vehicle_no,trip.pick_up_date as trip_date,voucher.id as voucher_no,voucher.total_trip_amount as amount,voucher.voucher_no AS voucher_str,IFNULL(guest.name,trip.guest_name) AS username,trip.advance_amount,trip.payment_no,voucher.releasing_place as voucher_description,v_ac.name as vehicle_ac_type_name,v_model.name as vehicle_model_name";
 	$sql .= " FROM trip_vouchers voucher";
 	$sql .= " LEFT JOIN trips trip ON trip.id = voucher.trip_id";
 	$sql .= " LEFT JOIN customers customer ON customer.id = trip.customer_id";

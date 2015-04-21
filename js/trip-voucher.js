@@ -110,6 +110,7 @@ $(document).ready(function(){
 				var ownership		= data['trip'].vehicle_ownership_types_id;
 				var driver_status_id 	= data['trip'].driver_status_id;
 				var advance_amount 	= data['trip'].advance_amount;
+			
 				if(vehicle_ac_type_id==-1){
 					vehicle_ac_type_id=1;
 				}
@@ -175,6 +176,7 @@ $(document).ready(function(){
 
 			
 				if(data['voucher']){
+
 	
 					trip_expense = data['voucher'].trip_expense;
 			
@@ -300,6 +302,9 @@ $(document).ready(function(){
 					$('.taxgroup').val(data['voucher'].tax_group_id);
 					setTax(data['voucher'].total_trip_amount);
 				}else{//new voucher
+
+					$('.releasingplace').val(data['trip'].drop_city);//drop city from trip 
+
 					start_time=pick_up_time.split(':');
 					$('.tripstartingtime').val(start_time[0]+':'+start_time[1]);
 				
