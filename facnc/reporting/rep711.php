@@ -162,7 +162,7 @@ function print_invoices()
 					$memo .= "\n(".$trip['voucher_description'].")";
 				}
 				$rep->TextColLines(5, 6,  $memo);
-				$rep->row=$temp_row;
+				//$rep->row=$temp_row;
 
 				$Net = round2($sign * ((1 - $myrow2["discount_percent"]) * $myrow2["unit_price"] * $myrow2["quantity"]), user_price_dec());
 				$SubTotal += $Net;
