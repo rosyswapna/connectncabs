@@ -723,6 +723,10 @@ class Trip_booking extends CI_Controller {
 			$data["payment_type_id"]	= $_REQUEST["payment_type_id"];
 			$data["tax_group_id"]		= $_REQUEST["tax_group"];
 
+			$trip_data['customer_id'] 		= $_REQUEST["customer_id"];
+			$trip_data['vehicle_ac_type_id'] 	= $_REQUEST["vehicle_ac_type_id"];
+			$trip_data['guest_name'] 		= $_REQUEST["guest_name"];
+
 			//trip expense
 			if(isset($_REQUEST['expense'])){
 			$data['trip_expense'] = count($_REQUEST['expense'])?serialize($_REQUEST['expense']) : '';
@@ -734,10 +738,10 @@ class Trip_booking extends CI_Controller {
 
 			//print_r($data);exit;
 			if($voucher==false){
-				$res=$this->trip_booking_model->generateTripVoucher($data,-1,$trip_data='');
+				$res=$this->trip_booking_model->generateTripVoucher($data,-1,$trip_data);
 
 				}else{
-				$res=$this->trip_booking_model->updateTripVoucher($data,$voucher[0]->id,-1,$trip_data='');
+				$res=$this->trip_booking_model->updateTripVoucher($data,$voucher[0]->id,-1,$trip_data);
 
 				}
 				$voucher = $this->trip_booking_model->getVoucher($res);

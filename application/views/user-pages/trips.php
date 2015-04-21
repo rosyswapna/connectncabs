@@ -416,160 +416,172 @@ $tariffs='';
 
 			<fieldset class="body-border">
 				<legend class="body-head">Trip Details</legend>
-
+				<!--modified-->
 				<div class="row-source-full-100-percent-width-with-margin-8">
-					<div class="div-with-20-percent-width-with-margin-10 margin-15px-10px-0-10px">
-					
 					<div class="hide-me" >
 					<?php 
 					echo form_input(array('name'=>'ownership','class'=>'ownership'));
 					echo form_input(array('name'=>'driver_status','class'=>'driver_status'));
 					?>
 					</div>
-				
-						<div class=" form-group margin-bottom-0-px">
-						   <?php echo form_label('Voucher Number','voucherno'); ?>
-						   <?php echo form_input(array('name'=>'voucherno','class'=>'form-control padding-2px-0-0-10-px voucher-text-box voucherno','id'=>'voucherno','placeholder'=>'Voucher No','tabindex'=>"1")); ?>			
-							<span class="voucher-no-error text-red"></span>
-						</div>
-						<div class=" form-group margin-bottom-0-px">
-						  <?php echo form_label('Payment Type','payment_type'); ?>
-						  <?php
-							$class="form-control";
-							$msg="Payment Type";
-							$name="payment";
+
+					<div class="form-group div-with-20-percent-width-with-margin-10">
+					   <?php echo form_label('Voucher Number','voucherno'); ?>
+					   <?php echo form_input(array('name'=>'voucherno','class'=>'form-control padding-2px-0-0-10-px voucher-text-box voucherno','id'=>'voucherno','placeholder'=>'Voucher No','tabindex'=>"1")); ?>			
+						<span class="voucher-no-error text-red"></span>
+					</div>
+
+					<div class="form-group div-with-20-percent-width-with-margin-10">
+						<?php echo form_label('Vehicle','model'); ?>
+						<?php // echo form_input(array('name'=>'model','class'=>'form-control padding-2px-0-0-10-px voucher-text-box model','placeholder'=>'Vehicle Model','readonly'=>'true','tabindex'=>"13")); 
+					$name = 'vehicle_model_id';
+					$class="form-control padding-2px-0-0-10-px voucher-text-box padding-2px";
+					$msg="Vehicle Model";
+					echo $this->form_functions->populate_dropdown($name,$vehicle_models,$vehicle_model_id = '',$class,$id='vehicle_model_id',$msg);
+					
+					echo form_hidden('tariff_id');
+					//echo form_hidden('customer_id');
+						?>
+					</div>
+
+					<div class="form-group div-with-20-percent-width-with-margin-10">
+					<?php echo form_label('Vehicle AC','vehilce_ac_type');
+						$name = 'vehilce_ac_type_id';
+						$class="form-control padding-2px-0-0-10-px voucher-text-box padding-2px";
+						$msg="Vehicle AC Type";
+						echo $this->form_functions->populate_dropdown($name,$vehicle_ac_types,$vehilce_ac_type_id = '',$class,$id='vehicle_ac_type_id',$msg);
+					
+					?>
+					</div>
+
+					<div class="form-group div-with-20-percent-width-with-margin-10">
+						<?php echo form_label('Vehicle No.','vehicleno'); ?>
+						<?php echo form_input(array('name'=>'vehicleno','class'=>'form-control padding-2px-0-0-10-px voucher-text-box vehicleno','placeholder'=>'Vehicle Number','readonly'=>'true','tabindex'=>"14")); 
+						?>
+					</div>
+
+					<div class="form-group div-with-20-percent-width-with-margin-10">
+					<?php
+						$id="trip-tariff";
+						$class="form-control padding-2px-0-0-10-px voucher-text-box padding-2px";
+						echo form_label('Tariff','triptariflabel'); 
+						echo $this->form_functions->populate_dropdown('tariff',$tariffs='',$tariff='',$class,$id,$msg="Tariffs");?>
+					</div>
+
+					<div class="form-group div-with-20-percent-width-with-margin-10">
+					<?php
+						echo form_label('Payment Type','payment_type');
+						$class="form-control padding-2px-0-0-10-px voucher-text-box padding-2px";
+						$msg="Payment Type";
+						$name="payment";
 						if($payment_id!=null){
 							echo $this->form_functions->populate_dropdown($name,$payment_type,$payment_id,$class,$id='payment',$msg);
 						}
 						else{
 							echo $this->form_functions->populate_dropdown($name,$payment_type,$payment_id='',$class,$id='payment',$msg);
-						}?>		
-						</div>
+						}
+					?>		
 					</div>
-					<div class="div-with-20-percent-width-with-margin-10 margin-15px-10px-0-10px">
-						<div class=" form-group margin-bottom-0-px">
-							<?php echo form_label('Vehicle','model'); ?>
-							<?php // echo form_input(array('name'=>'model','class'=>'form-control padding-2px-0-0-10-px voucher-text-box model','placeholder'=>'Vehicle Model','readonly'=>'true','tabindex'=>"13")); 
-						$name = 'vehicle_model_id';
-						$class="form-control";
-						$msg="Vehicle Model";
-						echo $this->form_functions->populate_dropdown($name,$vehicle_models,$vehicle_model_id = '',$class,$id='vehicle_model_id',$msg);
-						echo form_hidden('vehicle_ac_type_id');
-						echo form_hidden('tariff_id');
-						echo form_hidden('customer_id');
-							?>
-						</div>
-						<div class=" form-group margin-bottom-0-px">
-						   <?php echo form_label('Customer Name','customer'); ?>
-						   <?php echo form_input(array('name'=>'customer','class'=>'form-control padding-2px-0-0-10-px voucher-text-box customer','id'=>'customer','placeholder'=>'Customer Name','readonly'=>'true','tabindex'=>"3")); ?>			
-						</div>
-											
+
+					<div class="form-group div-with-20-percent-width-with-margin-10">
+					<?php echo form_label('Customer Name','customer'); 
+						$name = 'customer_id';
+						$class="form-control padding-2px-0-0-10-px voucher-text-box padding-2px";
+						$msg="Customer";
+						echo $this->form_functions->populate_dropdown($name,$customers,$customer_id = '',$class,$id='customer_id',$msg);
+					?>			
 					</div>
-					<div class="div-with-20-percent-width-with-margin-10 margin-15px-10px-0-10px">
-						<div class=" form-group margin-bottom-0-px">
-							<?php echo form_label('Vehicle No.','vehicleno'); ?>
-							<?php echo form_input(array('name'=>'vehicleno','class'=>'form-control padding-2px-0-0-10-px voucher-text-box vehicleno','placeholder'=>'Vehicle Number','readonly'=>'true','tabindex'=>"14")); 
-							?>
-						</div>
-						<div class=" form-group margin-bottom-0-px">
-						   <?php echo form_label('Description','description'); ?>
-						   <?php echo form_input(array('name'=>'description','class'=>'form-control padding-2px-0-0-10-px voucher-text-box voucher-text-box description','id'=>'description','placeholder'=>'Description','tabindex'=>"4")); ?>			
-						</div>
-						
+
+					<div class="form-group div-with-20-percent-width-with-margin-10">
+					<?php echo form_label('Guest Name','guest'); 
+						echo form_input(array('name'=>'guest_name','class'=>'form-control padding-2px-0-0-10-px voucher-text-box guest_name','id'=>'guest_name','placeholder'=>'Name','tabindex'=>"9"));
+					?>			
 					</div>
-					<div class="div-with-20-percent-width-with-margin-10 margin-15px-10px-0-10px">
-						<div class=" form-group margin-bottom-0-px"><?php
-							$id="trip-tariff";
-							$class="form-control padding-2px-0-0-10-px voucher-text-box padding-2px";
-						echo form_label('Tariff','triptariflabel'); 
-						echo $this->form_functions->populate_dropdown('tariff',$tariffs='',$tariff='',$class,$id,$msg="Tariffs");?>
-						</div>
-						<div class=" form-group margin-bottom-0-px">
-							<?php echo form_label('Releasing Place','releasingplace'); ?>
-							<?php echo form_input(array('name'=>'releasingplace','class'=>'form-control releasingplace padding-2px-0-0-10-px voucher-text-box','placeholder'=>'Enter Releasing Place','tabindex'=>"14")); 
-							?>
-						</div>
+
+					<div class="form-group div-with-20-percent-width-with-margin-10">
+					   <?php echo form_label('Description','description'); ?>
+					   <?php echo form_input(array('name'=>'description','class'=>'form-control padding-2px-0-0-10-px voucher-text-box voucher-text-box description','id'=>'description','placeholder'=>'Description','tabindex'=>"4")); ?>			
+					</div>
 						
 						
+					<div class="form-group div-with-20-percent-width-with-margin-10">
+						<?php echo form_label('Releasing Place','releasingplace'); ?>
+						<?php echo form_input(array('name'=>'releasingplace','class'=>'form-control releasingplace padding-2px-0-0-10-px voucher-text-box','placeholder'=>'Enter Releasing Place','tabindex'=>"14")); 
+						?>
 					</div>
-					
-					
-				</div>
-			<!-- section 1 ends  -->
-				
-			<!-- section 2 start -->				
-				<div class="row-source-full-100-percent-width-with-margin-8">
-					
-					<div class="div-with-20-percent-width-with-margin-10 margin-15px-10px-0-10px">
-				
-						<div class=" form-group margin-bottom-0-px">
-						   <?php echo form_label('Start Date','startdt'); ?>
-						   <?php echo form_input(array('name'=>'startdt','class'=>'form-control initialize-date-picker-d-m-Y padding-2px-0-0-10-px voucher-text-box startdt','id'=>'startdt','placeholder'=>'Start Date','tabindex'=>"5")); ?>			
-							<span class="start-dt-error text-red"></span>
-						</div>
-						
-						<div class=" form-group margin-bottom-0-px">
+
+					<div class="form-group div-with-20-percent-width-with-margin-10">
+					   <?php echo form_label('Start Date','startdt'); ?>
+					   <?php echo form_input(array('name'=>'startdt','class'=>'form-control initialize-date-picker-d-m-Y padding-2px-0-0-10-px voucher-text-box startdt','id'=>'startdt','placeholder'=>'Start Date','tabindex'=>"5")); ?>			
+						<span class="start-dt-error text-red"></span>
+					</div>
+
+					<div class="form-group div-with-20-percent-width-with-margin-10">
+						<?php echo form_label('End Date','enddt'); ?>
+						<?php echo form_input(array('name'=>'enddt','class'=>'form-control initialize-date-picker-d-m-Y padding-2px-0-0-10-px voucher-text-box enddt','placeholder'=>'End Date','tabindex'=>"6")); ?>
+						<span class="end-dt-error text-red"></span>
+					</div>
+
+					<div class="form-group div-with-20-percent-width-with-margin-10">
+						<?php echo form_label('Trip Starting Time','tripstartingtime'); ?>
+						<?php echo form_input(array('name'=>'tripstartingtime','class'=>'form-control padding-2px-0-0-10-px voucher-text-box tripstartingtime format-time','placeholder'=>'Enter Trip Starting Time','tabindex'=>"7")); 
+						?>
+					</div>
+
+					<div class="form-group div-with-20-percent-width-with-margin-10">
+						<?php echo form_label('Trip Ending Time','tripendingtimelabel'); ?>
+						<?php echo form_input(array('name'=>'tripendingtime','class'=>'form-control padding-2px-0-0-10-px voucher-text-box tripendingtime format-time','placeholder'=>'HH:MM','tabindex'=>"8")); 
+						?>
+					</div>
+
+					<div class="form-group div-with-20-percent-width-with-margin-10">
 						   <?php echo form_label('Start KM Reading','startkm'); ?>
 						   <?php echo form_input(array('name'=>'startkm','class'=>'form-control padding-2px-0-0-10-px voucher-text-box startkm','id'=>'startkm','placeholder'=>'Enter Start K M','tabindex'=>"9")); ?>			
 							<span class="start-km-error text-red"></span>
-						</div>
 					</div>
+						
 					
-					<div class="div-with-20-percent-width-with-margin-10 margin-15px-10px-0-10px">
-						<div class=" form-group margin-bottom-0-px">
-							<?php echo form_label('End Date','enddt'); ?>
-							<?php echo form_input(array('name'=>'enddt','class'=>'form-control initialize-date-picker-d-m-Y padding-2px-0-0-10-px voucher-text-box enddt','placeholder'=>'End Date','tabindex'=>"6")); ?>
-							<span class="end-dt-error text-red"></span>
-						</div>
-						<div class=" form-group margin-bottom-0-px">
-							<?php echo form_label('End Km Reading','endkm'); ?>
-							<?php echo form_input(array('name'=>'endkm','class'=>'form-control padding-2px-0-0-10-px voucher-text-box endkm','placeholder'=>'Enter End KM','tabindex'=>"10")); ?>
-							<span class="end-km-error text-red"></span>
-						</div>
+						
+					<div class="form-group div-with-20-percent-width-with-margin-10">
+						<?php echo form_label('End Km Reading','endkm'); ?>
+						<?php echo form_input(array('name'=>'endkm','class'=>'form-control padding-2px-0-0-10-px voucher-text-box endkm','placeholder'=>'Enter End KM','tabindex'=>"10")); ?>
+						<span class="end-km-error text-red"></span>
 					</div>
-					<div class="div-with-20-percent-width-with-margin-10 margin-15px-10px-0-10px">
 
-						<div class=" form-group margin-bottom-0-px">
-							<?php echo form_label('Trip Starting Time','tripstartingtime'); ?>
-							<?php echo form_input(array('name'=>'tripstartingtime','class'=>'form-control padding-2px-0-0-10-px voucher-text-box tripstartingtime format-time','placeholder'=>'Enter Trip Starting Time','tabindex'=>"7")); 
-							?>
-						</div>
-						<div class=" form-group margin-bottom-0-px">
-							<?php echo form_label('Total Time','triptime'); ?>
-							<?php echo form_input(array('name'=>'triptime','class'=>'form-control padding-2px-0-0-10-px voucher-text-box triptime format-time','placeholder'=>'Total Trip Time','readonly'=>'true','tabindex'=>"11")); 
-							?>
-						</div>
+					<div class="form-group div-with-20-percent-width-with-margin-10">
+						<?php echo form_label('Total Time','triptime'); ?>
+						<?php echo form_input(array('name'=>'triptime','class'=>'form-control padding-2px-0-0-10-px voucher-text-box triptime format-time','placeholder'=>'Total Trip Time','readonly'=>'true','tabindex'=>"11")); 
+						?>
 					</div>
-					<div class="div-with-20-percent-width-with-margin-10 margin-15px-10px-0-10px">
-						<div class=" form-group margin-bottom-0-px">
-							<?php echo form_label('Trip Ending Time','tripendingtimelabel'); ?>
-							<?php echo form_input(array('name'=>'tripendingtime','class'=>'form-control padding-2px-0-0-10-px voucher-text-box tripendingtime format-time','placeholder'=>'HH:MM','tabindex'=>"8")); 
-							?>
-						</div>
-						<div class=" form-group margin-bottom-0-px">
-							<?php echo form_label('Total Km Reading','totalkm'); ?>
-							<?php echo form_input(array('name'=>'totalkm','class'=>'form-control padding-2px-0-0-10-px voucher-text-box totalkm','placeholder'=>'Total KM','readonly'=>'true','tabindex'=>"12")); ?>
-							<span class="total-km-error text-red"></span>
-						</div>
+					
+					<div class="form-group div-with-20-percent-width-with-margin-10">
+						<?php echo form_label('Total Km Reading','totalkm'); ?>
+						<?php echo form_input(array('name'=>'totalkm','class'=>'form-control padding-2px-0-0-10-px voucher-text-box totalkm','placeholder'=>'Total KM','readonly'=>'true','tabindex'=>"12")); ?>
+						<span class="total-km-error text-red"></span>
+					</div>
 
-					
-					</div>
-					
-					
-					<div class=" form-group margin-bottom-0-px hide-me">
+					<div class="form-group div-with-20-percent-width-with-margin-10 hide-me">
 						<?php echo form_label('Gariage Clossing KM','gariageclosingkm'); ?>
 						<?php echo form_input(array('name'=>'garageclosingkm','class'=>'form-control padding-2px-0-0-10-px voucher-text-box garageclosingkm','placeholder'=>'Enter Gariage closing km')); ?>
 						<span class="garage-km-error text-red"></span>
 					</div>
-					<div class=" form-group margin-bottom-0-px hide-me">
+					<div class="form-group div-with-20-percent-width-with-margin-10 hide-me">
 						<?php echo form_label('Gariage Closing Time','gariageclosingtime'); ?>
 						<?php echo form_input(array('name'=>'garageclosingtime','class'=>'form-control padding-2px-0-0-10-px voucher-text-box garageclosingtime initialize-time-picker','placeholder'=>'Enter Gariage Closing Time')); 
 						?>
 				Trips(		<span class="garage-time-error text-red"></span>
 					</div>
-						
-					
+
+
+
+
 				</div>
+				<!--modified-->
+
+
+				
+							
+				
 			</fieldset>
 			<!-- section 2 ends -->
 

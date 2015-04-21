@@ -47,10 +47,11 @@ $(document).ready(function(){
 	
 	$('#vehicle_model_id').on('change',function(){
 		var vehicle_model_id = $(this).val();
-		var customer_id = $('input[name="customer_id"]').val();
+		//var customer_id = $('input[name="customer_id"]').val();
+		var customer_id = $('#customer_id').val();
 		id='#trip-tariff';
 
-		var vehicle_ac_type_id = $('input[name="vehicle_ac_type_id"]').val();
+		var vehicle_ac_type_id = $('#vehicle_ac_type_id').val();
 		var tariff_id = $('#trip-tariff').val();
 		generateTariffs(vehicle_model_id,vehicle_ac_type_id,tariff_id,id,customer_id,'no');
 	});
@@ -110,6 +111,7 @@ $(document).ready(function(){
 				var ownership		= data['trip'].vehicle_ownership_types_id;
 				var driver_status_id 	= data['trip'].driver_status_id;
 				var advance_amount 	= data['trip'].advance_amount;
+				var guest_name 		= data['trip'].guest_name;
 			
 				if(vehicle_ac_type_id==-1){
 					vehicle_ac_type_id=1;
@@ -147,13 +149,14 @@ $(document).ready(function(){
 				$('.customer').val(customer_name);
 				$('.company').val(company_name);
 				$('#vehicle_model_id').val(vehicle_model_id);
+				$('#vehicle_ac_type_id').val(vehicle_ac_type_id);
 				$('.vehicleno').val(vehicle_no);
 				$('.ownership').val(ownership);
 				$('.driver_status').val(driver_status_id);
 
 				//set for hidden inputs
-				$('input[name="vehicle_ac_type_id"]').val(vehicle_ac_type_id);
-				$('input[name="customer_id"]').val(customer_id);
+				$('#customer_id').val(customer_id);
+				$('#guest_name').val(guest_name);
 
 				//payment blocks display options
 				if(ownership == OWNED_VEHICLE && driver_status_id==OWNED_DRIVER){
@@ -563,6 +566,7 @@ $(document).ready(function(){
 		var tax_group = $('.taxgroup').val();//tax calculating factor
 	   	var error = 'false';
 	    	if(new_voucher == 1 && tax_group == ''){
+			IsVoucherNoUnique(voucherno);
 			error = true;
 		}
 
@@ -576,6 +580,10 @@ $(document).ready(function(){
 		combo_data['trip-tariff']=$('#trip-tariff').val();
 		combo_data['payment']=$('#payment').val();
 		var data={};
+
+		data['customer_id']		=customer_id=  $('#customer_id').val();
+		data['vehicle_ac_type_id']	=vehicle_ac_type_id=  $('#vehicle_ac_type_id').val();
+		data['guest_name']		=guest_name=  $('#guest_name').val();
 
 	   
 		data['taxgroup']=$('.taxgroup').val();
@@ -606,7 +614,7 @@ $(document).ready(function(){
 		data['adthrsrate']= adthrrate=$('.adthrsrate').val();
 		adthr=$('.adthrs').val();
 	    
-		IsVoucherNoUnique(voucherno);
+		
 	
 		trip_narration="Minimum ";
 		if($('.totalamount').attr('amount-class-to-be-selected')=='totalhramount'){
@@ -795,7 +803,10 @@ $(document).ready(function(){
 				total_trip_amount:totalamount,
 				tax_group:tax_group,
 				payment_type_id:payment_type_id,	
-				expense:expense
+				expense:expense,
+				customer_id:customer_id,
+				vehicle_ac_type_id:vehicle_ac_type_id,
+				guest_name:guest_name
 		       
 		    },function(data){
 		      if(data!='false'){
@@ -1821,9 +1832,10 @@ $(document).ready(function(){
 
 	function customizedTariff(){
 		var vehicle_model 	= $('#vehicle_model_id').val();
-		var vehicle_ac_type 	= $('input[name="vehicle_ac_type_id"]').val();
+		var vehicle_ac_type 	= $('#vehicle_ac_type_id').val();
 		var tariff_master_id	= $('#trip-tariff option:selected').attr('tariff_master_id');
-		var customer_id 	= $('input[name="customer_id"]').val();
+		//var customer_id 	= $('input[name="customer_id"]').val();
+		var customer_id 	= $('#customer_id').val();
 
 		$.post(base_url+"/tarrif/customertariff",
 		{
