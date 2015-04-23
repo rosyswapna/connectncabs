@@ -185,10 +185,8 @@ $tariffs='';
 									/*if(isset($trips[$trip_index]['drop_area'])){ echo ",".$trips[$trip_index]['drop_area'].br();}else{};*/
 						 ?></td>
 					  <td>
-					  <?php if($trips[$trip_index]['guest_id']==gINVALID || $trips[$trip_index]['guest_id']==0){
-					  echo substr(@$trips[$trip_index]['trip_guest_name'],0,10).br();}else{
-					 echo substr($trips[$trip_index]['guest_name'],0,10).br();
-					    } ?>
+					  <?php echo @$trips[$trip_index]['guest_name'];		
+				//echo ($trips[$trip_index]['guest_info'])?br().$trips[$trip_index]['guest_info']:''; ?>
 					  </td>
 						<!-- <td><?php echo $trips[$trip_index]['drop_city'].br();
 									echo $trips[$trip_index]['drop_area'];
