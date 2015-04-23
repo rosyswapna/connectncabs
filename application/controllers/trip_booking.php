@@ -477,9 +477,12 @@ class Trip_booking extends CI_Controller {
 			*/
 
 			$guest='';
-			$dbdata['guest_name']		= $this->input->post('guestname');
-			$dbdata['guest_email']		= $this->input->post('guestemail');
-			$dbdata['guest_mobile']		= $this->input->post('guestmobile');
+			if($this->input->post('guestname') != '')
+				$dbdata['guest_name']		= $this->input->post('guestname');
+			if($this->input->post('guestemail') != '')
+				$dbdata['guest_email']		= $this->input->post('guestemail');
+			if($this->input->post('guestemail') != '')
+				$dbdata['guest_mobile']		= $this->input->post('guestmobile');
 
 			$dbdata['source_email']		= $this->input->post('source_email');
 			$dbdata['source_mobile']	= $this->input->post('source_mobile');
