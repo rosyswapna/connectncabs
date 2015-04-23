@@ -581,9 +581,9 @@ $(document).ready(function(){
 		combo_data['payment']=$('#payment').val();
 		var data={};
 
-		data['customer_id']		=customer_id=  $('#customer_id').val();
-		data['vehicle_ac_type_id']	=vehicle_ac_type_id=  $('#vehicle_ac_type_id').val();
-		data['guest_name']		=guest_name=  $('#guest_name').val();
+		customer_id=  $('#customer_id').val();
+		vehicle_ac_type_id=  $('#vehicle_ac_type_id').val();
+		guest_name=  $('#guest_name').val();
 
 	   
 		data['taxgroup']=$('.taxgroup').val();
