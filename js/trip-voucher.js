@@ -620,7 +620,7 @@ $(document).ready(function(){
 		if($('.totalamount').attr('amount-class-to-be-selected')=='totalhramount'){
 	    		var base_km_hr='H';
 			 trip_narration=trip_narration+basehr+' Hr @  Rs.'+basehramount+' for '+no_of_days+' day(s)';
-			 if(Number(adthr) > 0){
+			 if(adthr!= ''){
 			 	trip_narration=trip_narration+' + Additional '+adthr+' Hr @  Rs.'+adthrrate+'/Hr';
 			 }
 			 
@@ -753,7 +753,7 @@ $(document).ready(function(){
 		resetComboErrorFields(combo_data);
 		error=isVarNull(data);
 		error_combo=isVarNullCombo(combo_data);
-	
+		
 		if(error=='false' && error_combo=='false'){
 			$.post(base_url+"/trip-booking/tripVoucher",
 		      	{
