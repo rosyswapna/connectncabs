@@ -77,9 +77,9 @@ header("Pragma: public");
 									 echo $trips[$trip_index]['pick_up_area'];
 						 ?></td>
 					  <td>
-					  <?php if($trips[$trip_index]['guest_id']==gINVALID || $trips[$trip_index]['guest_id']==0){echo '';}else{ echo $trips[$trip_index]['guest_name'];	} ?></td>
+					  <?php if($trips[$trip_index]['guest_name']==''){echo '';}else{ echo $trips[$trip_index]['guest_name'];	} ?></td>
 						 <td><?php 
-						if($trips[$trip_index]['guest_id']==gINVALID || $trips[$trip_index]['guest_id']==0){echo '';}else{ echo $trips[$trip_index]['guest_info'];
+						if( $trips[$trip_index]['guest_info']==''){echo '';}else{ echo $trips[$trip_index]['guest_info'];
 					    } ?>
 					  </td>
 						 <td><?php echo $trips[$trip_index]['drop_city']; ?></td>
