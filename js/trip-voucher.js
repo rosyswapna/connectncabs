@@ -118,7 +118,7 @@ $(document).ready(function(){
 				}
 
 
-				$('.overlay-container').css('display','block');
+				$('#voucher-overlay').css('display','block');
 
 				var top=-1*(Number($('.trips-table').height())+100); 
 				$('.modal-body').css('top',top);

@@ -246,22 +246,14 @@ $tariffs='';
 			}
 			//----for mobile sms starts
 			if(in_array('send_sms',$trip_action_allowed)){
-			/*$dbdata=array('driver_id'=>$trips[$trip_index]['driver_id'],
-						  'pick_up_date'=>$trips[$trip_index]['pick_up_date'],	
-						  'pick_up_time'=>$trips[$trip_index]['pick_up_time'],
-						  'pick_up_city'=>$trips[$trip_index]['pick_up_city'],
-						  'drop_city'=>$trips[$trip_index]['drop_city']); 
-			$dbcustomer=array( 'name'=>$trips[$trip_index]['customer_name'],
-						  'mob'=>$trips[$trip_index]['customer_mobile']);				
-			$this->mysession->set('d_data',$dbdata);	
-			$this->mysession->set('c_data',$dbcustomer);
-			$this->mysession->set('flag',1);*/	
-			echo nbs(5) ."<a href=".base_url().'trip-booking/trip-confirmation/'.$trips[$trip_index]['trip_id']." title='Send SMS' class='fa fa-mobile '></a>"; 
+				
+			//echo nbs(5) ."<a href=".base_url().'trip-booking/trip-confirmation/'.$trips[$trip_index]['trip_id']." title='Send SMS' class='fa fa-mobile '></a>"; 
+			echo nbs(5) ."<span title='Send SMS' sms-trip-id=".$trips[$trip_index]['trip_id']." class='fa fa-mobile mobile-popup'></span>"; 
 			//----ends 
 			}
 			
 		}else if($trips[$trip_index]['trip_status_id']==TRIP_STATUS_TRIP_COMPLETED && in_array('new_voucher',$trip_action_allowed)){ 
-			echo "<a href=".base_url().'trip/view/'.$trips[$trip_index]['trip_id']." class= ' fa fa-print' target='_blank' title='Print'></a>".nbs(5)."<span title='Voucher' class=' sp-btn fa fa-mail-forward voucher' trip_id='".$trips[$trip_index]['trip_id']."' driver_id='".$trips[$trip_index]['driver_id']."' vehicle_model_id='".$trips[$trip_index]['vehicle_model_id']."' vehicle_ac_type_id='".$trips[$trip_index]['vehicle_ac_type_id']."' tarrif_id='".$trips[$trip_index]['tariff_id']."' type='button' no_of_days='".$no_of_days."' pick_up_time='".$trips[$trip_index]['pick_up_time']."' pick_up_date='".$trips[$trip_index]['pick_up_date']."' drop_date='".$trips[$trip_index]['drop_date']."' new_voucher = 1 company_name='".$trips[$trip_index]['company_name']."' customer_name='".$trips[$trip_index]['customer_name']."' customer_id='".$trips[$trip_index]['customer_id']."' model='".$trips[$trip_index]['model']."' vehicle_no='".$trips[$trip_index]['registration_number']."' description='".$trips[$trip_index]['remarks']."' payment_type_id='".$trips[$trip_index]['payment_type_id']."' ownership='".$trips[$trip_index]['vehicle_ownership_types_id']."' ></span>"; 
+			echo "<a href=".base_url().'trip/view/'.$trips[$trip_index]['trip_id']." class= ' fa fa-print mobile-popup' target='_blank' title='Print'></a>".nbs(5)."<span title='Voucher' class=' sp-btn fa fa-mail-forward voucher' trip_id='".$trips[$trip_index]['trip_id']."' driver_id='".$trips[$trip_index]['driver_id']."' vehicle_model_id='".$trips[$trip_index]['vehicle_model_id']."' vehicle_ac_type_id='".$trips[$trip_index]['vehicle_ac_type_id']."' tarrif_id='".$trips[$trip_index]['tariff_id']."' type='button' no_of_days='".$no_of_days."' pick_up_time='".$trips[$trip_index]['pick_up_time']."' pick_up_date='".$trips[$trip_index]['pick_up_date']."' drop_date='".$trips[$trip_index]['drop_date']."' new_voucher = 1 company_name='".$trips[$trip_index]['company_name']."' customer_name='".$trips[$trip_index]['customer_name']."' customer_id='".$trips[$trip_index]['customer_id']."' model='".$trips[$trip_index]['model']."' vehicle_no='".$trips[$trip_index]['registration_number']."' description='".$trips[$trip_index]['remarks']."' payment_type_id='".$trips[$trip_index]['payment_type_id']."' ownership='".$trips[$trip_index]['vehicle_ownership_types_id']."' ></span>"; 
 			
 		}else if($trips[$trip_index]['trip_status_id']==TRIP_STATUS_TRIP_BILLED && in_array('edit_voucher',$trip_action_allowed)){
 			echo "<span title='Voucher' class='sp-btn fa fa-mail-forward voucher' trip_id='".$trips[$trip_index]['trip_id']."' driver_id='".$trips[$trip_index]['driver_id']."' tarrif_id='".$trips[$trip_index]['tariff_id']."' type='button' no_of_days='".$no_of_days."' pick_up_time='".$trips[$trip_index]['pick_up_time']."' vehicle_ac_type_id='".$trips[$trip_index]['vehicle_ac_type_id']."' new_voucher = 0 vehicle_model_id='".$trips[$trip_index]['vehicle_model_id']."' pick_up_date='".$trips[$trip_index]['pick_up_date']."' drop_date='".$trips[$trip_index]['drop_date']."' company_name='".$trips[$trip_index]['company_name']."' customer_name='".$trips[$trip_index]['customer_name']."' customer_id='".$trips[$trip_index]['customer_id']."' model='".$trips[$trip_index]['model']."' vehicle_no='".$trips[$trip_index]['registration_number']."' description='".$trips[$trip_index]['remarks']."' ownership='".$trips[$trip_index]['vehicle_ownership_types_id']."' ></span>"; 
@@ -366,7 +358,7 @@ $tariffs='';
 			$this->mysession->set('d_data',$dbdata);	
 			$this->mysession->set('c_data',$dbcustomer);
 			$this->mysession->set('flag',1);	
-			echo nbs(5) ."<a href=".base_url().'trip-booking/trip-confirmation/'.$trips[$trip_index]['trip_id']." title='Send SMS' class='fa fa-mobile '></a>"; 
+			echo nbs(5) ."<a href=".base_url().'trip-booking/trip-confirmation/'.$trips[$trip_index]['trip_id']." title='Send SMS' class='fa fa-mobile mobile-popup'></a>"; 
 			}
 			//----ends 
 			
@@ -405,8 +397,31 @@ $tariffs='';
 </div>
 
 </div><!-- /.box-body -->
-   
-	<div class='overlay-container'>
+	
+	<div class='overlay-container' id='sms-overlay'>
+		<div class="overlay modal"></div>
+		<div class="loading-img"></div>
+		<div class="modal-body border-2-px box-shadow">
+		 <?php echo form_open( base_url().'trip-booking/trip-confirmation');?>
+		<table>
+		<tr><td>Customer Contact:</td><td><?php echo form_input(array('name'=>'customer-info','id'=>'customer-info','class'=>'form-control'));?></td>
+		<td>Customer Message:</td><td><?php echo form_textarea(array('name'=>'customer-msg','id'=>'customer-msg','class'=>'form-control','rows'=>2,'style'=> 'width:80%'));?></td><td></td>
+		</tr>
+		<tr><td>Driver Contact:</td><td><?php echo form_input(array('name'=>'driver-info','id'=>'driver-info','class'=>'form-control'));?></td>
+		<td>Driver Message:</td><td><?php echo form_textarea(array('name'=>'driver-msg','id'=>'driver-msg','class'=>'form-control','rows'=>2,'style'=> 'width:80%'));?></td><td>
+								<?php  echo form_submit("add","Save","class='btn btn-primary'");
+								 ?> </td>
+		</tr>
+		</table>
+	<?php echo form_close();?>
+	
+	
+		
+		</div>
+	</div>
+	
+	
+	<div class='overlay-container' id='voucher-overlay'>
    		<div class="overlay modal"></div>
 		<div class="loading-img"></div>
 		<div class="modal-body border-2-px box-shadow">

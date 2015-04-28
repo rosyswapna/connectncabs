@@ -2088,6 +2088,28 @@ $('.scroll-container').scroll(function(){
 
 });
 
+$('.mobile-popup').click(function(){
+
+	var trip_id= $(this).attr('sms-trip-id');
+	
+	$.post(base_url+"/trip-booking/sms-confirmation",
+		 { trip_id:trip_id},function(data){ 
+		 data=jQuery.parseJSON(data);
+		 
+		 $('#customer-msg').val(data.customer_msg);
+		 $('#driver-msg').val(data.driver_msg);
+		 $('#customer-info').val(data.guest_info);
+		 $('#driver-info').val(data.driver_info);
+				$('#sms-overlay').css('display','block');
+
+				var top=-1*(Number($('.trips-table').height())+100); 
+				$('.modal-body').css('top',top);
+		 
+		 });
+		 
+				
+
+});
 
 
 

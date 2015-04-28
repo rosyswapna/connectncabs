@@ -174,9 +174,9 @@ class Trip_booking_model extends CI_Model {
 		return $percentages;
 	}
 
-	function  bookTrip($data,$estimate) { //print_r($data);exit;
-	$this->db->set('created', 'NOW()', FALSE);
-	$this->db->insert('trips',$data);
+	function  bookTrip($data,$estimate) { 
+	$this->db->set('created', 'NOW()', FALSE); 
+	$this->db->insert('trips',$data); 
 	if($this->db->insert_id()>0){
 		$id =$this->db->insert_id(); 
 		if(!empty($estimate)){ 
@@ -569,10 +569,14 @@ AND CURDATE() BETWEEN T.pick_up_date AND T.drop_date';
 	return $results;
 	}
 	
-	function get_trip($id){
-	$this->db->where(array('id'=>$id));
-	$this->db->from('trips');
-	$results = $this->db->get()->result_array();
+	function get_trip($id){ 
+	$org_id = $this->session->userdata('organisation_id');
+
+		$qry='SELECT IFNULL(T.guest_name,G.name) as guest_name,IFNULL(T.guest_mobile,G.mobile) as guest_info,T.drop_city,T.pick_up_date,T.pick_up_time,T.pick_up_city,D.name as driver,D.mobile as driver_info FROM trips T LEFT JOIN customers G ON G.id=T.guest_id LEFT JOIN customers C ON C.id=T.customer_id LEFT JOIN customer_groups CG ON CG.id=T.customer_group_id LEFT JOIN drivers D ON D.id=T.driver_id LEFT JOIN organisations ORG ON ORG.id = T.organisation_id where T.organisation_id='.$org_id.' AND T.id='.$id; 
+	//$this->db->where(array('id'=>$id));
+	//$this->db->from('trips');
+	$qry=$this->db->query($qry);
+	$results = $qry->result_array();
 	return $results;
 	}
 }

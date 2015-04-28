@@ -21,9 +21,13 @@ class Trip_booking extends CI_Controller {
 		
 				$this->bookTrip();
 			
-			}else if($param2=='trip-confirmation') {
+			}else if($param2=='sms-confirmation') {
 				
-				$this->SendTripConfirmation($param3,$flag=1);
+				$this->SmsPopUp();
+			
+			}else if($param2=='trip-confirmation') { 
+				$this->SendConfirmationSms();
+				//$this->SendTripConfirmation($param3,$flag=1);
 			
 			}
 			else if($param2=='getAvailableVehicles') {
@@ -481,7 +485,7 @@ class Trip_booking extends CI_Controller {
 				$dbdata['guest_name']		= $this->input->post('guestname');
 			if($this->input->post('guestemail') != '')
 				$dbdata['guest_email']		= $this->input->post('guestemail');
-			if($this->input->post('guestemail') != '')
+			if($this->input->post('guestmobile') != '')
 				$dbdata['guest_mobile']		= $this->input->post('guestmobile');
 
 			$dbdata['source_email']		= $this->input->post('source_email');
@@ -564,7 +568,7 @@ class Trip_booking extends CI_Controller {
 					$this->session->set_userdata(array('dbError'=>''));
 					if($dbdata['trip_status_id']==TRIP_STATUS_CONFIRMED){
 						//$this->SendTripConfirmation($data['trip_id'],$dbdata,$customer);
-						$this->SendTripConfirmation($data['trip_id']);
+						//$this->SendTripConfirmation($data['trip_id']);
 					}
 				}else{
 					$this->session->set_userdata(array('dbError'=>'Trip Updated unsuccesfully..!!'));
@@ -588,7 +592,7 @@ class Trip_booking extends CI_Controller {
 					$this->session->set_userdata(array('dbError'=>''));
 					if($dbdata['trip_status_id']==TRIP_STATUS_CONFIRMED){
 						//$this->SendTripConfirmation($res,$dbdata,$customer);
-						$this->SendTripConfirmation($res);
+						//$this->SendTripConfirmation($res);
 					}
 					if($make_payment)
 						redirect(base_url().'account/front_desk/CustomerTripAdvance/'.$res);
@@ -954,6 +958,27 @@ class Trip_booking extends CI_Controller {
 			return false;
 		}
 	} 
+	
+	public function SendConfirmationSms(){
+	
+		$c_contact=$this->input->post('customer-info'); 
+		$message=$this->input->post('customer-msg'); 
+		$d_contact=$this->input->post('driver-msg'); 
+		$dr_message=$this->input->post('customer-info'); 
+			if($c_contact != ""){ 
+				//$this->sms->sendSms($c_contact,$message);
+				
+			}
+			
+			if($d_contact != ""){
+				//$this->sms->sendSms($d_contact,$dr_message);
+			}
+			$this->session->set_userdata(array('dbSuccess'=>'Message Sent Succesfully..!'));
+			$this->session->set_userdata(array('dbError'=>''));
+			redirect(base_url().'organization/front-desk/trips');
+			
+	
+	}
 	public function SendTripConfirmation($id,$flag=''){
 
 	$data=$this->trip_booking_model->get_trip($id);
@@ -971,8 +996,8 @@ class Trip_booking extends CI_Controller {
 		$message='Hi Customer, Your Trip Id: '.$id.' has been confirmed on '.$data['pick_up_date'].'.Pickup time: '.$data['pick_up_time'].'.Location : '.$data['pick_up_city'].'-'.$data['drop_city'].'. Driver: '.$d_name.', '.$d_contact.'.';
 		$dr_message='Hi, Your trip id: '.$id.' had been allocated on '.$data['pick_up_date'].'. Guest details: '.$c_name.', '.$c_contact.'.Pickup: '.$data['pick_up_city'].', '.$data['pick_up_time'];
 		$tbl_arry=array('vehicle_types','vehicle_ac_types','vehicle_makes','vehicle_models');
-	
-	
+		
+		
 		
 		for ($i=0;$i<4;$i++){
 		$result=$this->user_model->getArray($tbl_arry[$i]);
@@ -1001,11 +1026,11 @@ class Trip_booking extends CI_Controller {
 			
 			
 			
-		 if($flag=='1'){ 
+		 /*if($flag=='1'){ 
 				 $this->session->set_userdata(array('dbSuccess'=>'Message Sent Succesfully..!'));
 				    $this->session->set_userdata(array('dbError'=>''));
-				     redirect(base_url().'organization/front-desk/trips');
-				 }
+				     redirect(base_url().'organization/front-desk/trips',$data_sms);
+				 }*/
 	
 			$booking_date=$this->trip_booking_model->getTripBokkingDate($id);
 			if($data['vehicle_model_id']>0){
@@ -1046,6 +1071,24 @@ class Trip_booking extends CI_Controller {
 	if($customer['email']!=''){
 	$subject=PRODUCT_NAME;
 	$this->send_email->emailMe($customer['email'],$subject,$message);
+	}
+	}
+	
+	public function SmsPopUp(){
+	if(isset($_REQUEST['trip_id'])){ 
+		$data=$this->trip_booking_model->get_trip($_REQUEST['trip_id']);
+		$data=$data[0];
+	
+		$message='Hi Customer, Your Trip Id: '.$_REQUEST['trip_id'].' has been confirmed on '.$data['pick_up_date'].'.Pickup time: '.$data['pick_up_time'].'.Location : '.$data['pick_up_city'].'-'.$data['drop_city'].'. Driver: '.$data['driver'].', '.$data['driver_info'].'.';
+		$dr_message='Hi, Your trip id: '.$_REQUEST['trip_id'].' had been allocated on '.$data['pick_up_date'].'. Guest details: '.$data['guest_name'].', '.$data['guest_info'].'.Pickup: '.$data['pick_up_city'].', '.$data['pick_up_time'];
+		$tbl_arry=array('vehicle_types','vehicle_ac_types','vehicle_makes','vehicle_models');
+		$data_sms['customer_msg']=$message;
+		$data_sms['driver_msg']=$dr_message;
+		$data_sms['guest_info']=$data['guest_info'];
+		$data_sms['driver_info']=$data['driver_info'];
+		if($data_sms){
+		echo json_encode($data_sms);
+		}
 	}
 	}
 
