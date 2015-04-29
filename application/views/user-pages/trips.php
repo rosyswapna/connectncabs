@@ -248,7 +248,7 @@ $tariffs='';
 			if(in_array('send_sms',$trip_action_allowed)){
 				
 			//echo nbs(5) ."<a href=".base_url().'trip-booking/trip-confirmation/'.$trips[$trip_index]['trip_id']." title='Send SMS' class='fa fa-mobile '></a>"; 
-			echo nbs(5) ."<span title='Send SMS' sms-trip-id=".$trips[$trip_index]['trip_id']." class='fa fa-mobile mobile-popup'></span>"; 
+			echo nbs(5) ."<a href='#' title='Send SMS' sms-trip-id=".$trips[$trip_index]['trip_id']." class='fa fa-mobile mobile-popup'></a>"; 
 			//----ends 
 			}
 			
@@ -347,7 +347,7 @@ $tariffs='';
 			}
 			//----for mobile sms starts
 			if(in_array('send_sms',$trip_action_allowed)){
-			$dbdata=array('driver_id'=>$trips[$trip_index]['driver_id'],
+			/*$dbdata=array('driver_id'=>$trips[$trip_index]['driver_id'],
 						  'pick_up_date'=>$trips[$trip_index]['pick_up_date'],	
 						  'pick_up_time'=>$trips[$trip_index]['pick_up_time'],
 						  'pick_up_city'=>$trips[$trip_index]['pick_up_city'],
@@ -357,8 +357,8 @@ $tariffs='';
 						  'mob'=>$trips[$trip_index]['customer_mobile']);
 			$this->mysession->set('d_data',$dbdata);	
 			$this->mysession->set('c_data',$dbcustomer);
-			$this->mysession->set('flag',1);	
-			echo nbs(5) ."<a href=".base_url().'trip-booking/trip-confirmation/'.$trips[$trip_index]['trip_id']." title='Send SMS' class='fa fa-mobile mobile-popup'></a>"; 
+			$this->mysession->set('flag',1);	*/
+			echo nbs(5) ."<a href='#' title='Send SMS' sms-trip-id=".$trips[$trip_index]['trip_id']." class='fa fa-mobile mobile-popup'></a>"; 
 			}
 			//----ends 
 			

@@ -2093,7 +2093,7 @@ $('.mobile-popup').click(function(){
 	var trip_id= $(this).attr('sms-trip-id');
 	
 	$.post(base_url+"/trip-booking/sms-confirmation",
-		 { trip_id:trip_id},function(data){ 
+		 { trip_id:trip_id},function(data){
 		 data=jQuery.parseJSON(data);
 		 
 		 $('#customer-msg').val(data.customer_msg);

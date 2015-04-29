@@ -572,7 +572,7 @@ AND CURDATE() BETWEEN T.pick_up_date AND T.drop_date';
 	function get_trip($id){ 
 	$org_id = $this->session->userdata('organisation_id');
 
-		$qry='SELECT IFNULL(T.guest_name,G.name) as guest_name,IFNULL(T.guest_mobile,G.mobile) as guest_info,T.drop_city,T.pick_up_date,T.pick_up_time,T.pick_up_city,D.name as driver,D.mobile as driver_info FROM trips T LEFT JOIN customers G ON G.id=T.guest_id LEFT JOIN customers C ON C.id=T.customer_id LEFT JOIN customer_groups CG ON CG.id=T.customer_group_id LEFT JOIN drivers D ON D.id=T.driver_id LEFT JOIN organisations ORG ON ORG.id = T.organisation_id where T.organisation_id='.$org_id.' AND T.id='.$id; 
+		$qry='SELECT IFNULL(T.guest_name,G.name) as guest_name,IFNULL(T.guest_mobile,G.mobile) as guest_info,C.name as customer_name,C.mobile as customer_info,T.guest_id,T.customer_id,T.drop_city,T.pick_up_date,T.pick_up_time,T.pick_up_city,D.name as driver,D.mobile as driver_info FROM trips T LEFT JOIN customers G ON G.id=T.guest_id LEFT JOIN customers C ON C.id=T.customer_id LEFT JOIN customer_groups CG ON CG.id=T.customer_group_id LEFT JOIN drivers D ON D.id=T.driver_id LEFT JOIN organisations ORG ON ORG.id = T.organisation_id where T.organisation_id='.$org_id.' AND T.id='.$id; 
 	//$this->db->where(array('id'=>$id));
 	//$this->db->from('trips');
 	$qry=$this->db->query($qry);

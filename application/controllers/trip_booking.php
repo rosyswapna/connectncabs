@@ -963,16 +963,17 @@ class Trip_booking extends CI_Controller {
 	
 		$c_contact=$this->input->post('customer-info'); 
 		$message=$this->input->post('customer-msg'); 
-		$d_contact=$this->input->post('driver-msg'); 
-		$dr_message=$this->input->post('customer-info'); 
+		$d_contact=$this->input->post('driver-info'); 
+		$dr_message=$this->input->post('driver-msg'); 
 			if($c_contact != ""){ 
-				//$this->sms->sendSms($c_contact,$message);
+				$this->sms->sendSms($c_contact,$message);
 				
 			}
 			
 			if($d_contact != ""){
-				//$this->sms->sendSms($d_contact,$dr_message);
+				$this->sms->sendSms($d_contact,$dr_message);
 			}
+			
 			$this->session->set_userdata(array('dbSuccess'=>'Message Sent Succesfully..!'));
 			$this->session->set_userdata(array('dbError'=>''));
 			redirect(base_url().'organization/front-desk/trips');
@@ -984,7 +985,7 @@ class Trip_booking extends CI_Controller {
 	$data=$this->trip_booking_model->get_trip($id);
 	$data=$data[0];
 	
-		//$message='Hi Customer, Your Trip Id: '.$id.'has been confirmed on '.$data['pick_up_date'].' '.$data['pick_up_time'].' Location :'.$data['pick_up_city'].'-'.$data['drop_city'].' Enjoy your trip.';
+		
 		$driver=$this->trip_booking_model->getDriverDetails($data['driver_id']);
 		$d_name=$driver[0]->name;
 		$d_contact=$driver[0]->mobile;
@@ -993,8 +994,8 @@ class Trip_booking extends CI_Controller {
 		$c_name=$customer[0]->name;
 		$c_contact=$customer[0]->mobile;
 		$c_email=$customer[0]->email;
-		$message='Hi Customer, Your Trip Id: '.$id.' has been confirmed on '.$data['pick_up_date'].'.Pickup time: '.$data['pick_up_time'].'.Location : '.$data['pick_up_city'].'-'.$data['drop_city'].'. Driver: '.$d_name.', '.$d_contact.'.';
-		$dr_message='Hi, Your trip id: '.$id.' had been allocated on '.$data['pick_up_date'].'. Guest details: '.$c_name.', '.$c_contact.'.Pickup: '.$data['pick_up_city'].', '.$data['pick_up_time'];
+		//$message='Hi Customer, Your Trip Id: '.$id.' has been confirmed on '.$data['pick_up_date'].'.Pickup time: '.$data['pick_up_time'].'.Location : '.$data['pick_up_city'].'-'.$data['drop_city'].'. Driver: '.$d_name.', '.$d_contact.'.';
+		//$dr_message='Hi, Your trip id: '.$id.' had been allocated on '.$data['pick_up_date'].'. Guest details: '.$c_name.', '.$c_contact.'.Pickup: '.$data['pick_up_city'].', '.$data['pick_up_time'];
 		$tbl_arry=array('vehicle_types','vehicle_ac_types','vehicle_makes','vehicle_models');
 		
 		
@@ -1013,14 +1014,14 @@ class Trip_booking extends CI_Controller {
 		$date = date('Y-m-d H:i:s');
 		
 		//if(($data['pick_up_date'].' '.$data['pick_up_time'])>=$date){
-			if($c_contact != ""){ 
+			/*if($c_contact != ""){ 
 				//$this->sms->sendSms($c_contact,$message);
 				
 			}
 			
 			if($d_contact != ""){
 				//$this->sms->sendSms($d_contact,$dr_message);
-			}
+			}*/
 			
 			
 			
@@ -1077,15 +1078,26 @@ class Trip_booking extends CI_Controller {
 	public function SmsPopUp(){
 	if(isset($_REQUEST['trip_id'])){ 
 		$data=$this->trip_booking_model->get_trip($_REQUEST['trip_id']);
-		$data=$data[0];
+		$data=$data[0]; 
 	
+		if($data['guest_name']!='' || $data['guest_info']!=''){
+			$customer_name=$data['guest_name'];
+			$customer_contact=$data['guest_info'];
+		}else{
+			$customer_id=$data['customer_id'];
+		$customer=$this->trip_booking_model->getCustomerDetails($customer_id);
+		$customer_name=$customer[0]->name;
+		$customer_contact=$customer[0]->mobile;
+		}
+		
+		
 		$message='Hi Customer, Your Trip Id: '.$_REQUEST['trip_id'].' has been confirmed on '.$data['pick_up_date'].'.Pickup time: '.$data['pick_up_time'].'.Location : '.$data['pick_up_city'].'-'.$data['drop_city'].'. Driver: '.$data['driver'].', '.$data['driver_info'].'.';
-		$dr_message='Hi, Your trip id: '.$_REQUEST['trip_id'].' had been allocated on '.$data['pick_up_date'].'. Guest details: '.$data['guest_name'].', '.$data['guest_info'].'.Pickup: '.$data['pick_up_city'].', '.$data['pick_up_time'];
+		$dr_message='Hi, Your trip id: '.$_REQUEST['trip_id'].' had been allocated on '.$data['pick_up_date'].'. Guest details: '.$customer_name.', '.$customer_contact.'.Pickup: '.$data['pick_up_city'].', '.$data['pick_up_time'];
 		$tbl_arry=array('vehicle_types','vehicle_ac_types','vehicle_makes','vehicle_models');
 		$data_sms['customer_msg']=$message;
 		$data_sms['driver_msg']=$dr_message;
-		$data_sms['guest_info']=$data['guest_info'];
-		$data_sms['driver_info']=$data['driver_info'];
+		$data_sms['guest_info']=$customer_contact;
+		$data_sms['driver_info']=$data['driver_info']; 
 		if($data_sms){
 		echo json_encode($data_sms);
 		}
