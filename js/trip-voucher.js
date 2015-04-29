@@ -195,7 +195,7 @@ $(document).ready(function(){
 					//set_tarif_row_with_daysno(data['voucher'].no_of_days);
 
 					$('.voucherno').val(data['voucher'].voucher_no);
-					$('.voucherno').attr('readonly','true');
+					//$('.voucherno').attr('readonly','true');
 
 					$('.startdt').val(formatDate_d_m_Y(data['voucher'].trip_start_date));
 					$('.enddt').val(formatDate_d_m_Y(data['voucher'].trip_end_date));
