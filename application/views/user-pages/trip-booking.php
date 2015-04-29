@@ -197,7 +197,7 @@
 									echo form_input(array('name'=>'pickupcity','class'=>'bold form-control width-96-percent-and-margin-8 dropdown-toggle mandatory','id'=>'pickupcity','placeholder'=>'Pick up City','value'=>$pickupcity));?><div class="hide-me"><?php echo form_input(array('name'=>'pickupcitylat','id'=>'pickupcitylat','value'=>$pickupcitylat)).form_input(array('name'=>'pickupcitylng','id'=>'pickupcitylng','value'=>$pickupcitylng));?></div><?php
 									echo $this->form_functions->form_error_session('pickupcity', '<p class="text-red">', '</p>');
 									 ?>
-                                            <ul class="dropdown-menu dropdown-menu-on-key-press autofill-pickupcity">
+                                           <ul class="dropdown-menu dropdown-menu-on-key-press autofill-pickupcity">
                                                 
                                             </ul>
                                         </div>
@@ -214,15 +214,15 @@
 									</div>-->
 									<div class="form-group">
 									<?php 
-									echo form_textarea((array('name'=>'pickuplandmark','class'=>'form-control width-96-percent-and-margin-8','id'=>'pickuplandmark','placeholder'=>'Pickup Landmark','value'=>$pickuplandmark,'rows'=>'2')));
+									echo form_textarea((array('name'=>'pickuplandmark','class'=>'form-control hide-me width-96-percent-and-margin-8','id'=>'pickuplandmark','placeholder'=>'Pickup Landmark','value'=>$pickuplandmark,'rows'=>'2')));
 									echo $this->form_functions->form_error_session('pickuplandmark', '<p class="text-red">', '</p>');
 									 ?>
 									</div>
-									<div class="toggle-via">
+									<!--<div class="toggle-via ">
 										<div class="form-group">
 											  <div class="input-group-btn ">
 										<?php 
-										echo form_input(array('name'=>'viacity','class'=>'form-control width-96-percent-and-margin-8','id'=>'viacity','placeholder'=>'Via City','value'=>$viacity));?><div class="hide-me"><?php echo form_input(array('name'=>'viacitylat','id'=>'viacitylat','value'=>$viacitylat)).form_input(array('name'=>'viacitylng','id'=>'viacitylng','value'=>$viacitylng));?></div><?php
+										echo form_input(array('name'=>'viacity','class'=>'form-control hide-me width-96-percent-and-margin-8','id'=>'viacity','placeholder'=>'Via City','value'=>$viacity));?><div class="hide-me"><?php echo form_input(array('name'=>'viacitylat','id'=>'viacitylat','value'=>$viacitylat)).form_input(array('name'=>'viacitylng','id'=>'viacitylng','value'=>$viacitylng));?></div><?php
 										echo $this->form_functions->form_error_session('viacity', '<p class="text-red">', '</p>');
 										 ?>
 												 <ul class="dropdown-menu dropdown-menu-on-key-press autofill-viacity">
@@ -230,19 +230,16 @@
                                           		  </ul>
                                         </div>
 										</div>
-									<!--	<div class="form-group">
-										<?php 
-										echo form_input(array('name'=>'viaarea','class'=>'form-control width-96-percent-and-margin-8' ,'id'=>'viaarea','placeholder'=>'Via Area','value'=>$viaarea));
-										echo $this->form_functions->form_error_session('viaarea', '<p class="text-red">', '</p>');
-										 ?>
-										</div>-->
+									
 										<div class="form-group">
 										<?php 
-										echo form_textarea(array('name'=>'vialandmark','class'=>'form-control width-96-percent-and-margin-8','id'=>'vialandmark','placeholder'=>'Via Landmark','value'=>$vialandmark,'rows'=>'2'));
+										echo form_textarea(array('name'=>'vialandmark','class'=>'form-control hide-me width-96-percent-and-margin-8','id'=>'vialandmark','placeholder'=>'Via Landmark','value'=>$vialandmark,'rows'=>'2'));
 										echo $this->form_functions->form_error_session('vialandmark', '<p class="text-red">', '</p>');
 										 ?>
 										</div>
-									</div>
+									</div>-->
+									<?php echo form_input(array('name'=>'viacity','class'=>'form-control hide-me width-96-percent-and-margin-8','id'=>'viacity','placeholder'=>'Via City','value'=>$viacity));?><div class="hide-me"><?php echo form_input(array('name'=>'viacitylat','id'=>'viacitylat','value'=>$viacitylat)).form_input(array('name'=>'viacitylng','id'=>'viacitylng','value'=>$viacitylng));?></div>
+									<?php echo form_textarea(array('name'=>'vialandmark','class'=>'form-control hide-me width-96-percent-and-margin-8','id'=>'vialandmark','placeholder'=>'Via Landmark','value'=>$vialandmark,'rows'=>'2'));?>
 									<div class="form-group">
 										  <div class="input-group-btn ">
 									<?php 
@@ -262,7 +259,7 @@
 									</div>-->
 									<div class="form-group">
 									<?php 
-							echo form_textarea((array('name'=>'dropdownlandmark','class'=>'form-control width-96-percent-and-margin-8','id'=>'dropdownlandmark','placeholder'=>'Drop Down Landmark','value'=>$dropdownlandmark,'rows'=>'2')));
+							echo form_textarea((array('name'=>'dropdownlandmark','class'=>'form-control hide-me width-96-percent-and-margin-8','id'=>'dropdownlandmark','placeholder'=>'Drop Down Landmark','value'=>$dropdownlandmark,'rows'=>'2')));
 										echo $this->form_functions->form_error_session('dropdownlandmark', '<p class="text-red">', '</p>');
 									 ?>
 									</div>
@@ -279,9 +276,9 @@
 									 ?>
 									</div>
 									</td>
-									<td>
+									<!--<td>
 									<?php echo anchor(base_url().$_SERVER['REQUEST_URI'].'#', 'Via','id="via"'); ?>
-									</td>
+									</td>-->
 								</tr>
 							</table>
 						</div>
