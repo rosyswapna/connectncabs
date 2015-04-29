@@ -44,7 +44,7 @@
 
 					}else{
 				?>
-				<div class="booking-source">
+				<!--<div class="booking-source">
 					<fieldset class="body-border">
 					<legend class="body-head font-size-18-px">Booking Source</legend>
 						<div class="form-group">
@@ -60,7 +60,7 @@
 						</div>
 						
 					</fieldset>
-				</div>
+				</div>-->
 				<?php } ?>
 				<div class="booking-source">
 					<fieldset class="body-border">
@@ -561,7 +561,7 @@
 						<!-- end loading -->
 					</div>
 				</div>	
-				<div class="booking-source">
+				<!--<div class="booking-source">
 					<fieldset class="body-border">
 					<legend class="body-head font-size-18-px">Rough Estimate</legend>
 						<div class="box no-border-top rough-estimate-body">
@@ -613,7 +613,7 @@
 											<tr>
 		                                        <td>Additional KM Rate<span class="float-right"> : </span></td>
 		                                        <td><div class="additional-rate-per-km"></div>
-												<!--<div class="hide-me"><?php //echo form_input(array('name'=>'additional-charge','class'=>'form-control ','id'=>'additional-charge'));?></div>--></td>
+												</td>
 		                                        
 		                                    </tr>
 											
@@ -644,10 +644,10 @@
 		                                    </tr>
                                    		</tbody>
 									</table>
-                                </div><!-- /.box-body -->
+                                </div>
                             </div>
 					</fieldset>
-				</div>
+				</div>-->
 				<div class="booking-source">
 					<fieldset class="body-border">
 					<legend class="body-head font-size-18-px">Other Information</legend>
