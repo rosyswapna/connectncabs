@@ -90,14 +90,16 @@ $(document).ready(function(){
 			ajax:'YES'
 		
 		},function(data){
-			if(data['trip']){
+			if(data['trip']){ 
 				var trip_expense = '';
 				var driver_id 		= data['trip'].driver_id;
 				var tarrif_id		= data['trip'].tariff_id;
 				var pick_up_time	= data['trip'].pick_up_time; 
 				var vehicle_model_id	= data['trip'].vehicle_model_id;
 				var vehicle_ac_type_id	= data['trip'].vehicle_ac_type_id;
-
+				var vehicle_id	= data['trip'].vehicle_id;
+				var advance_amount	= data['trip'].advance_amount;
+				
 				var payment_type_id	= data['trip'].payment_type_id;
 				var pick_up_date	= data['trip'].pick_up_date;
 				var drop_date		= data['trip'].drop_date;
@@ -150,7 +152,9 @@ $(document).ready(function(){
 				$('.company').val(company_name);
 				$('#vehicle_model_id').val(vehicle_model_id);
 				$('#vehicle_ac_type_id').val(vehicle_ac_type_id);
-				$('.vehicleno').val(vehicle_no);
+				//$('.vehicleno').val(vehicle_no);
+				$('#trip-vehicle').val(vehicle_id);
+				$('.advance-amount').val(advance_amount);
 				$('.ownership').val(ownership);
 				$('.driver_status').val(driver_status_id);
 
@@ -591,7 +595,8 @@ $(document).ready(function(){
 		remarks = $('.description').val();	
 		releasing_place=$('.releasingplace').val();
 		tariff_id=$('#trip-tariff').val();
-
+		vehicle_id=$('#trip-vehicle').val();
+		advance_amount=$('.advance-amount').val();
 		data['startdt']=startdt=$('.startdt').val();   
 		data['enddt']=enddt=$('.enddt').val();
 		data['tripstartingtime']=trip_starting_time=$('.tripstartingtime').val();
@@ -760,6 +765,8 @@ $(document).ready(function(){
 		       		trip_id:trip_id,
 				remarks:remarks,
 				tariff_id:tariff_id,
+				vehicle_id:vehicle_id,
+				advance_amount:advance_amount,
 				voucher_no:voucherno,
 				trip_end_date:enddt,
 				trip_start_date:startdt,

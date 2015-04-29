@@ -733,7 +733,8 @@ class Trip_booking extends CI_Controller {
 			$trip_data['customer_id'] 		= $_REQUEST["customer_id"];
 			$trip_data['vehicle_ac_type_id'] 	= $_REQUEST["vehicle_ac_type_id"];
 			$trip_data['guest_name'] 		= $_REQUEST["guest_name"];
-
+			$trip_data['vehicle_id'] 		= $_REQUEST["vehicle_id"];
+			$trip_data['advance_amount'] 		= $_REQUEST["advance_amount"];
 			//trip expense
 			if(isset($_REQUEST['expense'])){
 			$data['trip_expense'] = count($_REQUEST['expense'])?serialize($_REQUEST['expense']) : '';
