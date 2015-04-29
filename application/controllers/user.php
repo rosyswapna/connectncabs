@@ -499,7 +499,7 @@ class User extends CI_Controller {
 
 
 	//trip booking from front-desk and customer
-	public function ShowBookTrip($trip_id =''){
+	public function ShowBookTrip($trip_id =''){ 
 		if($this->session_check()==true || $this->customer_session_check()==true) {
 		
 			//-------------------new function call to build Trip data---------------------------------------------------------------------------------
@@ -748,7 +748,7 @@ class User extends CI_Controller {
 		$conditon = array('id'=>$trip_id,'organisation_id'=>$this->session->userdata('organisation_id'));
 		$data=$this->trip_booking_model->getDetails($conditon); 
 		$data=$data[0];
-		if($data->trip_status_id==TRIP_STATUS_PENDING || ($data->trip_status_id==TRIP_STATUS_CONFIRMED && $this->customer_session_check() != true )){
+		if($data->trip_status_id==TRIP_STATUS_PENDING || $data->trip_status_id==TRIP_STATUS_TRIP_COMPLETED|| ($data->trip_status_id==TRIP_STATUS_CONFIRMED && $this->customer_session_check() != true )){
 		
 					$return_data['trip_id']=$data->id;
 					$return_data['recurrent_continues']='';

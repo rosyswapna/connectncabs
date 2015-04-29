@@ -225,7 +225,7 @@ $tariffs='';
 						<td>
 						
 		<?php if(count($trip_action_allowed)>0){?>
-		<?php if($trips[$trip_index]['trip_status_id']==TRIP_STATUS_CONFIRMED || $trips[$trip_index]['trip_status_id']==TRIP_STATUS_PENDING ) { 
+		<?php if($trips[$trip_index]['trip_status_id']==TRIP_STATUS_CONFIRMED || $trips[$trip_index]['trip_status_id']==TRIP_STATUS_PENDING || $trips[$trip_index]['trip_status_id']==TRIP_STATUS_TRIP_COMPLETED) { 
 			
 			if(in_array('edit',$trip_action_allowed)){
 				if(isset($input_class) && $trips[$trip_index]['trip_status_id']==TRIP_STATUS_CONFIRMED ){
@@ -328,7 +328,7 @@ $tariffs='';
 						
 						<td>
 				<?php if(count($trip_action_allowed)>0){?>
-			<?php if($trips[$trip_index]['trip_status_id']==TRIP_STATUS_CONFIRMED || $trips[$trip_index]['trip_status_id']==TRIP_STATUS_PENDING ) { 
+			<?php if($trips[$trip_index]['trip_status_id']==TRIP_STATUS_CONFIRMED || $trips[$trip_index]['trip_status_id']==TRIP_STATUS_PENDING || $trips[$trip_index]['trip_status_id']==TRIP_STATUS_TRIP_COMPLETED ) { 
 			
 			if(in_array('edit',$trip_action_allowed)){
 			if(isset($input_class) && $trips[$trip_index]['trip_status_id']==TRIP_STATUS_CONFIRMED ){
