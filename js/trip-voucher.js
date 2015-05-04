@@ -99,7 +99,7 @@ $(document).ready(function(){
 				var vehicle_ac_type_id	= data['trip'].vehicle_ac_type_id;
 				var vehicle_id	= data['trip'].vehicle_id;
 				var advance_amount	= data['trip'].advance_amount;
-				
+				var trip_status_id = data['trip'].trip_status_id;
 				var payment_type_id	= data['trip'].payment_type_id;
 				var pick_up_date	= data['trip'].pick_up_date;
 				var drop_date		= data['trip'].drop_date;
@@ -128,6 +128,7 @@ $(document).ready(function(){
 	
 				$('.trip-voucher-save').attr('trip_id',trip_id);
 				$('.trip-voucher-save').attr('driver_id',driver_id);
+				$('.trip-voucher-save').attr('trip_status_id',trip_status_id);
 				$('.trip-voucher-save').attr('new_voucher',new_voucher);
 
 				$('input[name="advamount"]').val(advance_amount);
@@ -578,7 +579,8 @@ $(document).ready(function(){
 
 	    	var trip_id=$(this).attr('trip_id');
 	    	var driver_id=$(this).attr('driver_id');
-	
+		var trip_status_id=$(this).attr('trip_status_id');
+		
 	   	payment_type_id= $('#payment').val(); 
 		var combo_data={};
 		combo_data['trip-tariff']=$('#trip-tariff').val();
@@ -766,6 +768,7 @@ $(document).ready(function(){
 				remarks:remarks,
 				tariff_id:tariff_id,
 				vehicle_id:vehicle_id,
+				trip_status_id:trip_status_id,
 				advance_amount:advance_amount,
 				voucher_no:voucherno,
 				trip_end_date:enddt,

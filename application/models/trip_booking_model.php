@@ -227,8 +227,12 @@ class Trip_booking_model extends CI_Model {
 		$this->db->set('updated', 'NOW()', FALSE);
 		$this->db->update("trip_vouchers",$data);
 		$trip_id=$data['trip_id'];
-
-		$trip_data['trip_status_id'] = TRIP_STATUS_TRIP_BILLED;	
+		if($trip_data['trip_status_id']==TRIP_STATUS_TRIP_BILLED){
+			$trip_data['trip_status_id'] = TRIP_STATUS_TRIP_BILLED;
+		}elseif($trip_data['trip_status_id']==TRIP_STATUS_TRIP_INVOICED){
+			$trip_data['trip_status_id'] = TRIP_STATUS_TRIP_INVOICED;
+		}
+		
 		$trip_data['pick_up_date'] = @$data['trip_start_date'];		
 		$trip_data['drop_date'] = @$data['trip_end_date'];	
 		$trip_data['pick_up_time'] = @$data['trip_starting_time'];		
@@ -280,7 +284,7 @@ class Trip_booking_model extends CI_Model {
 	}
 	
 	function getTripVouchers(){
-$qry='SELECT TV.total_trip_amount,TV.start_km_reading,TV.end_km_reading,TV.end_km_reading,TV.releasing_place,TV.parking_fees,TV.toll_fees,TV.state_tax,TV.night_halt_charges,TV.fuel_extra_charges,TV.delivery_no,TV.invoice_no, T.id,T.pick_up_city,T.booking_date,T.drop_city,T.pick_up_date,T.pick_up_time,T.drop_date,T.drop_time,T.tariff_id FROM trip_vouchers AS TV LEFT JOIN trips AS T ON  TV.trip_id =T.id AND TV.organisation_id = '.$this->session->userdata('organisation_id').' WHERE T.organisation_id = '.$this->session->userdata('organisation_id');
+$qry='SELECT TV.total_trip_amount,TV.start_km_reading,TV.end_km_reading,TV.end_km_reading,TV.releasing_place,TV.parking_fees,TV.toll_fees,TV.state_tax,TV.night_halt_charges,TV.fuel_extra_charges,TV.delivery_no,TV.invoice_no, T.id,T.trip_status_id,T.pick_up_city,T.booking_date,T.drop_city,T.pick_up_date,T.pick_up_time,T.drop_date,T.drop_time,T.tariff_id FROM trip_vouchers AS TV LEFT JOIN trips AS T ON  TV.trip_id =T.id AND TV.organisation_id = '.$this->session->userdata('organisation_id').' WHERE T.organisation_id = '.$this->session->userdata('organisation_id');
 	$result=$this->db->query($qry);
 	$result=$result->result_array();
 	if(count($result)>0){

@@ -677,7 +677,7 @@ class Trip_booking extends CI_Controller {
 	public function tripVoucher()
 	{
 		
-		if(isset($_REQUEST['start_km_reading']) && isset($_REQUEST['end_km_reading']) && isset($_REQUEST['trip_id'])){
+		if(isset($_REQUEST['start_km_reading']) && isset($_REQUEST['end_km_reading']) && isset($_REQUEST['trip_id'])){ 
 
 			//echo "<pre>";print_r($_REQUEST);echo "</pre>";exit; 
 
@@ -731,6 +731,7 @@ class Trip_booking extends CI_Controller {
 			$data["tax_group_id"]		= $_REQUEST["tax_group"];
 
 			$trip_data['customer_id'] 		= $_REQUEST["customer_id"];
+			$trip_data["trip_status_id"]		= $_REQUEST["trip_status_id"];
 			$trip_data['vehicle_ac_type_id'] 	= $_REQUEST["vehicle_ac_type_id"];
 			$trip_data['guest_name'] 		= $_REQUEST["guest_name"];
 			$trip_data['vehicle_id'] 		= $_REQUEST["vehicle_id"];
