@@ -168,7 +168,7 @@ class Tarrif_model extends CI_Model {
 		}else{
 			$qry .= ' AND T.customer_id = '.gINVALID;
 		}
-		$qry .= ' GROUP BY T.tariff_master_id ';//echo $qry;exit;
+		$qry .= ' GROUP BY T.tariff_master_id ';
 		$result=$this->db->query($qry);
 		$result=$result->result_array();
 		return $result;

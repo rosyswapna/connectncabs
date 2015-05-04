@@ -725,6 +725,8 @@ class Trip_booking extends CI_Controller {
 			$data["driver_bata"]		= $_REQUEST["driver_bata"];
 			
 			$data["driver_id"]		= $_REQUEST["driver_id"];
+			$data["vehicle_model_id"]	= $_REQUEST["vehicle_model_id"];
+			
 			$data["total_trip_amount"]	= $_REQUEST["total_trip_amount"];
 			$data["trip_narration"]		= $_REQUEST["trip_narration"];
 			$data["payment_type_id"]	= $_REQUEST["payment_type_id"];

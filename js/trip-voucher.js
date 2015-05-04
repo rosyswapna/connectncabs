@@ -207,7 +207,12 @@ $(document).ready(function(){
 					$('.startkm').val(data['voucher'].start_km_reading);
 					$('.endkm').val(data['voucher'].end_km_reading);
 					$('#payment').val(data['voucher'].payment_type_id);
-
+					
+					if(data['voucher'].vehicle_model_id>0){
+					
+					vehicle_model_id=data['voucher'].vehicle_model_id;
+					$('#vehicle_model_id').val(data['voucher'].vehicle_model_id);
+					}
 					$('.description').val(data['voucher'].remarks);
 					$('.releasingplace').val(data['voucher'].releasing_place);
 					start_time=data['voucher'].trip_starting_time.split(':');
@@ -590,7 +595,7 @@ $(document).ready(function(){
 		customer_id=  $('#customer_id').val();
 		vehicle_ac_type_id=  $('#vehicle_ac_type_id').val();
 		guest_name=  $('#guest_name').val();
-
+		vehicle_model_id=$('#vehicle_model_id').val();
 	   
 		data['taxgroup']=$('.taxgroup').val();
 		data['voucherno']= voucherno = $('.voucherno').val();
@@ -606,6 +611,7 @@ $(document).ready(function(){
 
 		data['startkm']=startkm=$('.startkm').val();
 		data['endkm']=endkm=$('.endkm').val();
+		
 
 	   
 		no_of_days=$('.daysno').val();
@@ -768,6 +774,7 @@ $(document).ready(function(){
 				remarks:remarks,
 				tariff_id:tariff_id,
 				vehicle_id:vehicle_id,
+				vehicle_model_id:vehicle_model_id,
 				trip_status_id:trip_status_id,
 				advance_amount:advance_amount,
 				voucher_no:voucherno,
