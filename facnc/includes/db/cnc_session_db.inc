@@ -113,7 +113,7 @@ function get_cnc_voucher($id = 0)
 	$sql .= " LEFT JOIN trips trip ON voucher.trip_id = trip.id";
 	$sql .= " LEFT JOIN trip_models tripmd ON tripmd.id = trip.trip_model_id";
 	$sql .= " LEFT JOIN vehicles vehicle ON vehicle.id = trip.vehicle_id";
-	$sql .= " LEFT JOIN vehicle_models vmodels ON vmodels.id = trip.vehicle_model_id";
+	$sql .= " LEFT JOIN vehicle_models vmodels ON vmodels.id = voucher.vehicle_model_id";
 	$sql .= " LEFT JOIN tariffs ON tariffs.id = trip.tariff_id";
 	$sql .= " LEFT JOIN tariff_masters ON tariff_masters.id = tariffs.tariff_master_id";
 	$sql .= " LEFT JOIN customers cust ON cust.id = trip.customer_id";

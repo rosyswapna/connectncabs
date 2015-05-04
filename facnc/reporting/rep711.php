@@ -44,7 +44,7 @@ function get_trip($voucher = 0)
 	$sql .= " LEFT JOIN customers guest ON guest.id = trip.guest_id";
 	$sql .= " LEFT JOIN vehicles vehicle ON trip.vehicle_id = vehicle.id";
 	$sql .= " LEFT JOIN vehicle_ac_types v_ac ON trip.vehicle_ac_type_id = v_ac.id";
-	$sql .= " LEFT JOIN vehicle_models v_model ON trip.vehicle_model_id = v_model.id";
+	$sql .= " LEFT JOIN vehicle_models v_model ON voucher.vehicle_model_id = v_model.id";
 	$sql .= " WHERE voucher.id = ".db_escape($voucher);
 
 	$result = db_query($sql, "Error getting order details");
