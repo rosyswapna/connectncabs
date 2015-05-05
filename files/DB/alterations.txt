@@ -35,4 +35,6 @@ ALTER TABLE `trips`  ADD `supplier_group_id` INT(11) NOT NULL AFTER `customer_id
 
 ALTER TABLE `trips`  ADD `source_mobile` VARCHAR(15) NOT NULL AFTER `source`,  ADD `source_email` VARCHAR(60) NOT NULL AFTER `source_mobile`;
 
+May 05
 
+ALTER TABLE `trip_vouchers` ADD `vehicle_model_id` INT(11) NOT NULL AFTER `driver_id`;
