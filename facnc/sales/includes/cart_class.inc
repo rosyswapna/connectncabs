@@ -80,7 +80,7 @@ class cart
 	var $tax_group_from_cnc;
 	
 
-
+	var $add_docs = array();//add trans lines
 
 	
 	

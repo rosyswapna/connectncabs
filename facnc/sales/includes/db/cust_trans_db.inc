@@ -465,7 +465,7 @@ function get_sql_for_customer_inquiry()
    	return $sql;
 }
 
-function get_sql_for_sales_deliveries_view($selected_customer, $selected_stock_item=null)
+function get_sql_for_sales_deliveries_view($selected_customer, $selected_stock_item=null,$OutstandingOnly=false)
 {
 	/*$sql = "SELECT trans.trans_no,
 			debtor.name,
@@ -545,7 +545,17 @@ function get_sql_for_sales_deliveries_view($selected_customer, $selected_stock_i
 			debtor.curr_code,
 			Sum(line.quantity-line.qty_done) AS Outstanding,
 			Sum(line.qty_done) AS Done,
-			trans.tax_group_id			
+			trans.tax_group_id,
+			line.stock_id,
+			line.unit_price,
+			line.quantity,
+			line.qty_done,
+			line.discount_percent,
+			line.standard_cost,
+			line.src_id,
+			line.description As StockDescription,
+			line.trip_voucher,
+			line.id
 		FROM "
 		 .TB_PREF."sales_orders as sorder, "
 		 .TB_PREF."debtor_trans as trans, "
@@ -568,7 +578,7 @@ function get_sql_for_sales_deliveries_view($selected_customer, $selected_stock_i
 				
 				AND trans.debtor_no = branch.debtor_no ";
 
-	if ($_POST['OutstandingOnly'] == true) {
+	if ($_POST['OutstandingOnly'] == true || $OutstandingOnly == true) {
 		 $sql .= " AND line.qty_done < line.quantity ";
 	}
 
@@ -586,8 +596,12 @@ function get_sql_for_sales_deliveries_view($selected_customer, $selected_stock_i
 	}
 	else
 	{
-		$sql .= " AND trans.tran_date >= '".date2sql($_POST['DeliveryAfterDate'])."'";
-		$sql .= " AND trans.tran_date <= '".date2sql($_POST['DeliveryToDate'])."'";
+		if (isset($_POST['DeliveryAfterDate']) && isset($_POST['DeliveryToDate'])){
+			$sql .= " AND trans.tran_date >= '".date2sql($_POST['DeliveryAfterDate'])."'";
+			$sql .= " AND trans.tran_date <= '".date2sql($_POST['DeliveryToDate'])."'";
+		}
+		
+		
 
 		if ($selected_customer != -1)
 			$sql .= " AND trans.debtor_no=".db_escape($selected_customer)." ";
@@ -614,8 +628,16 @@ function get_sql_for_sales_deliveries_view($selected_customer, $selected_stock_i
 
 	} //end no delivery number selected
 	$sql .= " ORDER BY voucher.id DESC ";
-
+	//echo $sql;exit;
 	return $sql;
+}
+
+
+function get_deliveries_for_invoice($selected_customer){
+	$sql = get_sql_for_sales_deliveries_view($selected_customer,null,true);
+
+	//echo $sql;exit;
+	return db_query($sql, "could not get sales deliveries");
 }
 
 
