@@ -98,14 +98,18 @@ if (isset($_GET['AddedID'])) {
 	
 
 } elseif (isset($_GET['RemoveDN'])) {
-
+	$comments = '';
 	for($line_no = 0; $line_no < count($_SESSION['Items']->line_items); $line_no++) {
 		$line = &$_SESSION['Items']->line_items[$line_no];
 		if ($line->src_no == $_GET['RemoveDN']) {
 			$line->quantity = $line->qty_done;
-			$line->qty_dispatched=0;
+			$line->qty_dispatched = 0;
+			$line->trip_voucher = 0;
+		}else{
+			$comments .= " ".$line->particulars;
 		}
 	}
+	$_POST['Comments'] = $comments;
 	unset($line);
 
     // Remove also src_doc delivery note

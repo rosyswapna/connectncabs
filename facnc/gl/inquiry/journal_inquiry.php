@@ -25,19 +25,20 @@ if ($use_date_picker)
 	$js .= get_js_date_picker();
 
 if(isset($_REQUEST['inquiry_type']) && $_REQUEST['inquiry_type']=='journal'){
-$help_context=" Journal Inquiry";
+	$help_context=" Journal Inquiry";
 }else if(isset($_REQUEST['inquiry_type'])&& $_REQUEST['inquiry_type']=='payment'){
-$help_context=" Payment Inquiry";
+	$help_context=" Payment Inquiry";
 }else if(isset($_REQUEST['inquiry_type'])&& $_REQUEST['inquiry_type']=='receipt'){
-$help_context=" Receipt Inquiry";
+	$help_context=" Receipt Inquiry";
 }else if(isset($_REQUEST['inquiry_type'])&& $_REQUEST['inquiry_type']=='bankAccount'){
-$help_context=" Bank Account Transfers Inquiry";
+	$help_context=" Bank Account Transfers Inquiry";
 }else if(isset($_REQUEST['inquiry_type'])&& $_REQUEST['inquiry_type']=='customer'){
-$help_context=" Customer Inquiry";
+	$help_context="Invoice Inquiry";
+	$_POST['filterType'] = 10;
 }else if(isset($_REQUEST['inquiry_type'])&& $_REQUEST['inquiry_type']=='driver'){
-$help_context=" Driver Inquiry";
+	$help_context=" Driver Inquiry";
 }else if(isset($_REQUEST['inquiry_type'])&& $_REQUEST['inquiry_type']=='owner'){
-$help_context=" Vehicle Owner Inquiry";
+	$help_context=" Vehicle Owner Inquiry";
 }
 
 page(_($help_context), false, false, "", $js);
@@ -52,6 +53,9 @@ if (get_post('Search'))
 //--------------------------------------------------------------------------------------
 if (!isset($_POST['filterType']))
 	$_POST['filterType'] = -1;
+
+
+
 
 start_form();
 
@@ -146,7 +150,7 @@ $cols = array(
 	_("Trans #") => array('fun'=>'view_link'), 
 	_("Reference"), 
 	_("Amount") => array('type'=>'amount'),
-	_("Memo"),
+	_("Memo") => array(),
 	_("User"),
 	_("View") => array('insert'=>true, 'fun'=>'gl_link'),
 	array('insert'=>true, 'fun'=>'edit_link')
@@ -158,7 +162,7 @@ if (!check_value('AlsoClosed')) {
 
 $table =& new_db_pager('journal_tbl', $sql, $cols);
 
-$table->width = "80%";
+$table->width = "100%";
 
 display_db_pager($table);
 

@@ -137,8 +137,9 @@ function print_invoices()
 			while ($myrow2=db_fetch($result))
 			{
 				//$memo = get_comments_string(ST_SALESINVOICE, $myrow2['id']);
+				 if($myrow2["quantity"]==0) continue;
 	
-				
+				//echo "<pre>";print_r($myrow2);echo "</pre>";
 				$memo = get_comment_value(ST_CUSTDELIVERY,get_delivery_no($myrow2['src_id']));
 	
 			
@@ -181,7 +182,7 @@ function print_invoices()
 
 				$slno++;
 			}
-
+			//exit;
 
    			$DisplaySubTot = number_format2($SubTotal,$dec);//total amount
    			$DisplayFreight = number_format2($sign*$myrow["ov_freight"],$dec);

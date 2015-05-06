@@ -88,6 +88,7 @@ function write_customer_trans_detail_item($debtor_trans_type, $debtor_trans_no, 
 			unit_tax=$unit_tax,
 			discount_percent=$discount_percent,
 			standard_cost=$std_cost,
+			trip_voucher=$trip_voucher,
 			src_id=".db_escape($src_id)." WHERE
 			id=".db_escape($line_id);
 	else
