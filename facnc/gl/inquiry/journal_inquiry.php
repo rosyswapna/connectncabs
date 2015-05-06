@@ -64,7 +64,13 @@ start_row();
 
 ref_cells(_("Reference:"), 'Ref', '',null, _('Enter reference fragment or leave empty'));
 
-journal_types_list_cells(_("Type:"), "filterType");
+if(isset($_REQUEST['inquiry_type'])&& $_REQUEST['inquiry_type']=='customer'){
+	hidden('filterType');
+}else{
+	
+	journal_types_list_cells(_("Type:"), "filterType");
+}
+
 date_cells(_("From:"), 'FromDate', '', null, 0, -1, 0);
 date_cells(_("To:"), 'ToDate');
 
