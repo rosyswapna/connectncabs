@@ -135,28 +135,27 @@ if (isset($_GET['AddedID'])) {
 	$qty = $REQdn['qty_dispatched'];
 	$trip_voucher = $REQdn['voucher_id'];
 
-	//echo "<pre>";print_r($_SESSION['Items']->line_items);echo "</pre>";exit;
+	//echo "<pre>";print_r($REQdn);echo "</pre>";exit;
 
-	$_SESSION['Items']->line_items[$line_no] = new line_details(
+	if(!in_array($_GET['AddDN'],$_SESSION['Items']->add_docs)){
+
+		$_SESSION['Items']->line_items[$line_no] = new line_details(
 					$REQdn["stock_id"],$REQdn["quantity"],
 					$REQdn["unit_price"], $REQdn["discount_percent"],
 					$REQdn["qty_done"], $REQdn["standard_cost"],
 					$REQdn["StockDescription"],0, $REQdn["trans_no"],
-					@$REQdn["id"],$REQdn["trip_voucher"],@$particulars[$trans_no]);
+					@$REQdn["id"],$REQdn["trip_voucher"],@$REQdn['particulars']);
 
+		
+		$_SESSION['Items']->add_docs[] = $_SESSION['otherDNs'][$_GET['AddDN']]['trans_no'];
+
+		for($line_no = 0; $line_no < count($_SESSION['Items']->line_items); $line_no++) {
+			$line = $_SESSION['Items']->line_items[$line_no];
+			$comments .= " ".$line->particulars;
+		}
+		$_POST['Comments'] = $comments;
 	
-
-	//$_SESSION['Items']->add_to_cart($line_no, $stock_id, $qty, $price, $disc, $qty_done=0, $standard_cost=0, $description=null, $id=0, $src_no=0,
-		//$src_id=0,$trip_voucher);
-
-	$_SESSION['Items']->add_docs[] = $_SESSION['otherDNs'][$_GET['AddDN']]['trans_no'];
-
-	for($line_no = 0; $line_no < count($_SESSION['Items']->line_items); $line_no++) {
-		$comments .= " ".$line->particulars;
 	}
-	$_POST['Comments'] = $comments;
-	
-	
 }
 
 //-----------------------------------------------------------------------------
@@ -630,6 +629,12 @@ foreach ($_SESSION['Items']->line_items as $line=>$ln_itm) {
 				$ln_itm->src_no."'>" . _("Remove") . "</a>", "rowspan=$dn_line_cnt class=oddrow");
 		}
 		$dn_line_cnt--;
+	}else{
+		if ($dn_line_cnt == 0) {
+			$dn_line_cnt = $dspans[0];
+			label_cell('', "rowspan=$dn_line_cnt class=oddrow");
+		}
+		$dn_line_cnt--;
 	}
 	end_row();
 
@@ -637,13 +642,14 @@ foreach ($_SESSION['Items']->line_items as $line=>$ln_itm) {
 }
 
 
-if (isset($_GET['ModifyInvoice']) && $is_batch_invoice) {
+if (isset($_GET['ModifyInvoice']) ) {
 
 	//get other deliveries
 	$other_dn_result = get_deliveries_for_invoice($_SESSION['Items']->customer_id);
 	unset($_SESSION['otherDNs']);
 	while($row = db_fetch($other_dn_result)){
-
+		$row['particulars'] = get_comments_string(ST_CUSTDELIVERY, $row['trans_no']);
+		
 		$_SESSION['otherDNs'][$row['trans_no']] = $row;
 	}
 
@@ -658,7 +664,7 @@ if (isset($_GET['ModifyInvoice']) && $is_batch_invoice) {
 			$voucher = get_cnc_voucher($dn['trip_voucher']);
 			//echo "<pre>";print_r($dn);echo "</pre>";exit;
 
-			$memo = get_comments_string(ST_CUSTDELIVERY, $dn['trans_no']);
+			
 
 			alt_table_row_color($k);
 			label_cell($slno,'width="5%"');
@@ -670,7 +676,7 @@ if (isset($_GET['ModifyInvoice']) && $is_batch_invoice) {
 				echo $voucher['vehicle_no'];
 			echo "</td>";
 			label_cell($voucher['username'],'width="15%"');
-			label_cell($memo,'width="40%"');
+			label_cell($dn['particulars'],'width="40%"');
 	
 			$dec = get_qty_dec($dn['stock_id']);
 	
