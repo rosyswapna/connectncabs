@@ -125,7 +125,7 @@ if (isset($_GET['AddedID'])) {
 	$Ajax->activate('Items');
 } elseif (isset($_GET['AddDN'])) {
 	
-
+	$comments = '';
 	//echo "<pre>";print_r($_SESSION['Items'][$_GET['AddDN']]);echo "</pre>";exit;
 	$REQdn =  $_SESSION['otherDNs'][$_GET['AddDN']];
 	$line_no = count($_SESSION['Items']->line_items);
@@ -142,7 +142,7 @@ if (isset($_GET['AddedID'])) {
 					$REQdn["unit_price"], $REQdn["discount_percent"],
 					$REQdn["qty_done"], $REQdn["standard_cost"],
 					$REQdn["StockDescription"],0, $REQdn["trans_no"],
-					@$REQdn["src_id"],$REQdn["trip_voucher"],@$particulars[$trans_no]);
+					@$REQdn["id"],$REQdn["trip_voucher"],@$particulars[$trans_no]);
 
 	
 
@@ -151,6 +151,10 @@ if (isset($_GET['AddedID'])) {
 
 	$_SESSION['Items']->add_docs[] = $_SESSION['otherDNs'][$_GET['AddDN']]['trans_no'];
 
+	for($line_no = 0; $line_no < count($_SESSION['Items']->line_items); $line_no++) {
+		$comments .= " ".$line->particulars;
+	}
+	$_POST['Comments'] = $comments;
 	
 	
 }
@@ -641,7 +645,6 @@ if (isset($_GET['ModifyInvoice']) && $is_batch_invoice) {
 	while($row = db_fetch($other_dn_result)){
 
 		$_SESSION['otherDNs'][$row['trans_no']] = $row;
-		$dn_line_cnt++;
 	}
 
 
@@ -679,10 +682,12 @@ if (isset($_GET['ModifyInvoice']) && $is_batch_invoice) {
 
 			amount_cell($line_total);
 
-
-			label_cell("<a href='" . $_SERVER['PHP_SELF'] . "?AddDN=".
+			if ($dn_line_cnt == 0) {
+				$dn_line_cnt = $dspans[0];
+				label_cell("<a href='" . $_SERVER['PHP_SELF'] . "?AddDN=".
 					$dn['trans_no']."'>" . _("Add") . "</a>", "rowspan=$dn_line_cnt class=oddrow");
-			//$dn_line_cnt--;
+			}
+			$dn_line_cnt--;
 	
 			end_row();
 
