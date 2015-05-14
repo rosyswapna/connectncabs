@@ -642,10 +642,11 @@ foreach ($_SESSION['Items']->line_items as $line=>$ln_itm) {
 }
 
 
-if (isset($_GET['ModifyInvoice']) ) {
+//if (isset($_GET['ModifyInvoice']) ) {
 
 	//get other deliveries
-	$other_dn_result = get_deliveries_for_invoice($_SESSION['Items']->customer_id);
+$other_dn_result = get_deliveries_for_invoice($_SESSION['Items']->customer_id);
+if($other_dn_result){
 	unset($_SESSION['otherDNs']);
 	while($row = db_fetch($other_dn_result)){
 		$row['particulars'] = get_comments_string(ST_CUSTDELIVERY, $row['trans_no']);
