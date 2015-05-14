@@ -128,7 +128,7 @@ function print_invoices()
 			$baccount['payment_service'] = $pay_service;
 			$rep->SetCommonData($myrow, $branch, $sales_order, $baccount, ST_SALESINVOICE, $contacts);
 			$rep->NewPage();
-   			$result = get_customer_trans_details(ST_SALESINVOICE, $i);
+   			$result = get_customer_trans_details(ST_SALESINVOICE, $i,'trips.pick_up_date ASC');
 			$SubTotal = 0;
 			$slno = 1;
 			$advanceTotal = 0;
