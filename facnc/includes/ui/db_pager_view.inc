@@ -89,7 +89,6 @@ function display_db_pager(&$pager) {
 	    else	
 			alt_table_row_color($cc);
 	    foreach ($pager->columns as $k=>$col) {
-		   $colwidth = isset($col['width']) ? 'width='.$col['width'] : '';
 		   $coltype = $col['type'];
 		   $cell = isset($col['name']) ? $row[$col['name']] : '';
 
@@ -135,9 +134,9 @@ function display_db_pager(&$pager) {
 		    default:
 //		    case 'text':
 			  if (isset( $col['align']))
-			  	  label_cell($cell, "align='" . $col['align'] . "' ".$colwidth);
+			  	  label_cell($cell, "align='" . $col['align'] . "'");
 			  else
-			  	  label_cell($cell,$colwidth);
+			  	  label_cell($cell);
 		    case 'skip':	// column not displayed
 	  	  }
 	  }
