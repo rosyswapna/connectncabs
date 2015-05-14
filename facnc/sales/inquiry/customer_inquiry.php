@@ -290,7 +290,7 @@ if($_POST['filterType'] == 1){
 	$cols = array(
 	_("Invoice ID"),
 	_("Customer"),//_("Company"),
-	_("Trip(s)") => array('fun'=>'trip_ids', 'ord'=>''),
+	_("Trip(s)") => array('fun'=>'trip_ids', 'ord'=>'','width'=>4),
 	_("Voucher(s)") => array('fun'=>'vouchers', 'ord'=>''), 
 	_("Trip Date") => array('fun'=>'trip_date','ord'=>''),
 	_("Invoice Date") => array('type'=>'date', 'ord'=>''),
