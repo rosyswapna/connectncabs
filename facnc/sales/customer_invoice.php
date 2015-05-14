@@ -103,6 +103,7 @@ if (isset($_GET['AddedID'])) {
 		
 		$line = &$_SESSION['Items']->line_items[$line_no];
 		if ($line->src_no == $_GET['RemoveDN']) {
+			$line->voucher_inv_remove = $line->trip_voucher;
 			$line->quantity = $line->qty_done;
 			$line->qty_dispatched = 0;
 			$line->trip_voucher = 0;

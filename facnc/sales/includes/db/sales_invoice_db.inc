@@ -113,6 +113,12 @@ function write_sales_invoice(&$invoice)
 			$invoice_line->standard_cost, $invoice_line->src_id,
 			$trans_no ? $invoice_line->id : 0,$invoice_line->trip_voucher,$invoice_line->unit_taxable_amount);
 
+		//reset trip voucher as bill generated
+		if($invoice_line->trip_voucher == 0){
+				reset_invoiced_trip_as_delivered($invoice_line->voucher_inv_remove);
+				$invoice_line->voucher_inv_remove = 0;
+		}
+
 		// Update delivery items for the quantity invoiced
 		if ($invoice_line->qty_old != $invoice_line->qty_dispatched)
 			update_parent_line(ST_SALESINVOICE, $invoice_line->src_id, ($invoice_line->qty_dispatched-$invoice_line->qty_old));

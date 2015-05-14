@@ -12,6 +12,7 @@
 //----------------------------------------------------------------------------------
 //	FrontAccounting system transaction types
 //
+define('TRIP_STATUS_TRIP_DELIVERED', 8);
 define('TRIP_STATUS_TRIP_INVOICED', 9);
 define('ST_JOURNAL', 0);
 

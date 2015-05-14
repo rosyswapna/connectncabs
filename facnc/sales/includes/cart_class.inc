@@ -635,6 +635,7 @@ class line_details
 	var $qty_dispatched;
 	var $qty_old = 0;
 	var $trip_voucher = 0;
+	var $voucher_inv_remove=0;
 	var $unit_taxable_amount;
 
 
