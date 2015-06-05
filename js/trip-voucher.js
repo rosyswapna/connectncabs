@@ -632,17 +632,34 @@ $(document).ready(function(){
 		trip_narration="Minimum ";
 		if($('.totalamount').attr('amount-class-to-be-selected')=='totalhramount'){
 	    		var base_km_hr='H';
-			 trip_narration=trip_narration+basehr+' Hr @  Rs.'+basehramount+' for '+no_of_days+' day(s)';
-			 if(adthr!= ''){
-			 	trip_narration=trip_narration+' + Additional '+adthr+' Hr @  Rs.'+adthrrate+'/Hr';
-			 }
-			 
+			if(basehr==0){
+				if(adthr!= ''){
+					trip_narration='Total '+adthr+' Hr @  Rs.'+adthrrate+'/Hr';
+				 }else{
+				 trip_narration="";
+				 }
+			}else{
+				 trip_narration=trip_narration+basehr+' Hr @  Rs.'+basehramount+' for '+no_of_days+' day(s)';
+				 
+				 if(adthr!= ''){
+					trip_narration=trip_narration+' + Additional '+adthr+' Hr @  Rs.'+adthrrate+'/Hr';
+				 }
+			} 
 		}else if($('.totalamount').attr('amount-class-to-be-selected')=='totalkmamount'){
 	 		var base_km_hr='K';
-			trip_narration=trip_narration+basekm+' KM @ Rs. '+basekmamount+' for '+no_of_days+' day(s)';
-			if(Number(adtkm) > 0){
-			 	trip_narration=trip_narration+ ' + Additional '+adtkm+' KM @  Rs.'+adtkmrate+'/KM';
-			}	
+			if(basekm==0){
+				if(Number(adtkm) > 0){
+					trip_narration= 'Total '+adtkm+' KM @  Rs.'+adtkmrate+'/KM';
+				}else{
+					trip_narration="";
+				}
+			}else{
+			
+				trip_narration=trip_narration+basekm+' KM @ Rs. '+basekmamount+' for '+no_of_days+' day(s)';
+				if(Number(adtkm) > 0){
+					trip_narration=trip_narration+ ' + Additional '+adtkm+' KM @  Rs.'+adtkmrate+'/KM';
+				}
+			}
 		}
 	    
 		data['basedriverkm']=driverbasekm=$('.basedriverkm').val();
