@@ -127,13 +127,15 @@ if (isset($_GET['OrderNumber']) && $_GET['OrderNumber'] > 0) {
 	//echo "</pre>";
 	//exit;
 
-	if ($_SESSION['Items']->count_items() == 0) {
+	/*if ($_SESSION['Items']->count_items() == 0) {
 		hyperlink_params($path_to_root . "/sales/inquiry/customer_inquiry.php",
 			_("Select a different delivery"), "OutstandingOnly=1");
+			
+			
 		echo "<br><center><b>" . _("This delivery has all items invoiced. There is nothing to modify.") .
 			"</center></b>";
 		display_footer_exit();
-	}
+	}*/
 
 	copy_from_cart();
 	
@@ -514,9 +516,9 @@ div_start('Items');
 	foreach ($_SESSION['Items']->line_items as $line=>$ln_itm) {
 		$line_total = $ln_itm->cnc_line_amount;
 		$total += $line_total;
-		if ($ln_itm->quantity==$ln_itm->qty_done) {
+		/*if ($ln_itm->quantity==$ln_itm->qty_done) {
 			continue; //this line is fully delivered
-		}
+		}*/
 		
 		// if it's a non-stock item (eg. service) don't show qoh
 		$row_classes = null;

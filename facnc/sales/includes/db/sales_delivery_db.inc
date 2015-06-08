@@ -312,4 +312,5 @@ function void_sales_delivery($type, $type_no, $transactions=true)
 	if ($transactions)
 		commit_transaction();
 }
+	
 ?>
