@@ -74,7 +74,7 @@ if (isset($_POST['submit']) && can_process())
 		'past_due_days', 'default_workorder_required', 'default_dim_required',
 		'default_delivery_required', 'grn_clearing_act',
 		'allow_negative_stock'=> 0, 'accumulate_shipping'=> 0,
-		'po_over_receive' => 0.0, 'po_over_charge' => 0.0, 'default_credit_limit'=>0.0,'salary_act'
+		'po_over_receive' => 0.0, 'po_over_charge' => 0.0, 'default_credit_limit'=>0.0,'salary_act','tds_act'
 )));
 
 	display_notification(_("The general GL setup has been updated."));
@@ -140,6 +140,8 @@ $_POST['default_workorder_required'] = $myrow['default_workorder_required'];
 $_POST['default_dim_required'] = $myrow['default_dim_required'];
 $_POST['default_delivery_required'] = $myrow['default_delivery_required'];
 
+$_POST['tds_act'] = $myrow["tds_act"];
+
 //---------------
 
 
@@ -166,6 +168,8 @@ check_row(_("Accumulate batch shipping:"), 'accumulate_shipping', null);
 textarea_row(_("Legal Text on Invoice:"), 'legal_text', $_POST['legal_text'], 32, 3);
 
 gl_all_accounts_list_row(_("Shipping Charged Account:"), 'freight_act', $_POST['freight_act']);
+
+gl_all_accounts_list_row(_("TDS Account:"), 'tds_act', $_POST['tds_act']);
 
 //---------------
 

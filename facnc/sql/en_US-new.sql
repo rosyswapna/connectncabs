@@ -313,7 +313,8 @@ INSERT INTO `0_chart_master` (`account_code`, `account_code2`, `account_name`, `
 ('2041', '', 'Night Halt', '4', 0),
 ('2051', '', 'Servie Tax', '4', 0),
 ('2052', '', 'Education Cess', '4', 0),
-('2053', '', 'Higher Education Cess', '4', 0);
+('2053', '', 'Higher Education Cess', '4', 0),
+('2391', '', 'Tax Deducted at Source', '4', '0');
 
 -- --------------------------------------------------------
 
@@ -1660,7 +1661,8 @@ INSERT INTO `0_sys_prefs` (`name`, `category`, `type`, `length`, `value`) VALUES
 ('default_payment_terms', 'setup.company', 'int', 11, '4'),
 ('invoice_template', 'setup.company', 'int', 11, '107'),
 ('tax_no', 'setup.company', 'varchar', 25, ''),
-('pan_no', 'setup.company', 'varchar', 25, '');
+('pan_no', 'setup.company', 'varchar', 25, ''),
+('tds_act', 'glsetup.customer', 'varchar', '15', '2391');
 
 -- --------------------------------------------------------
 
