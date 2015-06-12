@@ -258,9 +258,21 @@ function can_process()
 		$_POST['discount'] = 0;
 	}
 
+	if (@$_POST['tds'] == "") 
+	{
+		$_POST['tds'] = 0;
+	}
+
 	if (!check_num('discount')) {
 		display_error(_("The entered discount is not a valid number."));
 		set_focus('discount');
+		return false;
+	}
+
+	
+	if (!check_num('tds')) {
+		display_error(_("The entered TDS is not a valid number."));
+		set_focus('tds');
 		return false;
 	}
 
@@ -408,6 +420,7 @@ start_form();
 		$_SESSION['alloc']->set_person($customer['debtor_no'], PT_CUSTOMER);
 		$_SESSION['alloc']->read();
 		$_POST['discount'] = '';
+		$_POST['tds'] = '';
 		if(!isset($_POST['amount']))
 			$_POST['amount']='';
 		if(!isset($_POST['memo_']))
@@ -431,7 +444,7 @@ start_form();
 		if (list_updated('customer_id') || ($new && list_updated('bank_account'))) {
 			$_SESSION['alloc']->set_person($_POST['customer_id'], PT_CUSTOMER);
 			$_SESSION['alloc']->read();
-			$_POST['memo_'] = $_POST['amount'] = $_POST['discount'] = '';
+			$_POST['memo_'] = $_POST['amount'] = $_POST['discount'] = $_POST['tds'] = '';
 			$Ajax->activate('alloc_tbl');
 		}
 
@@ -478,6 +491,8 @@ start_form();
 	label_row(_("Customer prompt payment discount :"), $display_discount_percent);
 
 	amount_row(_("Amount of Discount:"), 'discount', null, '', $cust_currency);
+
+	amount_row(_("Amount of TDS:"), 'tds', null, '', $cust_currency);
 
 	
 	amount_row(_("Amount:"), 'amount', null, '', $cust_currency);
