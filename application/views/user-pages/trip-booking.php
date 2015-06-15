@@ -92,7 +92,7 @@
 
 								 ?>
 	
-		<ul class="autofill autofill-customer"></ul>
+		<ul class="auto-fill autofill-customer"></ul>
 				
 								<div class="hide-me"><?php echo form_input(array('name'=>'new_customer','class'=>'form-control new-customer','value'=>$new_customer)); ?></div>
 								</div>

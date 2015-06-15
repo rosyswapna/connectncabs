@@ -38,6 +38,10 @@ class Trip_booking extends CI_Controller {
 		
 				$this->getCustomers();
 			
+			}else if($param2=='getCustomersName') {
+		
+				$this->getCustomersName();
+			
 			}else if($param2=='getVehicleDriverPercentages') {
 		
 				$this->getVehicleDriverPercentages();
@@ -929,6 +933,27 @@ class Trip_booking extends CI_Controller {
 						'name'=>$customer['name'],
 						'email'=>$customer['email'],
 						'mobile'=>$customer['mobile']);
+			}
+			echo json_encode($retArray);
+		}else{
+			echo 'false';
+		}
+			
+	}
+	
+	public function getCustomersName()
+	{
+		$term = $_REQUEST['term'];
+		$customers = $this->customers_model->getArrayByName($term);
+		$retArray = array();
+		$jsondata ='';
+		if($customers){
+			foreach($customers as $customer){
+				$retArray[] = array(
+						
+						'name'=>$customer['name']
+						
+						);
 			}
 			echo json_encode($retArray);
 		}else{
