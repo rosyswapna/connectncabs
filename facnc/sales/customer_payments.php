@@ -321,7 +321,7 @@ if (get_post('AddPaymentItem') && can_process()) {
 	//Chaitanya : 13-OCT-2011 - To support Edit feature
 	$payment_no = write_customer_payment($_SESSION['alloc']->trans_no, $_POST['customer_id'], $_POST['BranchID'],
 		$_POST['bank_account'], $_POST['DateBanked'], $_POST['ref'],
-		input_num('amount'), input_num('discount'), $_POST['memo_'], 0, input_num('charge'), input_num('bank_amount', input_num('amount')));
+		input_num('amount'), input_num('discount'), $_POST['memo_'], 0, input_num('charge'), input_num('bank_amount', input_num('amount')), input_num('tds'));
 
 	$_SESSION['alloc']->trans_no = $payment_no;
 	$_SESSION['alloc']->write();
@@ -387,6 +387,8 @@ if (isset($_GET['trans_no']) && $_GET['trans_no'] > 0 )
 	$_POST["bank_amount"] = price_format($myrow['bank_amount']+$charge);
 	$_POST["discount"] = price_format($myrow['ov_discount']);
 	$_POST["memo_"] = get_comments_string(ST_CUSTPAYMENT,$_POST['trans_no']);
+
+	$_POST["tds"] = price_format($myrow['ov_tds']);
 
 	//Prepare allocation cart 
 	if (isset($_POST['trans_no']) && $_POST['trans_no'] > 0 )
