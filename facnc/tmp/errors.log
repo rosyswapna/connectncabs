@@ -2814,3 +2814,7 @@
 [15-Jun-2015 12:33:18 Asia/Kolkata] 1:divya:connect_db.inc:27: mysql_connect(): The mysql extension is deprecated and will be removed in the future: use mysqli or PDO instead
 [15-Jun-2015 12:33:18 Asia/Kolkata] 1:divya:connect_db.inc:27: mysql_connect(): The mysql extension is deprecated and will be removed in the future: use mysqli or PDO instead
 [15-Jun-2015 12:33:18 Asia/Kolkata] 1:divya:connect_db.inc:27: mysql_connect(): The mysql extension is deprecated and will be removed in the future: use mysqli or PDO instead
+[15-Jun-2015 13:48:02 Asia/Kolkata] 1:divya:connect_db.inc:27: mysql_connect(): The mysql extension is deprecated and will be removed in the future: use mysqli or PDO instead
+[15-Jun-2015 13:48:02 Asia/Kolkata] 1:divya:connect_db.inc:27: mysql_connect(): The mysql extension is deprecated and will be removed in the future: use mysqli or PDO instead
+[15-Jun-2015 13:48:02 Asia/Kolkata] 1:divya:connect_db.inc:27: mysql_connect(): The mysql extension is deprecated and will be removed in the future: use mysqli or PDO instead
+[15-Jun-2015 13:48:03 Asia/Kolkata] 1:divya:connect_db.inc:27: mysql_connect(): The mysql extension is deprecated and will be removed in the future: use mysqli or PDO instead
