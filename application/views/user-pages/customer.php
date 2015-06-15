@@ -273,6 +273,8 @@
 					<td>Total</td>
 					<td></td>
 					<td></td>
+					<td></td>
+					<td></td>
 					<td><?php echo $full_tot_km; ?></td>
 					<td></td>
 					<td><?php echo number_format($total_trip_amount,2); ?></td>

@@ -36,7 +36,9 @@ $mobile='';
 				<tbody>
 					<tr>
 						<!--<td><?php echo form_input(array('name'=>'customer','id'=>'name','class'=>'customer form-control' ,'placeholder'=>'Customer name','value'=>$customer)); ?></td>-->
-					    <td><?php echo form_input(array('name'=>'customer','id'=>'name','class'=>'customer form-control' ,'placeholder'=>'Customer Name','value'=>$customer)); ?></td>
+					    <td><?php echo form_input(array('name'=>'customer','id'=>'name','class'=>'customer form-control' ,'placeholder'=>'Customer Name','value'=>$customer,'autocomplete'=>'off')); ?>
+					    <ul class="auto-fill autofill-customer-name"></ul>
+					    </td>
 					<td><?php echo form_input(array('name'=>'mobile','id'=>'mobile','class'=>'mobile form-control' ,'placeholder'=>'Mobile Number','value'=>$mobile)); ?></td>
 						<td><?php $class="form-control";
 							  $id='c_type';

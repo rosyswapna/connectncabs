@@ -1732,7 +1732,7 @@ public function profile() {
 		$tripsTable = $totalTable = array();
 
 		//trips table column header
-		$tripsTable['theader'] = array("Trip ID","Date","Days","Total Km","Total Hrs","Over Time","Trip Amount","Trip %","Halt","Bata");
+		$tripsTable['theader'] = array("Trip ID","Voucher","Date","Days","Total Km","Total Hrs","Over Time","Trip Amount","Trip %","Halt","Bata");
 			
 		//total table column header
 		$totalTable['theader'] = array(
@@ -1770,7 +1770,7 @@ public function profile() {
 					$over_time = 0;
 
 			
-				$tdata[$i] = array($trip['trip_id'],$trip['pick_up_date'],$trip['no_of_days'],$trip_km,$trip_hrs,$over_time,number_format($trip['driver_trip_amount'],2),number_format($trip['driver_payment_amount'],2),number_format($trip['night_halt_charges'],2),number_format($trip['driver_bata'],2)
+				$tdata[$i] = array($trip['trip_id'],$trip['voucher_no'],$trip['pick_up_date'],$trip['no_of_days'],$trip_km,$trip_hrs,$over_time,number_format($trip['driver_trip_amount'],2),number_format($trip['driver_payment_amount'],2),number_format($trip['night_halt_charges'],2),number_format($trip['driver_bata'],2)
 					);
 
 				$expenseValue = unserialize($trip['trip_expense']);
@@ -2142,7 +2142,7 @@ public function profile() {
 		$tripsTable = $totalTable = array();
 
 		//trips table column header
-		$tripsTable['theader'] = array("Trip Id","Date","Days","Total Km","Trip Amount","Trip %");
+		$tripsTable['theader'] = array("Trip Id","Voucher","Date","Days","Total Km","Trip Amount","Trip %");
 			
 		//total table column header
 		$totalTable['theader'] = array(
@@ -2185,7 +2185,7 @@ public function profile() {
 							
 				}
 
-				$tdata[$i] = array($trip['id'],$trip['pick_up_date'],$no_of_days,$trip_km,number_format($trip['vehicle_trip_amount'],2),number_format($trip['vehicle_payment_amount'],2)
+				$tdata[$i] = array($trip['id'],$trip['voucher_no'],$trip['pick_up_date'],$no_of_days,$trip_km,number_format($trip['vehicle_trip_amount'],2),number_format($trip['vehicle_payment_amount'],2)
 					);
 
 				$expenseValue = unserialize($trip['trip_expense']);
