@@ -14,7 +14,7 @@
 //	FIXME - this should be revised for transaction update case.
 //
 function write_supp_trans($type, $trans_no, $supplier_id, $date_, $due_date, $reference, $supp_reference,
-	$amount, $amount_tax, $discount, $err_msg="", $rate=0, $included=0)
+	$amount, $amount_tax, $discount, $err_msg="", $rate=0, $included=0,$tds=0)
 {
 	$new = $trans_no==0;
 	$date = date2sql($date_);
@@ -33,11 +33,11 @@ function write_supp_trans($type, $trans_no, $supplier_id, $date_, $due_date, $re
 
 
 	$sql = "INSERT INTO ".TB_PREF."supp_trans (trans_no, type, supplier_id, tran_date, due_date,
-		reference, supp_reference, ov_amount, ov_gst, rate, ov_discount, tax_included) ";
+		reference, supp_reference, ov_amount, ov_gst, rate, ov_discount, tax_included, ov_tds) ";
 	$sql .= "VALUES (".db_escape($trans_no).", ".db_escape($type)
 	.", ".db_escape($supplier_id).", '$date', '$due_date',
 		".db_escape($reference).", ".db_escape($supp_reference).", ".db_escape($amount)
-		.", ".db_escape($amount_tax).", ".db_escape($rate).", ".db_escape($discount).", ".db_escape($included).")";
+		.", ".db_escape($amount_tax).", ".db_escape($rate).", ".db_escape($discount).", ".db_escape($included).",".db_escape($tds).")";
 
 	if ($err_msg == "")
 		$err_msg = "Cannot insert a supplier transaction record";
@@ -52,7 +52,7 @@ function write_supp_trans($type, $trans_no, $supplier_id, $date_, $due_date, $re
 
 function get_supp_trans($trans_no, $trans_type=-1)
 {
-	$sql = "SELECT ".TB_PREF."supp_trans.*, (".TB_PREF."supp_trans.ov_amount+".TB_PREF."supp_trans.ov_gst+".TB_PREF."supp_trans.ov_discount) AS Total,
+	$sql = "SELECT ".TB_PREF."supp_trans.*, (".TB_PREF."supp_trans.ov_amount+".TB_PREF."supp_trans.ov_gst+".TB_PREF."supp_trans.ov_discount+".TB_PREF."supp_trans.ov_tds) AS Total,
 		".TB_PREF."suppliers.supp_name AS supplier_name, ".TB_PREF."suppliers.curr_code AS curr_code ";
 
 	if ($trans_type == ST_SUPPAYMENT || $trans_type == ST_BANKPAYMENT)
@@ -176,7 +176,7 @@ function get_sql_for_supplier_inquiry($filter, $after_date, $to_date, $supplier_
     	trans.tran_date, 
 		trans.due_date,
 		supplier.curr_code, 
-    	(trans.ov_amount + trans.ov_gst  + trans.ov_discount) AS TotalAmount, 
+    	(trans.ov_amount + trans.ov_gst  + trans.ov_discount + trans.ov_tds) AS TotalAmount, 
 		trans.alloc AS Allocated,
 		((trans.type = ".ST_SUPPINVOICE." OR trans.type = ".ST_SUPPCREDIT.") AND trans.due_date < '" . date2sql(Today()) . "') AS OverDue,
     	(ABS(trans.ov_amount + trans.ov_gst  + trans.ov_discount) - trans.alloc <= ".FLOAT_COMP_DELTA.") AS Settled

@@ -21,7 +21,7 @@
 	$charge - in bank currency
 */
 function write_customer_payment($trans_no, $customer_id, $branch_id, $bank_account,
-	$date_, $ref, $amount, $discount, $memo_, $rate=0, $charge=0, $bank_amount=0,$tds)
+	$date_, $ref, $amount, $discount, $memo_, $rate=0, $charge=0, $bank_amount=0,$tds=0)
 {
 	global $Refs;
 
@@ -97,7 +97,7 @@ function write_customer_payment($trans_no, $customer_id, $branch_id, $bank_accou
 	}
 
 	//tds gl entry
-	$tds_account = $company_record["tds_act"];
+	$tds_account = $company_record["sales_tds_act"];
 	if ($tds != 0)	{
 		/* Now Debit discount account with discounts allowed*/
 		$total += add_gl_trans_customer(ST_CUSTPAYMENT, $payment_no, $date_,
