@@ -223,6 +223,8 @@
 						<th>SlNo</th>
 					    <th>Date</th>
 					    <th>Route</th>
+					     <th>Trip</th>
+					      <th>Voucher</th>
 						<th>Kilometers</th>
 						<th>No Of Days</th>
 						<!--<th>Releasing Place</th>-->
@@ -256,6 +258,8 @@
 							<td><?php echo $trip_index+1; ?></td>
 							<td><?php echo $trips[$trip_index]['pick_up_date']; ?></td>
 							<td><?php echo $trips[$trip_index]['pick_up_city'].' to '.$trips[$trip_index]['drop_city']; ?></td>
+							<td><?php echo $trips[$trip_index]['id']; ?></td>
+							<td><?php if(isset($trips[$trip_index]['voucher_no'])){echo $trips[$trip_index]['voucher_no'];}else {echo '';} ?></td>
 							<td><?php echo number_format($tot_km,2); ?></td>
 							<td><?php echo $no_of_days; ?></td>
 							<!--<td><?php //echo $trips[$trip_index]['releasing_place'];?></td>-->
