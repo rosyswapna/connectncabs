@@ -74,7 +74,7 @@ if (isset($_POST['submit']) && can_process())
 		'past_due_days', 'default_workorder_required', 'default_dim_required',
 		'default_delivery_required', 'grn_clearing_act',
 		'allow_negative_stock'=> 0, 'accumulate_shipping'=> 0,
-		'po_over_receive' => 0.0, 'po_over_charge' => 0.0, 'default_credit_limit'=>0.0,'salary_act','tds_act'
+		'po_over_receive' => 0.0, 'po_over_charge' => 0.0, 'default_credit_limit'=>0.0,'salary_act','sales_tds_act','purchase_tds_act'
 )));
 
 	display_notification(_("The general GL setup has been updated."));
@@ -140,7 +140,8 @@ $_POST['default_workorder_required'] = $myrow['default_workorder_required'];
 $_POST['default_dim_required'] = $myrow['default_dim_required'];
 $_POST['default_delivery_required'] = $myrow['default_delivery_required'];
 
-$_POST['tds_act'] = $myrow["tds_act"];
+$_POST['sales_tds_act'] = $myrow["sales_tds_act"];
+$_POST['purchase_tds_act'] = $myrow["purchase_tds_act"];
 
 //---------------
 
@@ -169,7 +170,7 @@ textarea_row(_("Legal Text on Invoice:"), 'legal_text', $_POST['legal_text'], 32
 
 gl_all_accounts_list_row(_("Shipping Charged Account:"), 'freight_act', $_POST['freight_act']);
 
-gl_all_accounts_list_row(_("TDS Account:"), 'tds_act', $_POST['tds_act']);
+gl_all_accounts_list_row(_("Sales TDS Account:"), 'sales_tds_act', $_POST['sales_tds_act']);
 
 //---------------
 
@@ -214,6 +215,8 @@ gl_all_accounts_list_row(_("Purchase Discount Account:"), 'pyt_discount_act', $_
 gl_all_accounts_list_row(_("GRN Clearing Account:"), 'grn_clearing_act', get_post('grn_clearing_act'), true, false, _("No postings on GRN"));
 
 gl_all_accounts_list_row(_("Wages Account:"), 'salary_act', $_POST['salary_act']);
+
+gl_all_accounts_list_row(_("Purchase TDS Account:"), 'purchase_tds_act', $_POST['purchase_tds_act']);
 
 table_section_title(_("Inventory"));
 
