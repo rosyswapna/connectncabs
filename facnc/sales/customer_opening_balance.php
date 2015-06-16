@@ -42,7 +42,7 @@ if ($use_date_picker) {
 $_SESSION['page_title'] = _($help_context = "Opening Balance");
 page($_SESSION['page_title'], false, false, "", $js);
 
-if (isset($_GET['OpeningBalance']) && is_numeric($_GET['OpeningBalance'])) {
+if (isset($_GET['OpeningBalance'])) {
 	create_cart(ST_SALESINVOICE, 0);
 }
 //-----------------------------------------------------------------------------
@@ -184,17 +184,19 @@ function line_start_focus() {
 }
 
 //--------------------------------------------------------------------------------
-function can_process() {
-	global $Refs;
 
-	if (!get_post('customer_id')) 
+function can_process() { 
+	global $Refs;
+	
+	
+	if (!$_GET['OpeningBalance']) 
 	{
 		display_error(_("There is no customer selected."));
 		set_focus('customer_id');
 		return false;
 	} 
 	
-	if (!get_post('branch_id')) 
+	/*if (!get_post('branch_id')) 
 	{
 		display_error(_("This customer has no branch defined."));
 		set_focus('branch_id');
@@ -205,7 +207,7 @@ function can_process() {
 		display_error(_("The entered date is invalid."));
 		set_focus('OrderDate');
 		return false;
-	}
+	}*/
 	if ($_SESSION['Items']->trans_type!=ST_SALESORDER && $_SESSION['Items']->trans_type!=ST_SALESQUOTE && !is_date_in_fiscalyear($_POST['OrderDate'])) {
 		display_error(_("The entered date is not in fiscal year"));
 		set_focus('OrderDate');
@@ -558,31 +560,11 @@ if (isset($_POST['CancelItemChanges'])) {
 check_db_has_customer_branches(_("There are no customers, or there are no customers with branches. Please define customers and customer branches."));
 
 if ($_SESSION['Items']->trans_type == ST_SALESINVOICE) {
-	$idate = _("Invoice Date:");
+	$idate = _("Date:");
 	$orderitems = _("Opening Balance Details");
 	$deliverydetails = _("Enter Delivery Details and Confirm Invoice");
-	$cancelorder = _("Cancel Invoice");
-	$porder = _("Place Invoice");
-} elseif ($_SESSION['Items']->trans_type == ST_CUSTDELIVERY) {
-	$idate = _("Delivery Date:");
-	$orderitems = _("Delivery Note Items");
-	$deliverydetails = _("Enter Delivery Details and Confirm Dispatch");
-	$cancelorder = _("Cancel Delivery");
-	$porder = _("Place Delivery");
-} elseif ($_SESSION['Items']->trans_type == ST_SALESQUOTE) {
-	$idate = _("Quotation Date:");
-	$orderitems = _("Sales Quotation Items");
-	$deliverydetails = _("Enter Delivery Details and Confirm Quotation");
-	$cancelorder = _("Cancel Quotation");
-	$porder = _("Place Quotation");
-	$corder = _("Commit Quotations Changes");
-} else {
-	$idate = _("Order Date:");
-	$orderitems = _("Sales Order Items");
-	$deliverydetails = _("Enter Delivery Details and Confirm Order");
-	$cancelorder = _("Cancel Order");
-	$porder = _("Place Order");
-	$corder = _("Commit Order Changes");
+	
+	
 }
 start_form();
 
@@ -631,7 +613,7 @@ if(isset($_GET['NewDelivery']) && $_GET['NewDelivery'] > 0){
 
 
 hidden('cart_id');
-$customer_error = display_order_header($_SESSION['Items'],
+$customer_error = display_opening_balance_header($_SESSION['Items'],
 	($_SESSION['Items']->any_already_delivered() == 0), $idate,$cnc_voucher);
 
 
@@ -640,8 +622,8 @@ $customer_error = display_order_header($_SESSION['Items'],
 if ($customer_error == "") {
 	start_table(TABLESTYLE, "width=100%", 10);
 	echo "<tr><td>";
-	//display_order_summary($orderitems, $_SESSION['Items'], true);
-	display_trip_data($cnc_voucher,$_SESSION['Items']);
+	display_order_summary($orderitems, $_SESSION['Items'], true);
+	//display_opening_balance_data($cnc_voucher,$_SESSION['Items']);
 	echo "</td></tr>";
 	//echo "<tr><td>";
 	//display_delivery_details($_SESSION['Items']);
@@ -652,15 +634,16 @@ if ($customer_error == "") {
 
 		//submit_center_first('ProcessOrder', $porder,
 		 //   _('Check entered data and save document'), 'default');
-		submit_center_first('ProcessOrder', $porder,
+		 
+		submit_center_first('ProcessOrder', 'Place Opening Balance',
 		    _('Check entered data and save document'));
-		submit_center_last('CancelOrder', $cancelorder,
+		submit_center_last('CancelOrder', 'Cancel',
 	   		_('Cancels document entry or removes sales order when editing an old document'), true);
 		submit_js_confirm('CancelOrder', _('You are about to void this Document.\nDo you want to continue?'));
 	} else {
-		submit_center_first('ProcessOrder', $corder,
+		submit_center_first('ProcessOrder', 'Place Opening Balance',
 		    _('Validate changes and update document'), 'default');
-		submit_center_last('CancelOrder', $cancelorder,
+		submit_center_last('CancelOrder', 'Cancel',
 	   		_('Cancels document entry or removes sales order when editing an old document'), true);
 		if ($_SESSION['Items']->trans_type==ST_SALESORDER)
 			submit_js_confirm('CancelOrder', _('You are about to cancel undelivered part of this order.\nDo you want to continue?'));
