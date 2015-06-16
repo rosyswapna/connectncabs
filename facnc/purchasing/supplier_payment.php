@@ -119,7 +119,7 @@ if (!isset($_POST['TransToDate']))
 
 if (!isset($_POST['TransAfterDate']))
 {
-	$_POST['TransAfterDate'] = add_days(get_post('TransToDate'), -42);
+	$_POST['TransAfterDate'] = add_days(get_post('TransToDate'), -30);
 }
 
 if(get_post('Search'))
