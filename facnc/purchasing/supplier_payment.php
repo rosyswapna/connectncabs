@@ -107,10 +107,31 @@ if (list_updated('supplier_id')) {
 } elseif (list_updated('bank_account'))
 	$Ajax->activate('alloc_tbl');
 
+
+if (!isset($_POST['TransToDate']))
+{
+	$_POST['TransToDate'] = new_doc_date();
+}
+
+if (!isset($_POST['TransAfterDate']))
+{
+	$_POST['TransAfterDate'] = add_days(get_post('TransToDate'), -30);
+}
+
+if(get_post('Search'))
+{
+	unset($_POST['bank_account']);
+	$Ajax->activate('alloc_tbl');
+
+	$Ajax->activate('pmt_tbl');
+}
+
+
 //----------------------------------------------------------------------------------------
 
 if (!isset($_POST['bank_account'])) { // first page call
-	$_SESSION['alloc'] = new allocation(ST_SUPPAYMENT, 0, get_post('supplier_id'));
+	
+	$_SESSION['alloc'] = new allocation(ST_SUPPAYMENT, 0, get_post('supplier_id'),null,get_post('TransAfterDate'),get_post('TransToDate'));
 
 	if (isset($_GET['PInvoice'])) {
 		//  get date and supplier
@@ -360,6 +381,17 @@ start_form();
 	hidden('payment_via');//driver payment or vehicle owner payment from sales invoice
 	hidden('INV');//sales invoice number from invoice entry
 
+
+	if(isset($_GET['SupplierPayment'])){
+		start_table();
+			start_row();
+				date_cells(_("From:"), 'TransAfterDate', '', null, -30);
+				date_cells(_("To:"), 'TransToDate');
+				submit_cells('Search', _("Search"),'',_('Select documents'), 'default');
+			end_row();
+		end_table();
+	}
+
 	start_outer_table(TABLESTYLE2, "width=100%", 5);
 
 	table_section(1);
@@ -416,7 +448,12 @@ start_form();
 	show_allocatable(false);
 	div_end();
 
-	start_table(TABLESTYLE, "width=80%");
+
+	div_start('pmt_tbl');
+	
+	
+
+	start_table(TABLESTYLE, "width=100%");
 
 	//$supp_ac = get_supplier_accounts($_POST['supplier_id']);
 	//supplier_accounts_list_row("Select Account",$_POST['supplier_id'],"account_code",$supp_ac['payable_account'],false);
@@ -424,9 +461,11 @@ start_form();
 
 	amount_row(_("Amount of Discount:"), 'discount', null, '', $supplier_currency);
 	amount_row(_("Amount of TDS:"), 'tds', null, '', $supplier_currency);
+
 	amount_row(_("Amount of Payment:"), 'amount', null, '', $supplier_currency);
 	textarea_row(_("Memo:"), 'memo_', null, 22, 4);
 	end_table(1);
+	div_end();
 
 	submit_center('ProcessSuppPayment',_("Enter Payment"), true, '', 'default');
 

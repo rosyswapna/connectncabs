@@ -30,9 +30,17 @@ class allocation
 
 	var $allocs; /*array of transactions allocated to */
 
-	function allocation($type, $trans_no, $person_id = null, $person_type_id=null)
+	var $from='';
+	var $to='';
+
+	function allocation($type, $trans_no, $person_id = null, $person_type_id=null,$from=null,$to=null)
 	{
 		$this->allocs = array();
+
+		if ($from)
+			$this->from = $from;
+		if ($to)
+			$this->to = $to;
 
 		$this->trans_no = $trans_no;
 		$this->type = $type;
@@ -143,7 +151,7 @@ class allocation
 		if ($this->person_id)
 		{
 			if ($this->person_type==PT_SUPPLIER)
-				$trans_items = get_allocatable_to_supp_transactions($this->person_id);
+				$trans_items = get_allocatable_to_supp_transactions($this->person_id,null,null,$this->from,$this->to);
 			else
 		 		$trans_items = get_allocatable_to_cust_transactions($this->person_id);
 			while ($myrow = db_fetch($trans_items))
