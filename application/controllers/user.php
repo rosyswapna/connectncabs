@@ -1418,17 +1418,20 @@ public function profile() {
 						'content_class'=>'tab-pane');
 
 		if($customer_id!='' && $customer_id > 0){
+			
+			$tabs['ob_tab'] = array('class'=>'','tab_id'=>'tab_2','text'=>'Opening Balance',
+						'content_class'=>'tab-pane');
 
-			$tabs['t_tab'] = array('class'=>'','tab_id'=>'tab_2','text'=>'Trip',
+			$tabs['t_tab'] = array('class'=>'','tab_id'=>'tab_3','text'=>'Trip',
 						'content_class'=>'tab-pane');
 			if(!$this->session->userdata('customer')){
-				$tabs['p_tab'] = array('class'=>'','tab_id'=>'tab_3','text'=>'Payments',
+				$tabs['p_tab'] = array('class'=>'','tab_id'=>'tab_4','text'=>'Payments',
 						'content_class'=>'tab-pane');
 					
 			}
-			$tabs['a_tab'] = array('class'=>'','tab_id'=>'tab_4','text'=>'Accounts',
+			$tabs['a_tab'] = array('class'=>'','tab_id'=>'tab_5','text'=>'Accounts',
 						'content_class'=>'tab-pane');
-			$tabs['tr_tab'] = array('class'=>'','tab_id'=>'tab_5','text'=>'Tariffs',
+			$tabs['tr_tab'] = array('class'=>'','tab_id'=>'tab_6','text'=>'Tariffs',
 						'content_class'=>'tab-pane');
 		}
 

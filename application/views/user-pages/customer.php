@@ -201,6 +201,16 @@
         </div>
 		<?php }?>
 		
+		
+		<?php if (array_key_exists('ob_tab', $tabs)) {?>
+		<div class="<?php echo $tabs['ob_tab']['content_class'];?>" id="<?php echo $tabs['ob_tab']['tab_id'];?>">
+            <iframe src="<?php echo base_url().'account/front_desk/OpeningBalance/C'.$customer_id.'/true';?>" height="600px" width="100%">
+		<p>Browser not Support</p>
+		</iframe>
+        </div>
+			<?php }?>
+		
+		
 		<?php if (array_key_exists('t_tab', $tabs)) {?>
 		 <div class="<?php echo $tabs['t_tab']['content_class'];?>" id="<?php echo $tabs['t_tab']['tab_id'];?>">
             <div class="page-outer">
