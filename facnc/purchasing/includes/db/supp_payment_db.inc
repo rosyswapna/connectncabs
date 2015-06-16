@@ -10,9 +10,11 @@
     See the License here <http://www.gnu.org/licenses/gpl-3.0.html>.
 ***********************************************************************/
 function write_supp_payment($trans_no, $supplier_id, $bank_account,
-	$date_, $ref, $supp_amount, $supp_discount, $memo_, $bank_charge=0, $bank_amount=0,$supp_tds=0)
+	$date_, $ref, $supp_amount, $supp_discount, $memo_, $bank_charge=0, $bank_amount=0,$supp_tds=0,$gl_expense=array())
 {
 	global $Refs;
+
+	
 
 	begin_transaction();
 	$args = func_get_args(); while (count($args) < 10) $args[] = 0;
@@ -32,13 +34,27 @@ function write_supp_payment($trans_no, $supplier_id, $bank_account,
 	$payment_id = write_supp_trans(ST_SUPPAYMENT, 0, $supplier_id, $date_, $date_,
 		$ref, "", -$supp_amount, 0, -$supp_discount,"",0,0,-$supp_tds);
 
+
+
 	// Now debit creditors account with payment + discount
 
 	$total = 0;
     	$supplier_accounts = get_supplier_accounts($supplier_id);
 	
+	$gl_exp_amt = 0;
+
+	foreach($gl_expense as $ac=>$amt){
+		$gl_exp_amt += $amt;
+		if ($amt != 0)
+		{
+			$total += add_gl_trans_supplier(ST_SUPPAYMENT, $payment_id, $date_,$ac, 0, 0,
+				-$amt, $supplier_id);
+		}
+	}
+
+	
 	$total += add_gl_trans_supplier(ST_SUPPAYMENT, $payment_id, $date_, $supplier_accounts["payable_account"], 0, 0,
-		$supp_amount + $supp_discount +  $supp_tds, $supplier_id);
+		$supp_amount + $supp_discount +  $supp_tds + $gl_exp_amt, $supplier_id);
 	
 	
 

@@ -31,11 +31,15 @@ add_js_file('payalloc.js');
 
 $_POST['payment_via']='';
 
+$pmt_gls = false;
+
 if(isset($_GET['SupplierPayment'])){//get supplier reference
+
 	//supplier id
 	$_POST['supplier_id'] = get_cnc_supplier_id($_GET['SupplierPayment']);
 	$supplier = get_supplier($_POST['supplier_id']);
 	page(_($help_context = "Payment Entry"), false, false, "", $js);
+
 	
 }elseif(isset($_GET['DriverPayment']) && isset($_GET['INV'])){
 
@@ -115,7 +119,7 @@ if (!isset($_POST['TransToDate']))
 
 if (!isset($_POST['TransAfterDate']))
 {
-	$_POST['TransAfterDate'] = add_days(get_post('TransToDate'), -30);
+	$_POST['TransAfterDate'] = add_days(get_post('TransToDate'), -42);
 }
 
 if(get_post('Search'))
@@ -325,9 +329,15 @@ function check_inputs()
 
 function handle_add_payment()
 {
+	$gl = array();
+	foreach($_POST['account_'] as $ac => $amount) {
+		$gl[$ac] = user_numeric($amount);	
+	}
+	
+	
 	$payment_id = write_supp_payment(0, $_POST['supplier_id'], $_POST['bank_account'],
 		$_POST['DatePaid'], $_POST['ref'], input_num('amount'),	input_num('discount'), $_POST['memo_'], 
-		input_num('charge'), input_num('bank_amount', input_num('amount')),input_num('tds'));
+		input_num('charge'), input_num('bank_amount', input_num('amount')),input_num('tds'),$gl);
 	new_doc_date($_POST['DatePaid']);
 
 	$_SESSION['alloc']->trans_no = $payment_id;
@@ -450,9 +460,8 @@ start_form();
 
 
 	div_start('pmt_tbl');
-	
-	
 
+	
 	start_table(TABLESTYLE, "width=100%");
 
 	//$supp_ac = get_supplier_accounts($_POST['supplier_id']);
@@ -462,12 +471,27 @@ start_form();
 	amount_row(_("Amount of Discount:"), 'discount', null, '', $supplier_currency);
 	amount_row(_("Amount of TDS:"), 'tds', null, '', $supplier_currency);
 
+	//get gl accounts 
+	$pmt_gls = get_trip_expense_accounts();
+	$pmt_gls[get_company_pref('default_driver_bata_act')] = _("Driver Bata");
+	$pmt_gls[get_company_pref('default_night_halt_act')] = _("Night Halt");
+
+	foreach($pmt_gls as $gl_ac=>$gl_name){
+		$gl_amount = get_gl_trans_from_to(get_post('TransAfterDate'),get_post('TransToDate'), $gl_ac);
+		$_POST['account'.$gl_ac] = price_format(-($gl_amount));
+		amount_row(_("Amount of ".$gl_name.":"), 'account_['.$gl_ac.']', $_POST['account'.$gl_ac], '', $supplier_currency);
+
+		$_POST['amount']  += -($gl_amount);
+		$Ajax->activate('amount');
+	}
+
 	amount_row(_("Amount of Payment:"), 'amount', null, '', $supplier_currency);
 	textarea_row(_("Memo:"), 'memo_', null, 22, 4);
 	end_table(1);
 	div_end();
 
-	submit_center('ProcessSuppPayment',_("Enter Payment"), true, '', 'default');
+	//submit_center('ProcessSuppPayment',_("Enter Payment"), true, '', 'default');
+	submit_center('ProcessSuppPayment',_("Enter Payment"), true, '');
 
 end_form();
 

@@ -272,6 +272,19 @@ function updateTripPaymentNo($payment_no=0,$trip_id){
 }
 
 
+function get_trip_expense_accounts()
+{
+	$sql = "SELECT value,description FROM trip_expense_type";
+	$result = db_query($sql,"could not get trip expense");
+	$ret = array();
+	while($row = db_fetch($result)){
+		$ret[$row['value']] = $row['description'];
+	}
+
+	return $ret;
+}
+
+
 
 
 
