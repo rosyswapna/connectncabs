@@ -29,6 +29,7 @@ echo form_close();?></td>
 					<tr>
 						<th>SlNo</th>
 						<th>Trip Id</th>
+						<th>Voucher</th>
 					    <th>Date</th>
 					    <th>Route</th>
 						<th>Start Km and End Km</th>
@@ -74,6 +75,7 @@ echo form_close();?></td>
 						<tr>
 							<td><?php echo $trip_index+1; ?></td>
 							<td><?php echo $trips[$trip_index]['id']; ?></td>
+							<td><?php echo $trips[$trip_index]['voucher_no']; ?></td>
 							<td><?php echo $trips[$trip_index]['pick_up_date']; ?></td>
 							<td><?php echo $trips[$trip_index]['pick_up_city'].' to '.$trips[$trip_index]['drop_city']; ?></td>
 							<td><?php echo $trips[$trip_index]['start_km_reading'].'-'.$trips[$trip_index]['end_km_reading']; ?></td>
@@ -95,6 +97,7 @@ echo form_close();?></td>
 					<td>Total</td>
 					<td></td>
 					<td></td>	
+					<td></td>
 					<td></td>
 					<td></td>
 					<td><?php echo $full_tot_km; ?></td>
