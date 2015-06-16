@@ -21,7 +21,7 @@
 	$charge - in bank currency
 */
 function write_customer_payment($trans_no, $customer_id, $branch_id, $bank_account,
-	$date_, $ref, $amount, $discount, $memo_, $rate=0, $charge=0, $bank_amount=0)
+	$date_, $ref, $amount, $discount, $memo_, $rate=0, $charge=0, $bank_amount=0,$tds=0)
 {
 	global $Refs;
 
@@ -53,7 +53,7 @@ function write_customer_payment($trans_no, $customer_id, $branch_id, $bank_accou
 
 	// do not use $rate here: global rate stored in exrate table is always used
 	$payment_no = write_customer_trans(ST_CUSTPAYMENT, $trans_no, $customer_id, $branch_id, 
-		$date_, $ref, $amount, $discount);
+		$date_, $ref, $amount, $discount,0,0,0,0,0,0,"",0,0,0,0,null,0,$tds);
 
 	$bank_gl_account = get_bank_gl_account($bank_account);
 
@@ -75,10 +75,11 @@ function write_customer_payment($trans_no, $customer_id, $branch_id, $bank_accou
 		$discount_account = $company_record["default_prompt_payment_act"];
 	}
 
-	if (($discount + $amount) != 0)	{
+
+	if (($tds + $discount + $amount) != 0)	{
 	/* Now Credit Debtors account with receipts + discounts */
 	$total += add_gl_trans_customer(ST_CUSTPAYMENT, $payment_no, $date_,
-		$debtors_account, 0, 0, -($discount + $amount), $customer_id,
+		$debtors_account, 0, 0, -($discount + $tds + $amount), $customer_id,
 		"Cannot insert a GL transaction for the debtors account credit");
 	}
 	if ($discount != 0)	{
@@ -93,6 +94,15 @@ function write_customer_payment($trans_no, $customer_id, $branch_id, $bank_accou
 		$charge_act = get_company_pref('bank_charge_act');
 		$total += add_gl_trans(ST_CUSTPAYMENT, $payment_no, $date_,	$charge_act, 0, 0, '', 
 			$charge, $bank['bank_curr_code'], PT_CUSTOMER,  $customer_id);
+	}
+
+	//tds gl entry
+	$tds_account = $company_record["sales_tds_act"];
+	if ($tds != 0)	{
+		/* Now Debit discount account with discounts allowed*/
+		$total += add_gl_trans_customer(ST_CUSTPAYMENT, $payment_no, $date_,
+			$tds_account, 0, 0, $tds, $customer_id,
+			"Cannot insert a GL transaction for the payment tds debit");
 	}
 
 

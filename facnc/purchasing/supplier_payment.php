@@ -225,6 +225,18 @@ function check_inputs()
 		return false;
 	}
 
+	if (@$_POST['tds'] == "") 
+	{
+		$_POST['tds'] = 0;
+	}
+
+	if (!check_num('tds'))
+	{
+		display_error(_("The entered tds is invalid or less than zero."));
+		set_focus('amount');
+		return false;
+	}
+
 	//if (input_num('amount') - input_num('discount') <= 0) 
 	if (input_num('amount') <= 0) 
 	{
@@ -294,7 +306,7 @@ function handle_add_payment()
 {
 	$payment_id = write_supp_payment(0, $_POST['supplier_id'], $_POST['bank_account'],
 		$_POST['DatePaid'], $_POST['ref'], input_num('amount'),	input_num('discount'), $_POST['memo_'], 
-		input_num('charge'), input_num('bank_amount', input_num('amount')),$_POST['account_code']);
+		input_num('charge'), input_num('bank_amount', input_num('amount')),input_num('tds'));
 	new_doc_date($_POST['DatePaid']);
 
 	$_SESSION['alloc']->trans_no = $payment_id;
@@ -307,6 +319,7 @@ function handle_add_payment()
    	unset($_POST['memo_']);
    	unset($_POST['amount']);
    	unset($_POST['discount']);
+	unset($_POST['tds']);
    	unset($_POST['ProcessSuppPayment']);
 
 	
@@ -405,11 +418,12 @@ start_form();
 
 	start_table(TABLESTYLE, "width=80%");
 
-	$supp_ac = get_supplier_accounts($_POST['supplier_id']);
+	//$supp_ac = get_supplier_accounts($_POST['supplier_id']);
 	//supplier_accounts_list_row("Select Account",$_POST['supplier_id'],"account_code",$supp_ac['payable_account'],false);
-	gl_all_accounts_list_row("Select Account","account_code",$supp_ac['payable_account']);
+	//gl_all_accounts_list_row("Select Account","account_code",$supp_ac['payable_account']);
 
 	amount_row(_("Amount of Discount:"), 'discount', null, '', $supplier_currency);
+	amount_row(_("Amount of TDS:"), 'tds', null, '', $supplier_currency);
 	amount_row(_("Amount of Payment:"), 'amount', null, '', $supplier_currency);
 	textarea_row(_("Memo:"), 'memo_', null, 22, 4);
 	end_table(1);

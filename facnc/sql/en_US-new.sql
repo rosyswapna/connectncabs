@@ -1662,7 +1662,8 @@ INSERT INTO `0_sys_prefs` (`name`, `category`, `type`, `length`, `value`) VALUES
 ('invoice_template', 'setup.company', 'int', 11, '107'),
 ('tax_no', 'setup.company', 'varchar', 25, ''),
 ('pan_no', 'setup.company', 'varchar', 25, ''),
-('tds_act', 'glsetup.customer', 'varchar', '15', '2391');
+('sales_tds_act', 'glsetup.customer', 'varchar', '15', ''),
+('purchase_tds_act', 'glsetup.purchase', 'varchar', '15', '');
 
 -- --------------------------------------------------------
 
