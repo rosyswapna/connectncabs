@@ -73,8 +73,8 @@ if (!is_array($debtor_trans_no))
 		".TB_PREF."stock_master.units, ".TB_PREF."stock_master.mb_flag
 		FROM  ".TB_PREF."stock_master,".TB_PREF."debtor_trans_details
 		
-		LEFT JOIN trip_vouchers voucher ON voucher.id = ".TB_PREF."debtor_trans_details.trip_voucher
-		LEFT JOIN trips trip ON voucher.trip_id = trip.id
+		LEFT JOIN trip_vouchers ON trip_vouchers.id = ".TB_PREF."debtor_trans_details.trip_voucher
+		LEFT JOIN trips ON trip_vouchers.trip_id = trips.id
 		
 		";
 
