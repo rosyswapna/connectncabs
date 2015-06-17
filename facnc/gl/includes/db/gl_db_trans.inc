@@ -225,6 +225,28 @@ function get_gl_trans_from_to($from_date, $to_date, $account, $dimension=0, $dim
 	return (float)$row[0];
 }
 
+function get_gl_trans_from_to_supplier($from_date, $to_date, $account, $person_id)
+{
+	$from = date2sql($from_date);
+	$to = date2sql($to_date);
+
+    $sql = "SELECT SUM(amount) FROM ".TB_PREF."gl_trans
+		WHERE account='$account' AND person_type_id = ".PT_SUPPLIER;
+	if ($from_date != "")
+		$sql .= " AND tran_date >= '$from'";
+	if ($to_date != "")
+		$sql .= " AND tran_date <= '$to'";
+	if ($person_id != "")
+  		$sql .= " AND person_id = ".db_escape($person_id);
+
+	//echo $sql;
+
+	$result = db_query($sql, "Transactions for account $account could not be calculated");
+
+	$row = db_fetch_row($result);
+	return (float)$row[0];
+}
+
 //----------------------------------------------------------------------------------------------------
 function get_balance($account, $dimension, $dimension2, $from, $to, $from_incl=true, $to_incl=true) 
 {

@@ -14,7 +14,7 @@ function write_supp_payment($trans_no, $supplier_id, $bank_account,
 {
 	global $Refs;
 
-	
+	print_r($gl_expense);exit;
 
 	begin_transaction();
 	$args = func_get_args(); while (count($args) < 10) $args[] = 0;

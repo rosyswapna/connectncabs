@@ -477,7 +477,7 @@ start_form();
 	$pmt_gls[get_company_pref('default_night_halt_act')] = _("Night Halt");
 
 	foreach($pmt_gls as $gl_ac=>$gl_name){
-		$gl_amount = get_gl_trans_from_to(get_post('TransAfterDate'),get_post('TransToDate'), $gl_ac);
+		$gl_amount = 0;//get_gl_trans_from_to_supplier(get_post('TransAfterDate'),get_post('TransToDate'), $gl_ac, get_post('supplier_id'));
 		$_POST['account'.$gl_ac] = price_format(-($gl_amount));
 		amount_row(_("Amount of ".$gl_name.":"), 'account_['.$gl_ac.']', $_POST['account'.$gl_ac], '', $supplier_currency);
 
