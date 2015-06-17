@@ -525,10 +525,10 @@ class cart
 			
 		}
 
-		if($this->tax_group_id == TAX_GROUP_EX){
-			 $this->tax_included = 0;
-		}else{
+		if($this->tax_group_id == TAX_GROUP_IN){
 			 $this->tax_included = 1;
+		}else{
+			 $this->tax_included = 0;
 		}
 
 		$taxes = get_tax_for_items($items, $prices, $shipping_cost,
