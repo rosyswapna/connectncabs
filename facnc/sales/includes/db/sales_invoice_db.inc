@@ -76,7 +76,7 @@ function write_sales_invoice(&$invoice)
 	$invoice->dimension2_id, $invoice->payment, $invoice->tax_group_from_cnc); 
 
 	//update trip voucher with invoice no
-	if($invoice_no){
+	if($invoice_no  && $invoice->trip_voucher ){
 		update_cnc_voucher_with_transno($invoice->trip_voucher, ST_SALESINVOICE, $invoice_no);
 	}
 

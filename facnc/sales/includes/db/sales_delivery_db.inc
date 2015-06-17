@@ -152,8 +152,10 @@ function write_sales_delivery(&$delivery,$bo_policy)
 		$delivery->ship_via, $delivery->due_date, 0, 0, $delivery->dimension_id, 
 		$delivery->dimension2_id, $delivery->payment, $delivery->tax_group_from_cnc);
 
+	
+
 	//update trip voucher with delivery no
-	if($delivery_no){
+	if($delivery_no  && $delivery->trip_voucher ){
 		update_cnc_voucher_with_transno($delivery->trip_voucher, ST_CUSTDELIVERY, $delivery_no);
 	}
 
@@ -259,7 +261,7 @@ function write_sales_delivery(&$delivery,$bo_policy)
 
 	hook_db_postwrite($delivery, ST_CUSTDELIVERY);
 	commit_transaction();
-
+	
 	return $delivery_no;
 }
 

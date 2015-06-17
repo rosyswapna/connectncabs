@@ -25,7 +25,7 @@ function get_cnc_trans_details($transno,$type) {
 
 
 
-
+/*
 function get_customer_trans_details($debtor_trans_type, $debtor_trans_no,$order_by ='')
 {
 if (!is_array($debtor_trans_no))
@@ -47,6 +47,42 @@ if (!is_array($debtor_trans_no))
 		$tr[] = 'debtor_trans_no='.db_escape($trans_no);
 
 	$sql .= implode(' OR ', $tr);
+
+
+	$sql.=	") AND debtor_trans_type=".db_escape($debtor_trans_type)."
+		AND ".TB_PREF."stock_master.stock_id=".TB_PREF."debtor_trans_details.stock_id";
+
+	if($order_by != ''){
+		$sql .= " ORDER BY ".$order_by;
+	}else{
+		$sql .= " ORDER BY ".TB_PREF."debtor_trans_details.id";
+	}
+	
+
+	return db_query($sql, "The debtor transaction detail could not be queried");
+}*/
+
+function get_customer_trans_details($debtor_trans_type, $debtor_trans_no,$order_by ='')
+{
+if (!is_array($debtor_trans_no))
+	$debtor_trans_no = array( 0=>$debtor_trans_no );
+
+	$sql = "SELECT ".TB_PREF."debtor_trans_details.*,
+		".TB_PREF."debtor_trans_details.unit_price+".TB_PREF."debtor_trans_details.unit_tax AS FullUnitPrice,
+		".TB_PREF."debtor_trans_details.description As StockDescription,
+		".TB_PREF."stock_master.units, ".TB_PREF."stock_master.mb_flag
+		FROM  ".TB_PREF."stock_master,".TB_PREF."debtor_trans_details
+		
+		LEFT JOIN trip_vouchers voucher ON voucher.id = ".TB_PREF."debtor_trans_details.trip_voucher
+		LEFT JOIN trips trip ON voucher.trip_id = trip.id
+		
+		";
+
+	$tr=array();
+	foreach ($debtor_trans_no as $trans_no)
+		$tr[] = 'debtor_trans_no='.db_escape($trans_no);
+
+	$sql .=" WHERE (".implode(' OR ', $tr);
 
 
 	$sql.=	") AND debtor_trans_type=".db_escape($debtor_trans_type)."
@@ -103,6 +139,8 @@ function write_customer_trans_detail_item($debtor_trans_type, $debtor_trans_no, 
 			", ".db_escape($description).",
 				$quantity, $unit_price, $unit_tax, 
 				$discount_percent, $std_cost,".db_escape($src_id).",".db_escape($trip_voucher).",$unit_taxable_amount)";
+
+	//echo $sql;exit;
 
 	db_query($sql, "The debtor transaction detail could not be written");
 }

@@ -62,6 +62,7 @@ function add_to_order(&$order, $new_item, $new_item_qty, $price, $discount, $des
 					break;
 				}
 			}
+			
 			$order->add_to_cart (count($order->line_items),	$item['stock_id'], 
 				$new_item_qty*$item['quantity'], $item_price, $discount, 0,0, $description,0,0,0,$trip_voucher);
 		 }
@@ -108,6 +109,7 @@ function get_customer_details_to_order(&$order, $customer_id, $branch_id)
 	}*/
 
 	$myrow = db_fetch($result);
+	
 	if($order->tax_group_from_cnc){
 		$tax_group_id = $order->tax_group_from_cnc;
 	}else{
@@ -804,6 +806,95 @@ function display_order_header(&$order, $editable, $date_text,$cnc_voucher=false)
 	return $customer_error;
 }
 
+function display_opening_balance_header(&$order, $editable, $date_text,$cnc_voucher=false)
+{
+	global $Ajax, $SysPrefs;
+
+	
+	$ref = get_next_opening_balance_customer_ref();
+
+	
+
+	start_table(TABLESTYLE2, "width=100%");
+
+	
+	$customer_error = "";
+	$change_prices = 0;
+
+	
+	hidden('customer_id', $order->customer_id);
+	hidden('branch_id', $order->Branch);
+	hidden('sales_type', $order->sales_type);
+
+
+	$customer_error = get_customer_details_to_order($order, $order->customer_id, $order->Branch);
+	
+
+	hidden('Location',$order->Location);
+	hidden('deliver_to',$order->deliver_to);
+	hidden('delivery_address',$order->delivery_address);
+	hidden('phone',$order->phone);
+	hidden('delivery_date',$order->due_date);
+	
+	if($ref)
+		$_POST['ref'] = $ref;
+	hidden('ref');
+	
+	
+	$_POST['payment'] = 3;//credit payment terms
+	
+	
+	hidden('payment');
+	
+
+
+	if ($editable)
+	{
+		if (!isset($_POST['OrderDate']) || $_POST['OrderDate'] == "")
+			$_POST['OrderDate'] = $order->document_date;
+
+		date_row($date_text, 'OrderDate', _('Date of order receive'),
+			$order->trans_no==0, 0, 0, 0, null, true);
+		//if (isset($_POST['_OrderDate_changed']) || list_updated('payment')) {
+		if (isset($_POST['_OrderDate_changed'])) {
+			if (!is_company_currency($order->customer_currency) 
+				&& (get_base_sales_type()>0)) {
+					$change_prices = 1;
+			}
+			$Ajax->activate('_ex_rate');
+			if ($order->trans_type == ST_SALESINVOICE) {
+				$_POST['delivery_date'] = get_invoice_duedate(get_post('payment'), get_post('OrderDate'));
+			} else 
+				$_POST['delivery_date'] = add_days(get_post('OrderDate'), $SysPrefs->default_delivery_required_by());
+			$Ajax->activate('items_table');
+			$Ajax->activate('delivery_date');
+		}
+		hidden('dimension_id', 0);
+		hidden('dimension2_id', 0);
+			
+	}
+	else
+	{
+		label_row($date_text, $order->document_date);
+		hidden('OrderDate', $order->document_date);
+	}
+
+	end_table(1); // outer table
+
+	if ($change_prices != 0) {
+		foreach ($order->line_items as $line_no=>$item) {
+			$line = &$order->line_items[$line_no];
+			$line->price = get_kit_price($line->stock_id, $order->customer_currency,
+				$order->sales_type, $order->price_factor, get_post('OrderDate'));
+		//		$line->discount_percent = $order->default_discount;
+		}
+	    $Ajax->activate('items_table');
+	}
+
+	return $customer_error;	
+}
+
+
 //--------------------------------------------------------------------------------
 
 function sales_order_item_controls(&$order, &$rowcounter, $line_no=-1)
@@ -894,7 +985,7 @@ function sales_order_item_controls(&$order, &$rowcounter, $line_no=-1)
 
 //--------------------------------------------------------------------------------
 
-function display_opening_balance_header(&$order, $editable, $date_text,$cnc_voucher=false)
+/*function display_opening_balance_header(&$order, $editable, $date_text,$cnc_voucher=false)
 {
 	global $Ajax, $SysPrefs;
 
@@ -951,7 +1042,7 @@ function display_opening_balance_header(&$order, $editable, $date_text,$cnc_vouc
 
 	return $customer_error;
 }
-
+*/
 
 
 //---------------------------------------------------------------------------------

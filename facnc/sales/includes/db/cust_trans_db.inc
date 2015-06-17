@@ -77,6 +77,11 @@ function write_customer_trans($trans_type, $trans_no, $debtor_no, $BranchNo,
         if ($new)
         $trans_no = get_next_trans_no($trans_type);
 
+
+	
+
+	
+
 	$sql = "INSERT INTO ".TB_PREF."debtor_trans (
 		trans_no, type,
 		debtor_no, branch_code,
@@ -106,6 +111,9 @@ function write_customer_trans($trans_type, $trans_no, $debtor_no, $BranchNo,
 		payment_terms=".db_escape($payment_terms, true)."
 		WHERE trans_no=".db_escape($trans_no)." AND type=".db_escape($trans_type);
 	}
+
+	
+
 	db_query($sql, "The debtor transaction record could not be inserted");
 
 	add_audit_trail($trans_type, $trans_no, $date_, $new ? '': _("Updated."));
@@ -117,6 +125,8 @@ function write_customer_trans($trans_type, $trans_no, $debtor_no, $BranchNo,
 function get_customer_trans($trans_id, $trans_type)
 {
 	global $go_debug;
+
+	
 
 	$sql = "SELECT trans.*,"
 		."ov_amount+ov_gst+ov_freight+ov_freight_tax+ov_discount AS Total,"
@@ -146,8 +156,8 @@ function get_customer_trans($trans_id, $trans_type)
 	}
 
 	$sql .= " FROM ".TB_PREF."debtor_trans trans
-					LEFT JOIN ".TB_PREF."comments com ON trans.type=com.type AND trans.trans_no=com.id
-					LEFT JOIN ".TB_PREF."shippers ON ".TB_PREF."shippers.shipper_id=trans.ship_via, 
+		LEFT JOIN ".TB_PREF."comments com ON trans.type=com.type AND trans.trans_no=com.id
+		LEFT JOIN ".TB_PREF."shippers ON ".TB_PREF."shippers.shipper_id=trans.ship_via, 
 					".TB_PREF."debtors_master cust";
 
 	if ($trans_type == ST_CUSTPAYMENT || $trans_type == ST_BANKDEPOSIT) {
@@ -180,7 +190,7 @@ function get_customer_trans($trans_id, $trans_type)
 			AND trans.tax_group_id = ".TB_PREF."tax_groups.id ";
 			//AND branch.tax_group_id = ".TB_PREF."tax_groups.id ";
 	}
-
+	//echo $sql;exit;
 	$result = db_query($sql, "Cannot retreive a debtor transaction");
 
 	if (db_num_rows($result) == 0) {
@@ -638,6 +648,27 @@ function get_deliveries_for_invoice($selected_customer){
 
 	//echo $sql;exit;
 	return db_query($sql, "could not get sales deliveries");
+}
+
+
+
+//return the next customer opening balance transaction reference
+function get_next_opening_balance_customer_ref()
+{
+	$sql = "SELECT MAX(trans.reference) as last_obc_ref 
+		FROM ".TB_PREF."debtor_trans as trans
+		WHERE trans.reference LIKE 'OBC%';
+		";
+
+	$result = db_query($sql, "could not get sales deliveries");
+	$row = db_fetch($result);
+	if($row[0]==''){
+		return "OBC1";
+	}else{
+		$num = substr($row[0],3);$num++;
+		return "OBC".$num;
+	}
+	
 }
 
 

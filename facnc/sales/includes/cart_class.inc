@@ -677,8 +677,9 @@ class line_details
 			$this->night_halt	= $cnc_voucher['night_halt'];
 			$this->advance_amount	= $cnc_voucher['advance_amount'];
 			$this->payment_no	= $cnc_voucher['payment_no'];
+		}else{
+			$this->price = $prc;
 		}
-
 		$this->id = $id;
 		$this->src_no = $src_no;
 		$this->src_id = $src_id;

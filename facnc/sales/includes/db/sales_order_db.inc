@@ -41,6 +41,8 @@ function add_sales_order(&$order)
 			db_escape($order->payment) . "," .
 			db_escape($total). ")";
 
+	//echo $sql;exit;
+
 	db_query($sql, "order Cannot be Added");
 
 	$order->trans_no = array($order_no=>0);

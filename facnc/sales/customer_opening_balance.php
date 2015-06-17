@@ -87,7 +87,16 @@ if (isset($_GET['AddedDI'])) {
 	submenu_option(_("Add an Attachment"), "/admin/attachments.php?filterType=".ST_SALESINVOICE."&trans_no=$invoice");
 
 	display_footer_exit();
-} else
+}elseif (isset($_GET['AddedOP'])) {
+	$invoice = $_GET['AddedOP'];
+
+	display_notification_centered(sprintf(_("Opening Balance # %d has been entered."), $invoice));
+
+	submenu_view(_("&View This Invoice"), ST_SALESINVOICE, $invoice);
+
+	display_footer_exit();
+}
+ else
 	check_edit_conflicts();
 //-----------------------------------------------------------------------------
 
@@ -189,7 +198,7 @@ function can_process() {
 	global $Refs;
 	
 	
-	if (!$_GET['OpeningBalance']) 
+	if (!get_post('customer_id')) 
 	{
 		display_error(_("There is no customer selected."));
 		set_focus('customer_id');
@@ -283,9 +292,7 @@ function can_process() {
 }
 
 //-----------------------------------------------------------------------------
-	//echo "<pre>";
-	//print_r($_SESSION['Items']);
-	//echo "</pre>";exit;
+//echo "<pre>";print_r($_SESSION['Items']);echo "</pre>";exit;
 
 if (isset($_POST['update'])) {
 	copy_to_cart();
@@ -296,13 +303,11 @@ if (isset($_POST['ProcessOrder']) && can_process()) {
 	
 	
 	
-	copy_to_cart();//echo "<pre>";print_r($_SESSION['Items']);echo "</pre>";exit;
+	copy_to_cart();
 	$modified = ($_SESSION['Items']->trans_no != 0);
 	$so_type = $_SESSION['Items']->so_type;
 
-	//echo "<pre>";
-	//print_r($_SESSION['Items']);
-	//echo "</pre>";exit;
+	//echo "<pre>";print_r($_SESSION['Items']);echo "</pre>";exit;
 
 	$ret = $_SESSION['Items']->write(1);
 	if ($ret == -1)
@@ -327,20 +332,9 @@ if (isset($_POST['ProcessOrder']) && can_process()) {
 		$trans_type = $_SESSION['Items']->trans_type;
 		new_doc_date($_SESSION['Items']->document_date);
 		processing_end();
-		if ($modified) {
-			if ($trans_type == ST_SALESQUOTE)
-				meta_forward($_SERVER['PHP_SELF'], "UpdatedQU=$trans_no");
-			else	
-				meta_forward($_SERVER['PHP_SELF'], "UpdatedID=$trans_no");
-		} elseif ($trans_type == ST_SALESORDER) {
-			meta_forward($_SERVER['PHP_SELF'], "AddedID=$trans_no");
-		} elseif ($trans_type == ST_SALESQUOTE) {
-			meta_forward($_SERVER['PHP_SELF'], "AddedQU=$trans_no");
-		} elseif ($trans_type == ST_SALESINVOICE) {
-			meta_forward($_SERVER['PHP_SELF'], "AddedDI=$trans_no&Type=$so_type");
-		} else {
-			meta_forward($_SERVER['PHP_SELF'], "AddedDN=$trans_no&Type=$so_type");
-		}
+		
+		meta_forward($_SERVER['PHP_SELF'], "AddedOP=$trans_no&Type=$so_type");
+		
 	}	
 }
 
@@ -437,6 +431,8 @@ function handle_new_item()
 	if (!check_item_data()) {
 			return;
 	}
+	
+	
 	add_to_order($_SESSION['Items'], get_post('stock_id'), input_num('qty'),
 		input_num('price'), input_num('Disc') / 100, get_post('stock_id_text'),get_post('trip_voucher'));
 
@@ -570,52 +566,29 @@ start_form();
 
 //cnc code----------------------
 $cnc_voucher = false;
-if(isset($_GET['NewDelivery']) && $_GET['NewDelivery'] > 0){
+if(isset($_GET['OpeningBalance']) ){
 
-	$cnc_voucher = get_cnc_voucher($_GET['NewDelivery']);
-	if($cnc_voucher['tax_group_id'] > 0)
-		$_SESSION['Items']->tax_group_from_cnc = $cnc_voucher['tax_group_id'];
-	
-	
-	if($cnc_voucher['group_id'] > 0){
-		$_SESSION['Items']->customer_id = get_cnc_customer_id("CG".$cnc_voucher['group_id']);
-		$customer = get_customer($_SESSION['Items']->customer_id);
-		$_SESSION['Items']->customer_name = @$cnc_voucher['group_name'];
-	}else{
-		$_SESSION['Items']->customer_id = get_cnc_customer_id("C".$cnc_voucher['cnc_cust_id']);
-		$customer = get_customer($_SESSION['Items']->customer_id);
-		$_SESSION['Items']->customer_name = @$cnc_voucher['customer_name'];
-	}
-	
-	
+	$_SESSION['Items']->customer_id = get_cnc_customer_id($_GET['OpeningBalance']);
+	$customer = get_customer($_SESSION['Items']->customer_id);
+	$_SESSION['Items']->customer_name = $customer['name'];
+
+
 	$_SESSION['Items']->customer_currency = @$customer['curr_code'] ;
 	$_SESSION['Items']->sales_type = @$customer['sales_type'] ;
 	$_SESSION['Items']->Branch = get_cnc_customer_branch($_SESSION['Items']->customer_id);
-	
 
-	//------------trip item code -> 101---------------------------
-	$_SESSION['Items']->trip_voucher = $cnc_voucher['voucher_no'];
-	$amt = 0;
-	
-	$amt = $cnc_voucher['amount'];
+	$_SESSION['Items']->trip_voucher = 0;
 
-	add_to_order($_SESSION['Items'],101, 1,
-		$amt, 0 / 100,'',0,$cnc_voucher['voucher_no']);
-
-	//echo "<pre>";print_r($_SESSION['Items']);echo "</pre>";exit;
-
-	
-		
+	$_SESSION['Items']->tax_group_from_cnc = TAX_GROUP_EX;
 }
 //-----------------------------------
 
-
-
-
 hidden('cart_id');
+//$customer_error = display_opening_balance_header($_SESSION['Items'],
+	//($_SESSION['Items']->any_already_delivered() == 0), $idate,$cnc_voucher);
+
 $customer_error = display_opening_balance_header($_SESSION['Items'],
 	($_SESSION['Items']->any_already_delivered() == 0), $idate,$cnc_voucher);
-
 
 
 
