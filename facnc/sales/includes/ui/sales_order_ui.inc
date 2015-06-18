@@ -272,7 +272,7 @@ function display_opening_balance_summary($title, &$order, $editable_items=false)
 	display_heading($title);
 
     div_start('items_table');
-	start_table(TABLESTYLE, "colspan=7 width=90%");
+	start_table(TABLESTYLE, "colspan=7 width=100%");
 	/*$th = array(_("Item Code"), _("Item Description"), _("Quantity"),
 		_("Delivered"),
 		_("Unit"), $order->tax_included ? _("Price after Tax") : _("Price before Tax"), "", _("Total"), "");*/

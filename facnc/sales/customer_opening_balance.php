@@ -43,6 +43,7 @@ $_SESSION['page_title'] = _($help_context = "Opening Balance");
 page($_SESSION['page_title'], false, false, "", $js);
 
 if (isset($_GET['OpeningBalance'])) {
+	$_POST['taxi_customer'] = $_GET['OpeningBalance'];
 	create_cart(ST_SALESINVOICE, 0);
 }
 //-----------------------------------------------------------------------------
@@ -443,7 +444,7 @@ function handle_new_item()
 
 //--------------------------------------------------------------------------------
 
-function  handle_cancel_order()
+function  handle_cancel_order($taxi_customer)
 {
 	global $path_to_root, $Ajax;
 
@@ -452,8 +453,8 @@ function  handle_cancel_order()
 		display_notification(_("Direct delivery entry has been cancelled as requested."), 1);
 		submenu_option(_("Enter a New Sales Delivery"),	"/sales/sales_order_entry.php?NewDelivery=1");
 	} elseif ($_SESSION['Items']->trans_type == ST_SALESINVOICE) {
-		display_notification(_("Direct invoice entry has been cancelled as requested."), 1);
-		submenu_option(_("Enter a New Sales Invoice"),	"/sales/sales_order_entry.php?NewInvoice=1");
+		display_notification(_("Opening Balance entry has been cancelled as requested."), 1);
+		submenu_option(_("Enter a New Opening Balance"),"/sales/customer_opening_balance.php?OpeningBalance=".$taxi_customer);
 	} elseif ($_SESSION['Items']->trans_type == ST_SALESQUOTE)
 	{
 		if ($_SESSION['Items']->trans_no != 0) 
@@ -534,7 +535,7 @@ function create_cart($type, $trans_no,$trip_voucher=0)
 //--------------------------------------------------------------------------------
 
 if (isset($_POST['CancelOrder']))
-	handle_cancel_order();
+	handle_cancel_order($_POST['taxi_customer']);
 
 $id = find_submit('Delete');
 if ($id!=-1)
@@ -584,6 +585,7 @@ if(isset($_GET['OpeningBalance']) ){
 //-----------------------------------
 
 hidden('cart_id');
+hidden('taxi_customer');
 //$customer_error = display_opening_balance_header($_SESSION['Items'],
 	//($_SESSION['Items']->any_already_delivered() == 0), $idate,$cnc_voucher);
 
