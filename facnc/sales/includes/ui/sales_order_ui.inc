@@ -263,6 +263,118 @@ function display_order_summary($title, &$order, $editable_items=false)
 	}
     div_end();
 }
+
+
+function display_opening_balance_summary($title, &$order, $editable_items=false)
+{
+	global $SysPrefs;
+
+	display_heading($title);
+
+    div_start('items_table');
+	start_table(TABLESTYLE, "colspan=7 width=90%");
+	/*$th = array(_("Item Code"), _("Item Description"), _("Quantity"),
+		_("Delivered"),
+		_("Unit"), $order->tax_included ? _("Price after Tax") : _("Price before Tax"), "", _("Total"), "");*/
+	$th = array(_("Item"), _("Price before Tax"), _("Total"), "");
+
+	if ($order->trans_no == 0) {
+	unset( $th[3] );
+	}
+
+	if (count($order->line_items))
+	     $th[]= '';
+
+	table_header($th);
+
+	$total = 0;
+	$k = 0;  //row colour counter
+
+	$id = find_submit('Edit');
+	$has_marked = false;
+
+	foreach ($order->get_items() as $line_no=>$stock_item)
+	{
+
+		$line_total = round($stock_item->qty_dispatched * $stock_item->price * (1 - $stock_item->discount_percent),
+		   user_price_dec());
+
+		$qoh_msg = '';
+		if (!$editable_items || $id != $line_no)
+		{
+			if (!$SysPrefs->allow_negative_stock() && is_inventory_item($stock_item->stock_id) && 
+				$order->trans_type != ST_SALESORDER && $order->trans_type!=ST_SALESQUOTE) {
+				$qoh = get_qoh_on_date($stock_item->stock_id, 
+					$_POST['Location'], $_POST['delivery_date']);
+				if (($stock_item->qty_dispatched -$stock_item->qty_done) > $qoh)
+				{
+					// oops, we don't have enough of one of the component items
+					start_row("class='stockmankobg'");
+					$qoh_msg .= $stock_item->stock_id . " - " . $stock_item->item_description . ": " .
+					_("Quantity On Hand") . " = " 
+					. number_format2($qoh, get_qty_dec($stock_item->stock_id)) . '<br>';
+					$has_marked = true;
+				 } else 
+					alt_table_row_color($k);
+			} else {
+				alt_table_row_color($k);
+			}
+
+			label_cell("Opening Balance");
+			amount_cell($stock_item->price);
+			amount_cell($line_total);
+
+			if ($editable_items)
+			{
+				edit_button_cell("Edit$line_no", _("Edit"),
+				_('Edit document line'));
+				delete_button_cell("Delete$line_no", _("Delete"),
+				_('Remove line from document'));
+			}
+			end_row();
+		}
+		else
+		{
+			opening_balance_item_controls($order, $k,  $line_no);
+		}
+
+		$total += $line_total;
+	}
+
+	if ($id==-1 && $editable_items)
+		opening_balance_item_controls($order, $k);
+
+	$colspan = 2;
+	if ($order->trans_no!=0)
+		++$colspan;
+	start_row();
+	label_cell(_("Shipping Charge"), "colspan=$colspan align=right");
+	small_amount_cells(null, 'freight_cost', price_format(get_post('freight_cost',0)));
+	label_cell('', 'colspan=2');
+	end_row();
+	$display_sub_total = price_format($total + input_num('freight_cost'));
+	label_row(_("Sub-total"), $display_sub_total, "colspan=$colspan align=right","align=right", 2);
+	$taxes = $order->get_taxes(input_num('freight_cost'));
+	$tax_total = display_edit_tax_items($taxes, $colspan, $order->tax_included, 2);
+
+	$display_total = price_format(($total + input_num('freight_cost') + $tax_total));
+
+	start_row();
+	label_cells(_("Amount Total"), $display_total, "colspan=$colspan align=right","align=right");
+	submit_cells('update', _("Update"), "colspan=2 align='center'", _("Refresh"), true);
+	end_row();
+
+	end_table();
+	if ($has_marked) {
+		display_note(_("Marked items have insufficient quantities in stock as on day of delivery."), 0, 1, "class='stockmankofg'");
+		if ($order->trans_type!=30 && !$SysPrefs->allow_negative_stock())
+			display_error(_("The delivery cannot be processed because there is an insufficient quantity for item:")
+				. '<br>'. $qoh_msg);
+	}
+    div_end();
+}
+
+
 function display_trip_data($cnc_data, &$order)
 {
    global $SysPrefs;
@@ -896,6 +1008,89 @@ function display_opening_balance_header(&$order, $editable, $date_text,$cnc_vouc
 
 
 //--------------------------------------------------------------------------------
+
+function opening_balance_item_controls(&$order, &$rowcounter, $line_no=-1)
+{
+    global $Ajax;
+
+	alt_table_row_color($rowcounter);
+
+	$id = find_submit('Edit');
+	if ($line_no!=-1 && $line_no == $id) // edit old line
+	{
+		$_POST['stock_id'] = $order->line_items[$id]->stock_id;
+		$dec = get_qty_dec($_POST['stock_id']);
+		$_POST['qty'] = number_format2($order->line_items[$id]->qty_dispatched, $dec);
+		$_POST['price'] = price_format($order->line_items[$id]->price);
+		$_POST['Disc'] = percent_format($order->line_items[$id]->discount_percent*100);
+		$units = $order->line_items[$id]->units;
+		$_POST['item_description'] = $order->line_items[$id]->item_description;
+		hidden('stock_id', $_POST['stock_id']);
+		hidden('item_description', $_POST['item_description']);
+		label_cell("Opening Balance");
+		
+	    $Ajax->activate('items_table');
+	}
+	else	// prepare new line
+	{
+		//sales_items_list_cells(null,'stock_id', null, false, true, true);
+		hidden('stock_id',101);
+		label_cell("Opening Balance");
+		if (list_updated('stock_id')) {
+			    $Ajax->activate('price');
+			    $Ajax->activate('units');
+			    $Ajax->activate('qty');
+			    $Ajax->activate('line_total');
+		}
+
+		$item_info = get_item_edit_info($_POST['stock_id']);
+		$units = $item_info["units"];
+		$dec = $item_info['decimals'];
+		$_POST['qty'] = number_format2(1, $dec);
+		$price = get_kit_price($_POST['stock_id'],
+			$order->customer_currency, $order->sales_type,
+			$order->price_factor, get_post('OrderDate'));
+		$_POST['price'] = price_format($price);
+		// default to the customer's discount %
+		$_POST['Disc'] = percent_format($order->default_discount * 100);
+	}
+
+	//qty_cells(null, 'qty', $_POST['qty'], null, null, $dec);
+	hidden('qty', $_POST['qty']);
+
+	if ($order->trans_no!=0) {
+		//qty_cell($line_no==-1 ? 0 :$order->line_items[$line_no]->qty_done, false, $dec);
+	}
+
+	//label_cell($units, '', 'units');
+
+	amount_cells(null, 'price');
+
+	//small_amount_cells(null, 'Disc', percent_format($_POST['Disc']), null, null, user_percent_dec());
+
+	hidden('Disc', percent_format($_POST['Disc']));
+
+	$line_total = input_num('qty') * input_num('price') * (1 - input_num('Disc') / 100);
+
+	amount_cell($line_total, false, '','line_total');
+
+	if ($id!=-1)
+	{
+		button_cell('UpdateItem', _("Update"),
+				_('Confirm changes'), ICON_UPDATE);
+		button_cell('CancelItemChanges', _("Cancel"),
+				_('Cancel changes'), ICON_CANCEL);
+		hidden('LineNo', $line_no);
+		set_focus('qty');
+	}
+	else
+	{
+		submit_cells('AddItem', _("Add Item"), "colspan=2 align='center'",
+		    _('Add new item to document'), true);
+	}
+
+	end_row();
+}
 
 function sales_order_item_controls(&$order, &$rowcounter, $line_no=-1)
 {

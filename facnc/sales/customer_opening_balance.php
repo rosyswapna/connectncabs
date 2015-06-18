@@ -595,8 +595,7 @@ $customer_error = display_opening_balance_header($_SESSION['Items'],
 if ($customer_error == "") {
 	start_table(TABLESTYLE, "width=100%", 10);
 	echo "<tr><td>";
-	display_order_summary($orderitems, $_SESSION['Items'], true);
-	//display_opening_balance_data($cnc_voucher,$_SESSION['Items']);
+	display_opening_balance_summary($orderitems, $_SESSION['Items'], true);
 	echo "</td></tr>";
 	//echo "<tr><td>";
 	//display_delivery_details($_SESSION['Items']);
