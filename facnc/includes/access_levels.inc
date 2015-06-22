@@ -151,6 +151,7 @@ $security_areas =array(
 	'SA_CUSTBULKREP' => array(SS_SALES_A|5, _("Customer bulk listing")),
 	'SA_CUSTSTATREP' => array(SS_SALES_A|6, _("Customer status report")),
 	'SA_CUSTPAYMREP' => array(SS_SALES_A|7, _("Customer payments report")),
+	'SA_SALESCUSTBALANCE' => array(SS_SALES_A|7, _("Customer Balance")),
 
 //
 // Purchase related functions
