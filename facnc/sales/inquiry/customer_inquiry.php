@@ -28,7 +28,7 @@ if (!@$_GET['popup'])
 
 	if(isset($_GET['CustomerPaymentInquiry'])){
 		page(_($help_context = "Transactions"), isset($_GET['customer_id']), false, "", $js);
-		$_POST['filterType'] = 3;
+		//$_POST['filterType'] = 3;
 	}elseif(isset($_GET['SalesInvoices'])){
 		page(_($help_context = "Trip Invoices"), isset($_GET['customer_id']), false, "", $js);
 		$_POST['filterType'] = 1;
@@ -57,7 +57,9 @@ if (!isset($_POST['customer_id']))
 start_table_left(TABLESTYLE_NOBORDER);
 start_row();
 
-echo text_cells_ex('Invoice ID', 'invoice_id','5');
+if(!(isset($_GET['CustomerPaymentInquiry'])))
+
+	echo text_cells_ex('Invoice ID', 'invoice_id','5');
     
 if (!@$_GET['popup']){
 	if(isset($_GET['CustomerPaymentInquiry']))
@@ -74,7 +76,7 @@ if (!isset($_POST['filterType']))
 	$_POST['filterType'] = 0;
 
 
-if(isset($_GET['CustomerPaymentInquiry']) || isset($_GET['SalesInvoices']))
+if(isset($_GET['SalesInvoices']))
 	hidden('filterType');
 else
 	cust_allocations_list_cells(null, 'filterType', $_POST['filterType'], true);
