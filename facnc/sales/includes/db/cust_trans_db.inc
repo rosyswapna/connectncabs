@@ -655,17 +655,17 @@ function get_deliveries_for_invoice($selected_customer){
 //return the next customer opening balance transaction reference
 function get_next_opening_balance_customer_ref()
 {
-	$sql = "SELECT MAX(trans.reference) as last_obc_ref 
+	$sql = "SELECT MAX(CAST(SUBSTRING(trans.reference, 4, length(trans.reference)-3) AS UNSIGNED)) as last_obc_ref 
 		FROM ".TB_PREF."debtor_trans as trans
-		WHERE trans.reference LIKE 'OBC%';
-		";
-
+		WHERE trans.reference LIKE 'OBC%'";
+	
 	$result = db_query($sql, "could not get sales deliveries");
 	$row = db_fetch($result);
+	
 	if($row[0]==''){
 		return "OBC1";
 	}else{
-		$num = substr($row[0],3);$num++;
+		$num = $row[0]+1;
 		return "OBC".$num;
 	}
 	

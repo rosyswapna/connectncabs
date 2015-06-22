@@ -929,6 +929,8 @@ function display_opening_balance_header(&$order, $editable, $date_text,$cnc_vouc
 
 	start_table(TABLESTYLE2, "width=100%");
 
+	label_row(_("Reference"),$ref);
+
 	
 	$customer_error = "";
 	$change_prices = 0;
