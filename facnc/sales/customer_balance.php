@@ -74,7 +74,8 @@ start_form(false, false, $_SERVER['PHP_SELF']);
 		start_row();
 		end_row();
 		
-		print_destination_list_row(_("Destination"),'PARAM[8]');
+		//print_destination_list_row(_("Destination"),'PARAM[8]');
+		hidden('PARAM[8]',1);
 
 	end_table();
 
