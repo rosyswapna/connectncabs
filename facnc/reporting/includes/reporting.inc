@@ -157,4 +157,25 @@ function print_link($link_text, $rep, $pars = array(), $dir = '',
 	return "<a target='_blank' href='$url'$id$class $pars[1]>$pars[0]</a>";
 }
 
+
+
+//function redirect to print document in new window
+function redirect_to_print_popup($rep,$pars = array()){
+
+	global $path_to_root,$Ajax;
+
+	$url = $path_to_root.'/reporting/prn_redirect.php?';
+
+	$url = $path_to_root.'/reporting/prn_redirect.php?';
+
+	foreach($pars as $par => $val) {
+		$pars[$par] = "$par=".urlencode($val);
+	}
+	$pars[] = 'REP_ID='.urlencode($rep);
+	$url .= implode ('&', $pars);
+
+	$Ajax->popup($url);
+	$Ajax->run();
+}
+
 ?>

@@ -130,6 +130,10 @@
 		meta_forward('sales/inquiry/customer_inquiry.php');
 		
 	}
+	elseif(isset($_GET['CustomerBalance'])){
+		meta_forward('sales/customer_balance.php');
+		
+	}
 	elseif(isset($_GET['DriverTransactions'])){
 		meta_forward('purchasing/inquiry/supplier_inquiry.php','DriverTransactions=Yes');
 		

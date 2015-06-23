@@ -2027,6 +2027,62 @@ function yesno_list_row($label, $name, $selected_id=null, $name_yes="", $name_no
 
 //------------------------------------------------------------------------------------------------
 
+function orientation_list($name, $selected_id=null, $submit_on_change=false)
+{
+	$sel = array(_("Portrait"), _("Landscape"));
+
+	return array_selector($name, $selected_id, $sel, 
+		array( 
+			'select_submit'=> $submit_on_change,
+			'async' => false ) ); // FIX?
+}
+
+function orientation_list_cells($label, $name, $selected_id=null, $submit_on_change=false)
+{
+	if ($label != null)
+		echo "<td>$label</td>\n";
+	echo "<td>";
+	echo orientation_list($name, $selected_id, $submit_on_change);
+	echo "</td>\n";
+}
+
+function orientation_list_row($label, $name, $selected_id=null, $submit_on_change=false)
+{
+	echo "<tr><td class='label'>$label</td>";
+	orientation_list_cells(null, $name, $selected_id, $submit_on_change);
+	echo "</tr>\n";
+}
+
+//------------------------------------------------------------------------------------------------
+
+function print_destination_list($name, $selected_id=null, $submit_on_change=false)
+{
+	$sel = array(_("PDF/Printer"), "Excel");
+
+	return array_selector($name, $selected_id, $sel, 
+		array( 
+			'select_submit'=> $submit_on_change,
+			'async' => false ) ); // FIX?
+}
+
+function print_destination_list_cells($label, $name, $selected_id=null, $submit_on_change=false)
+{
+	if ($label != null)
+		echo "<td>$label</td>\n";
+	echo "<td>";
+	echo print_destination_list($name, $selected_id, $submit_on_change);
+	echo "</td>\n";
+}
+
+function print_destination_list_row($label, $name, $selected_id=null, $submit_on_change=false)
+{
+	echo "<tr><td class='label'>$label</td>";
+	print_destination_list_cells(null, $name, $selected_id, $submit_on_change);
+	echo "</tr>\n";
+}
+
+//------------------------------------------------------------------------------------------------
+
 function languages_list($name, $selected_id=null, $all_option=false)
 {
 	global $installed_languages;

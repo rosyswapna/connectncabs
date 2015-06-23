@@ -171,7 +171,7 @@
 				<li><a href="<?php echo base_url().'account/front_desk/NewBankDeposit';?>"><i class="fa fa-angle-double-right"></i> Receipt</a></li>
 				<li><a href="<?php echo base_url().'account/front_desk/BankTransfer';?>"><i class="fa fa-angle-double-right"></i> Bank Account Transfers</a></li>
 				<li><a href="<?php echo base_url().'account/front_desk/ReconcileBank';?>"><i class="fa fa-angle-double-right"></i> Reconcile Bank Account</a></li>
-				<li><a href="<?php echo base_url().'account/front_desk/CustomerTransactions';?>"><i class="fa fa-angle-double-right"></i> Customer Transactions</a></li>
+				<li><a href="<?php echo base_url().'account/front_desk/CustomerBalance';?>"><i class="fa fa-angle-double-right"></i> Customer Balance</a></li>
 				<li><a href="<?php echo base_url().'account/front_desk/DriverTransactions';?>"><i class="fa fa-angle-double-right"></i> Driver Transactions</a></li>
 				<li><a href="<?php echo base_url().'account/front_desk/OwnerTransactions';?>"><i class="fa fa-angle-double-right"></i> Vehicle Owner Transactions</a></li>
 				
