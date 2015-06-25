@@ -37,6 +37,9 @@ class Vehicle extends CI_Controller {
 			if(isset($_REQUEST['owner-submit'])){
 				$this->owner_validation();
 				}
+			if(isset($_REQUEST['owner-add'])){
+				$this->manage_owner();
+				}
 			if(isset($param1)&& $param1!='getDescription') {
 				
 				if(isset($_REQUEST['add'])){
@@ -701,7 +704,7 @@ $err=True;
 		
 	
 
-	public function owner_validation(){	
+	/*public function owner_validation(){	
 		if(isset($_REQUEST['owner-submit'])){ 
 			$owner_id=$this->input->post('hidden_owner_id');
 			$vehicle_id=$this->mysession->get('vehicle_id');
@@ -731,15 +734,10 @@ $err=True;
 			else{
 				$this->form_validation->set_rules('mobile','Agency ContactInfo ','trim|required|xss_clean|regex_match[/^[0-9]{10}$/]');
 				$this->form_validation->set_rules('owner_name','Owner Name ','trim|required|xss_clean');
-			}/* }
-			 else{
-			 $this->form_validation->set_rules('mobile','Agency ContactInfo ','trim|required|xss_clean|regex_match[/^[0-9]{10}$/]|is_unique[vehicle_owners.mobile]');
-			 }*/
+			}
 			 //if($hmail==$data['email']){
 			 $this->form_validation->set_rules('mail','Mail ID','trim|xss_clean|valid_email');
-			 /*}else{
-			 $this->form_validation->set_rules('mail','Mail ID','trim|required|xss_clean|valid_email|is_unique[vehicle_owners.email]');
-			 }*/
+			 
 			
 			 $err=True;
 			 //for insurance
@@ -848,6 +846,108 @@ $err=True;
 
 				}
 
+			}
+		
+		}else{
+			$this->notAuthorized();
+		}
+	}*/
+
+	public function manage_owner(){	
+		if(isset($_REQUEST['owner-add'])){ 
+			$owner_id=$this->input->post('hidden_owner_id');
+			$data['name']=$this->input->post('owner_name');
+			$data['address']=$this->input->post('address');
+			$data['mobile']=$this->input->post('mobile');
+			$data['email']=$this->input->post('mail');
+			$data['dob']=$this->input->post('dob');
+			$data['organisation_id']=$this->session->userdata('organisation_id');
+			$data['user_id']=$this->session->userdata('id');
+			$hphone=$this->input->post('hphone_own');
+			$hmail=$this->input->post('hmail_own');
+			$username=$this->input->post('username');
+			$password=$this->input->post('password');
+			$hpass=$this->input->post('h_pass');
+			$hidden_user=$this->input->post('h_user');
+			
+			 $this->form_validation->set_rules('address','Address','trim|xss_clean');
+			 $this->form_validation->set_rules('dob','Date of Birth','trim|xss_clean');
+			
+			
+			$this->form_validation->set_rules('mobile','Agency ContactInfo ','trim|required|xss_clean|regex_match[/^[0-9]{10}$/]');
+			$this->form_validation->set_rules('owner_name','Owner Name ','trim|required|xss_clean');
+			
+			$this->form_validation->set_rules('mail','Mail ID','trim|xss_clean|valid_email');
+			 
+			$err=True;
+
+			if($this->input->post('username')!='') { 
+	
+				if($this->input->post('password')==''){
+					$err=False;
+					$this->mysession->set('v_pwd_err','Password Field Required');
+				}
+				else{
+			
+					if($owner_id==gINVALID ){
+						$this->form_validation->set_rules('password','Password','trim|min_length[5]|matches[cpassword]|xss_clean');
+						$this->form_validation->set_rules('cpassword','Confirmation','trim|min_length[5]|xss_clean');
+					}else{
+						$this->form_validation->set_rules('password','Password','trim|min_length[5]|xss_clean');
+					}
+				}
+		
+				if($hidden_user!=$this->input->post('username')){
+					$this->form_validation->set_rules('username','Username','trim|min_length[4]|xss_clean|is_unique[users.username]');
+				}
+				if($hidden_user==$this->input->post('username')){
+					$this->form_validation->set_rules('username','Username','trim|required|min_length[4]|xss_clean');
+				}
+			}
+
+			if(($this->form_validation->run()==False )||($err==false )){
+				$data['username']=$username;
+				$data['password']=$password;
+				$this->mysession->set('owner_post_all',$data);
+				redirect(base_url().'organization/front-desk/supplier-profile/'.$owner_id);	
+			}else{ 
+				
+				 //database insertion for supplier 
+				$login['username']=$username;
+				if( $hpass==$password){
+					$flag=1;
+					$login['password']=$password;
+				}else{
+					$flag=0;
+					$login['password']=$password;
+				}
+				 
+				if($owner_id==gINVALID ){ 
+					
+					$owner_id=$this->vehicle_model->insertOwner($data,$login);
+					if($owner_id){
+						//vehicle owner enter as supplier in fa 
+						$this->load->model('account_model');
+						$this->account_model->add_fa_supplier($owner_id,"VW");
+						$this->mysession->set('owner_Success',' Owner Details Added Succesfully..!');
+						$this->mysession->set('owner_Error','');
+	
+						redirect(base_url().'organization/front-desk/supplier-profile/'.$owner_id);
+					}
+				}else{
+				
+					$res=$this->vehicle_model->UpdateOwnerdetails($data,$owner_id,$login,$flag); 
+					
+					if($res==true){
+						//edit vehicle owner enter as supplier in fa
+						$this->load->model('account_model');
+						$this->account_model->edit_fa_supplier($owner_id,"VW");
+						$this->mysession->set('owner_Success',' Owner Details Updated Succesfully..!');
+				    		$this->mysession->set('owner_Error','');
+				    		redirect(base_url().'organization/front-desk/supplier-profile/'.$owner_id);
+					}
+				}	
+				
 			}
 		
 		}else{
