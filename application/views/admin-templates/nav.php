@@ -108,7 +108,21 @@
                                 
                             </ul>
                         </li>
-						<li class="treeview">
+
+			<li class="treeview">
+                            <a href="#">
+                                <i class="fa fa-user-md"></i>
+                                <span>Supplier</span>
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </a>
+                            <ul class="treeview-menu">
+                               
+                                <li><a href=" <?php echo base_url().'organization/front-desk/list-supplier';?>"><i class="fa fa-angle-double-right"></i>Manage Suppliers</a></li>
+                                
+                            </ul>
+                        </li>
+
+			<li class="treeview">
                             <a href="#">
                                 <i class="fa fa-truck"></i>
                                 <span>Vehicle</span><i class="fa fa-angle-left pull-right"></i>
