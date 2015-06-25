@@ -30,8 +30,6 @@ page(_($help_context = "Customer Balance"), false, false, "", $js);
 if(isset($_POST['PrintCustomerBalance'])){
 
 	global $Ajax;
-
-	$url = $path_to_root.'/reporting/prn_redirect.php?';
 	$pars = array();
 	foreach($_POST['PARAM'] as $key=>$val){
 		$pars['PARAM_'.$key] = $val;

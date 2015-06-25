@@ -18,6 +18,8 @@ include_once($path_to_root . "/sales/includes/sales_ui.inc");
 include_once($path_to_root . "/sales/includes/sales_db.inc");
 include_once($path_to_root . "/reporting/includes/reporting.inc");
 
+
+
 if (!@$_GET['popup'])
 {
 	$js = "";
@@ -29,6 +31,9 @@ if (!@$_GET['popup'])
 	if(isset($_GET['CustomerPaymentInquiry'])){
 		page(_($help_context = "Transactions"), isset($_GET['customer_id']), false, "", $js);
 		//$_POST['filterType'] = 3;
+
+		$_POST['customer_id'] = get_cnc_customer_id($_GET['CustomerPaymentInquiry']);
+
 	}elseif(isset($_GET['SalesInvoices'])){
 		page(_($help_context = "Trip Invoices"), isset($_GET['customer_id']), false, "", $js);
 		$_POST['filterType'] = 1;
@@ -62,10 +67,13 @@ if(!(isset($_GET['CustomerPaymentInquiry'])))
 	echo text_cells_ex('Invoice ID', 'invoice_id','5');
     
 if (!@$_GET['popup']){
-	if(isset($_GET['CustomerPaymentInquiry']))
+	if(isset($_GET['CustomerPaymentInquiry'])){
+		
 		hidden('customer_id');
-	else
+	}
+	else{
 		customer_list_cells(_("Select a customer: "), 'customer_id', null, true, false, false, !@$_GET['popup']);
+	}
 	
 }
 

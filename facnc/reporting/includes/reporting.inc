@@ -166,8 +166,6 @@ function redirect_to_print_popup($rep,$pars = array()){
 
 	$url = $path_to_root.'/reporting/prn_redirect.php?';
 
-	$url = $path_to_root.'/reporting/prn_redirect.php?';
-
 	foreach($pars as $par => $val) {
 		$pars[$par] = "$par=".urlencode($val);
 	}
