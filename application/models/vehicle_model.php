@@ -392,4 +392,32 @@ return true;
 	}
 	}
 
+	public function get_owner($vehicle_id)
+	{
+		$this->db->select('owner_id');
+		$this->db->from('vehicle_owner_mapping');
+		$this->db->where('vehicle_id',$vehicle_id);
+		$qry = $this->db->get();
+		if($qry->num_rows() ==1){
+			return $qry->row();
+		}else{
+			return false;
+		}
+	}
+
+
+	public function map_vehicle($vehicle_id,$owner_id)
+	{
+		$owner = $this->get_owner($vehicle_id);
+		if($owner){
+			$this->db->where('vehicle_id',$vehicle_id);
+			$this->db->set('owner_id',$owner_id);
+			$this->db->update('vehicle_owner_mapping');
+		}else{
+			$data = array('vehicle_id'=>$vehicle_id,'owner_id'=>$owner_id);
+			$this->db->insert('vehicle_owner_mapping',$data);
+		}
+		return true;	
+	}
+
 }?>

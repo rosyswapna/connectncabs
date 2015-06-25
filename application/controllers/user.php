@@ -2308,7 +2308,12 @@ public function profile() {
 				$data['device']=$data['record_values']['device'];
 				$insurance_id=$data['vehicle']['vehicles_insurance_id'];
 				$loan_id=$data['vehicle']['vehicle_loan_id'];
-				$owner_id=$data['vehicle']['vehicle_owner_id'];
+				$owner_map = $this->vehicle_model->get_owner($vid);
+				
+				if($owner_map)
+					$data['owner_id'] = $owner_id = $owner_map->owner_id;
+				else
+					$data['owner_id'] = $owner_id = gINVALID;
 				$data['supplier_group']=$data['vehicle']['supplier_group_id'];
 				if($insurance_id!=gINVALID && $insurance_id!=0){
 					$data['get_insurance']=$this->user_model->getInsurance($insurance_id);
@@ -2475,7 +2480,7 @@ public function profile() {
 			'vehicle_ownership_types','vehicle_types','vehicle_makes',
 			'vehicle_ac_types','vehicle_fuel_types',
 			'vehicle_seating_capacity','vehicle_permit_types',
-			'vehicle_payment_percentages','driver_payment_percentages','supplier_groups'
+			'vehicle_payment_percentages','driver_payment_percentages','supplier_groups','vehicle_owners'
 			);
 		$this->load->model('user_model');
 		for ($i=0;$i<count($tbl_arry);$i++){

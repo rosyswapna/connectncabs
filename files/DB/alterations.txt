@@ -38,3 +38,19 @@ ALTER TABLE `trips`  ADD `source_mobile` VARCHAR(15) NOT NULL AFTER `source`,  A
 May 05
 
 ALTER TABLE `trip_vouchers` ADD `vehicle_model_id` INT(11) NOT NULL AFTER `driver_id`;
+
+
+
+----------------------25 june 2015--------------------------------------
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `vehicle_owner_mapping`
+--
+
+CREATE TABLE IF NOT EXISTS `vehicle_owner_mapping` (
+  `owner_id` int(11) NOT NULL,
+  `vehicle_id` int(11) NOT NULL,
+  KEY `owner_id` (`owner_id`,`vehicle_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;

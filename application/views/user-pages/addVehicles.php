@@ -841,45 +841,22 @@ if($this->mysession->get('loan_post_all')!=null ){
 		<div class="<?php echo $tabs['o_tab']['content_class'];?>" id="<?php echo $tabs['o_tab']['tab_id'];?>">
 	
 		<?php 
-			$owner_id=gINVALID;
-			$own_name='';
-			$own_address='';
-			$own_mob='';
-			$own_mail='';
-			$own_dob='';
-			$own_user='';
-			$own_pas='';
 			
-if($this->mysession->get('owner_post_all')!=null ){
-		$data=$this->mysession->get('owner_post_all');
+		$owner_id=gINVALID;
+			
+			
+		if($this->mysession->get('owner_post_all')!=null ){
+			$data=$this->mysession->get('owner_post_all');
 			$owner_id=$this->mysession->get('owner_id');
-			$own_name=$data['name'];
-			$own_address=$data['address'];
-			$own_mob=$data['mobile'];
-			$own_mail=$data['email'];
-			$own_dob=$data['dob'];
-			$own_user=$data['username'];
-			$own_pas=$data['password'];
-			$supplier_group=$data['supplier_group'];
-		$this->mysession->delete('owner_post_all');
-
-}else if(isset($get_owner)&& $get_owner!=null){
-			$owner_id=$get_owner['id'];
-			$own_name=$get_owner['name'];
-			$own_address=$get_owner['address'];
-			$own_mob=$get_owner['mobile'];
-			$own_mail=$get_owner['email'];
-			$own_dob=$get_owner['dob'];
-			$own_user=$get_owner['username'];
-			$own_pas=$get_owner['password'];
-			$h_pass=$get_owner['password'];
 			
-	
-	}
+			$this->mysession->delete('owner_post_all');
+
+		}else if(isset($get_owner)&& $get_owner!=null){
+			$owner_id=$get_owner['id'];			
+		}
 
 ?>
-
-				<?php if($this->mysession->get('owner_Success') != '') { ?>
+		<?php if($this->mysession->get('owner_Success') != '') { ?>
         <div class="success-message">
 			
             <div class="alert alert-success alert-dismissable">
@@ -905,88 +882,28 @@ if($this->mysession->get('owner_post_all')!=null ){
 <?php  } ?>
 	   
 
-		                    <div class="width-30-percent-with-margin-left-20-Driver-View insurance ">
-			<fieldset class="body-border-Driver-View border-style-Driver-view" >
-			<legend class="body-head">Owner Details</legend>
+			<div class="width-30-percent-with-margin-left-20-Driver-View insurance ">
+				<fieldset class="body-border-Driver-View border-style-Driver-view" >
+				<legend class="body-head">Owner Details</legend>
+				
+	
 				<div class="form-group">
-		<?php echo form_label('Name','usernamelabel'); ?>
-           <?php echo form_input(array('name'=>'owner_name','class'=>'form-control','id'=>'total_amt','value'=>$own_name)); ?>
-	   <?php echo $this->form_functions->form_error_session('owner_name', '<p class="text-red">', '</p>'); ?>
-        </div>
-
-		<div class="form-group">
-		<?php echo form_label(' Address','usernamelabel'); ?>
-           <?php echo form_textarea(array('name'=>'address','class'=>'form-control','id'=>'address','value'=>$own_address,'rows'=>4)); ?>
-	   <?php echo $this->form_functions->form_error_session('address', '<p class="text-red">', '</p>'); ?>
-        </div>
-		<div class="form-group">
-		<?php echo form_label('Mobile','usernamelabel'); ?>
-           <?php echo form_input(array('name'=>'mobile','class'=>'form-control','id'=>'mobile','value'=>$own_mob,'rows'=>4)); ?>
-	   <?php echo $this->form_functions->form_error_session('mobile', '<p class="text-red">', '</p>'); ?>
-        </div><div class="hide-me"><?php echo form_input(array('name'=>'hphone_own','value'=>$own_mob));?>
-        </div>
-		<div class="form-group">
-		<?php echo form_label(' Email','usernamelabel'); ?>
-           <?php echo form_input(array('name'=>'mail','class'=>'form-control','id'=>'mail','value'=>$own_mail,'rows'=>4)); ?>
-	   <?php echo $this->form_functions->form_error_session('mail', '<p class="text-red">', '</p>'); ?>
-        </div><div class="hide-me"><?php echo form_input(array('name'=>'hmail_own','value'=>$own_mail));?>
-        </div>
-		<div class="form-group">
-	<?php echo form_label('Date of Birth','usernamelabel'); ?>
-           <?php echo form_input(array('name'=>'dob','class'=>'fromdatepicker form-control' ,'value'=>$own_dob)); ?>
-	   <?php echo $this->form_functions->form_error_session('dob', '<p class="text-red">', '</p>'); ?>
-        </div>
-	
-	<div class="form-group">
-	<?php echo form_label('Supplier Group','usernamelabel'); ?>
-        <?php
-			$class="form-control";$id= "add-supplier";
-			$msg="Supplier Group";
-			$name="supplier_group";
+				<?php echo form_label('Suppliers','owner_id'); 
+	       			
+				$class="form-control";
+				$msg="Supplier";
+				$name= $id = "owner_id";
 			
-			echo $this->form_functions->populate_dropdown($name,$select['supplier_groups'],@$supplier_group,$class,$id,$msg);
-			?>
-	   <?php echo $this->form_functions->form_error_session('dob', '<p class="text-red">', '</p>'); ?>
-        </div>
+				echo $this->form_functions->populate_dropdown($name,$select['vehicle_owners'],@$owner_id,$class,$id,$msg);
+				echo $this->form_functions->form_error_session('owner_id', '<p class="text-red">', '</p>'); 			?>
+				</div>
 	
 	
-	<div class="form-group">
-		   <?php echo form_label('Username','usernamelabel');
-			
-			echo form_input(array('name'=>'username','class'=>'form-control','id'=>'username','placeholder'=>'Enter Username','value'=>$own_user));
-		   ?>			
-		  <?php echo $this->form_functions->form_error_session('username', '<p class="text-red">', '</p>'); ?>
-	<div class="hide-me"><?php echo form_input(array('name'=>'h_user','value'=>$own_user));?></div>		
-	</div>
-	<div class="form-group">
-		   <?php echo form_label('Password','passwordlabel');  ?>
-		   <?php echo form_password(array('name'=>'password','class'=>'form-control','id'=>'password','placeholder'=>'Enter Password','value'=>$own_pas)); ?>			
-			<?php echo '<p class="text-red">'.$this->mysession->get('v_pwd_err').'</p>'; ?>
-			<?php echo $this->form_functions->form_error_session('password', '<p class="text-red">', '</p>'); ?>
-	</div>
-	<div class="hide-me"><?php echo form_input(array('name'=>'h_pass','value'=>$h_pass)); ?></div>
-		 <?php if($owner_id!='' && $owner_id>gINVALID){  echo '';}else{?>
- 	<div class="form-group">
- 		   <?php echo form_label('Confirm Password','cpasswordlabel'); ?>
- 		   <?php echo form_password(array('name'=>'cpassword','class'=>'form-control','id'=>'cpassword','placeholder'=>'Enter Confirm password')); ?>			
- 			<?php echo $this->form_functions->form_error_session('cpassword', '<p class="text-red">', '</p>'); ?>
- 	</div>
-		
-		<?php }?>
-		<div class='hide-me'><?php 
-		echo form_input(array('name'=>'hidden_owner_id','class'=>'form-control','value'=>$owner_id));?></div>
-		<div class="box-footer">
-		<?php if($owner_id==gINVALID){
-			$btn_name='Save';
-		 }else {
-			$btn_name='Update';
-			}
-			echo form_submit("owner-submit",$btn_name,"class='btn btn-primary'"); ?>
-		</div>
-			</fieldset>
-			
+				<?php echo form_submit("owner-mapping","Save","class='btn btn-primary'"); ?>
+				</fieldset>
 			
 			</div>
+
 		</div>
 			<?php echo form_close();?>
 			<?php } ?>

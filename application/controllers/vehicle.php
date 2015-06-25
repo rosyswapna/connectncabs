@@ -40,6 +40,9 @@ class Vehicle extends CI_Controller {
 			if(isset($_REQUEST['owner-add'])){
 				$this->manage_owner();
 				}
+			if(isset($_REQUEST['owner-mapping'])){
+				$this->owner_mapping();
+				}
 			if(isset($param1)&& $param1!='getDescription') {
 				
 				if(isset($_REQUEST['add'])){
@@ -701,6 +704,25 @@ $err=True;
 			$this->notAuthorized();
 			}
 		}
+
+	//mapping vehicle owner with vehicle
+	public function owner_mapping()
+	{
+		if(isset($_REQUEST['owner-mapping'])){ 
+
+			$owner_id=$this->input->post('owner_id');
+			$vehicle_id=$this->mysession->get('vehicle_id');
+
+			$this->vehicle_model->map_vehicle($vehicle_id,$owner_id);
+			$this->mysession->set('owner_Success',' Owner Details Updated Succesfully..!');
+			$this->mysession->set('owner_Error','');
+		
+			redirect(base_url().'organization/front-desk/vehicle/'.$vehicle_id.'/owner',$owner_id);
+			
+		}else{
+			$this->notAuthorized();
+		}
+	}
 		
 	
 
