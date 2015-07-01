@@ -89,10 +89,13 @@ public function getDriversInfo(){
 	}
 	}
 	
+	
 	public function getOwners(){ 
-		$qry='SELECT vehicle_id,name,mobile,address 
-			FROM vehicle_owners 
-			WHERE organisation_id = '.$this->session->userdata('organisation_id');
+		$qry='SELECT vmap.vehicle_id,owner.name,owner.mobile,owner.address 
+			FROM vehicle_owners owner,vehicle_owner_mapping vmap
+			WHERE organisation_id = '.$this->session->userdata('organisation_id')."
+			AND vmap.owner_id = owner.id
+			";
 
 		
 		$results=$this->db->query($qry);
