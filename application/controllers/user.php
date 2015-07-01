@@ -1661,168 +1661,52 @@ public function profile() {
 	public function ShowSupplierList($param1,$param2)
 	{
 		
-		if($this->session_check()==true) { 
-			
-			$data['driver_name']='';
-			$data['driver_city']='';
-			$data['status_id']='';
+		if($this->session_check()==true) {
 
-			$condition='';
-			$per_page=10;
-			$like_arry=''; 
-			$org_id=$this->session->userdata('organisation_id');
-			$where_arry['organisation_id']=$org_id;
-			$qry='SELECT D.id,D.name
-		FROM drivers D where D.organisation_id = '.$this->session->userdata('organisation_id');
-					if($param2=='1' ){
-						$param2='0';
-						}
-			if($param2==''){
-				$this->mysession->delete('condition');
+			$data['supplier_name'] = $data['supplier_mobile'] = '';
+			$where_arry = $like_arry = '';
 
-			}
 			//for search
 			if(isset($_REQUEST['search'])){
+				
 				if($param2==''){
 					$param2='0';
 				}
-				if($_REQUEST['status']!=null && $_REQUEST['status']!=-1 ){
-					$data['status_id']=$_REQUEST['status'];
-					$date_now=date('Y-m-d H:i:s');
-					$where_arry['dstatus']=$_REQUEST['status'];
-					$qry=' SELECT D.id
-						FROM drivers AS D  LEFT JOIN trips as T ON D.id= T.driver_id where D.organisation_id = '.$this->session->userdata('organisation_id').'
-						AND CONCAT( T.pick_up_date, " ", T.pick_up_time ) <= "'.$date_now.'"
-						AND CONCAT( T.drop_date, " ", T.drop_time ) >= "'.$date_now.'"
-						AND T.organisation_id = '.$this->session->userdata('organisation_id').'
-						AND T.driver_id = D.id
-						AND T.trip_status_id = '.TRIP_STATUS_CONFIRMED;
-				}
-				if($_REQUEST['status']!=null && $_REQUEST['status']==0 ){
-					$data['status_id']=$_REQUEST['status'];
-					$date_now=date('Y-m-d H:i:s');
-					$where_arry['dstatus']=$_REQUEST['status'];
-					$qry='SELECT D.id FROM drivers D WHERE  D.organisation_id = "'.$this->session->userdata('organisation_id').'" AND D.id NOT IN ('.$qry.')';
-				}
-				if($_REQUEST['driver_name']!=null){
-					$data['driver_name']=$_REQUEST['driver_name'];
-					$qry.=' AND D.name LIKE "%'.$_REQUEST['driver_name'].'%" ';
-					$like_arry['name']=$_REQUEST['driver_name'];
+			
+				if($_REQUEST['supplier_name']!=null){
+					$data['supplier_name']=$_REQUEST['supplier_name'];
+					$like_arry['name']=$_REQUEST['supplier_name'];
 				}
 	
-				if($_REQUEST['driver_city']!=null){
-					$data['driver_city']=$_REQUEST['driver_city'];
-					$like_arry['district']=$_REQUEST['driver_city'];
-					$qry.=' AND D.district LIKE "%'.$_REQUEST['driver_city'].'%" ';
+				if($_REQUEST['supplier_mobile']!=null){
+					$data['supplier_mobile']=$_REQUEST['supplier_mobile'];
+					$where_arry['mobile']=$_REQUEST['supplier_mobile'];
 				}
 
 				if(isset($where_arry) || isset($like_arry)){
 					$this->mysession->set('condition',array("where"=>$where_arry,"like"=>$like_arry));
 				}
-
-				//$this->mysession->set('condition',array("like"=>$like_arry,"where"=>$where_arry));
-
-			
-			} 
-			else if($this->mysession->get('condition')!=''){ 
-					$condition=$this->mysession->get('condition');
-					if(isset($condition['where']['dstatus']) || isset($condition['like']['name']) || isset($condition['like']['district']) ){
-			
-					if(isset($condition['where']['dstatus']) && $condition['where']['dstatus']!=-1 ){
-					$data['status_id']=$condition['where']['dstatus'];
-					$date_now=date('Y-m-d H:i:s');
-					//$where_arry['status']=$_REQUEST['status'];
-				$qry=' SELECT D.id
-				FROM drivers AS D  LEFT JOIN trips as T ON D.id= T.driver_id where D.organisation_id = '.$this->session->userdata('organisation_id').'
-				AND CONCAT( T.pick_up_date, " ", T.pick_up_time ) <= "'.$date_now.'"
-				AND CONCAT( T.drop_date, " ", T.drop_time ) >= "'.$date_now.'"
-				AND T.organisation_id = '.$this->session->userdata('organisation_id').'
-				AND T.driver_id = D.id
-				AND T.trip_status_id = '.TRIP_STATUS_CONFIRMED;
-			
-					}	
-					if(isset($condition['where']['dstatus'])&& $condition['where']['dstatus']==0){
-					$data['status_id']=$condition['where']['dstatus'];
-					$date_now=date('Y-m-d H:i:s');
-					//$where_arry['status_id']=$_REQUEST['status'];
-					$qry='SELECT D.id FROM drivers D WHERE  D.organisation_id = "2" AND D.id NOT IN ('.$qry.')';
-			
-					}
-					if(isset($condition['like']['name'])){
-			
-					$data['driver_name']=$condition['like']['name'];
-					$qry.=' AND D.name LIKE "%'.$condition['like']['name'].'%" ';
-					}
-					if(isset($condition['like']['district'])){
-					$data['driver_city']=$condition['like']['district'];
-					$qry.=' AND D.district LIKE "%'.$condition['like']['district'].'%" ';
-					}
-			
-			
-				}
 			}
-			
-			/*if(is_null($this->mysession->get('condition'))){
-			$this->mysession->set('condition',array("like"=>$like_arry,"where"=>$where_arry));
-			}*/
-			//$tbl="drivers";
-			$baseurl=base_url().'organization/front-desk/list-driver/';
+
+			if($this->mysession->get('condition')!=''){ 
+				$condition=$this->mysession->get('condition');
+			}else{
+				$condition=false;
+			}
+
+			$qry = $this->vehicle_model->get_sql_for_Suppliers($condition);
+
+			$baseurl=base_url().'organization/front-desk/list-supplier/';
 			$uriseg ='4';
-				//echo $qry;//exit;
-			   $p_res=$this->mypage->paging($tbl='',$per_page,$param2,$baseurl,$uriseg,$custom='yes',$qry);
+			$per_page=10;
+			$p_res=$this->mypage->paging($tbl='',$per_page,$param2,$baseurl,$uriseg,$custom='yes',$qry);
 
-			$data['values']=$p_res['values'];
-	
-			//print_r($data['values']);exit;
-			$driver_trips='';
-			$driver_statuses='';
-			for($i=0;$i<count($data['values']);$i++){
-				$id=$data['values'][$i]['id'];
-				$availability=$this->driver_model->getCurrentStatuses($id);
-				if($availability==false){
-				$driver_statuses[$id]='Available';
-				$driver_trips[$id]=gINVALID;
-				}else{
-				$driver_statuses[$id]='OnTrip';
-				$driver_trips[$id]=$availability[0]['id'];
-				}
-			}
-			$data['driver_statuses']=$driver_statuses;
-			$data['driver_trips']=$driver_trips;
-			if(empty($data['values'])){
-						$data['result']="No Results Found !";
-						}
-	
-			for ($i=0;$i<count($data['values']);$i++){
-			$driverid=$data['values'][$i]['id'];
-			$driver_details[$driverid]=$this->user_model->getVehicleDetails($driverid);
-	
-			$drivers=$this->vehicle_model->getDriversInfo();
-			if($drivers!=false){
-			$data['drivers']=$drivers;// print_r($data['drivers']);exit;
-			}else{
-			$data['drivers']='';
-			}
-			}
-			if(!empty($driver_details)){
-				$data['v_details']=$driver_details;
-			}
-	
-	
-	
-			$data['v_models']=$this->user_model->getArray('vehicle_models');
-			$data['v_makes']=$this->user_model->getArray('vehicle_makes');
-			$vehicles=$this->vehicle_model->getVehicles();
-			if($vehicles!=false){
-			$data['vehicles']=$vehicles;
-			}else{
-			$data['vehicles']='';
-			}
+			$data['suppliers']=$p_res['values'];
 
-			$data['trip_info']=$this->user_model->getTotTripInfo();
-
+			//echo "<pre>";print_r($data);echo "</pre>";exit;
+		
 			$data['page_links']=$p_res['page_links']; 
-			$data['title']='List Driver| '.PRODUCT_NAME;
+			$data['title']='List Supplier| '.PRODUCT_NAME;
 			$page='user-pages/supplierList';
 			$this->load_templates($page,$data);	
 	
@@ -2401,7 +2285,7 @@ public function profile() {
 			$TotalExpense = array();
 			$TotalHalt = $TotalBata = $TotalTripAmount = $full_tot_km= $tot_tax= $tot_vehicle_payment_amount=$tot_vehicle_trip_amount=0;
 			foreach($trips as $trip){
-				//echo "<pre>";print_r($trip);echo "</pre>";exit;
+				
 				$trip_km=$trip['end_km_reading']-$trip['start_km_reading'];
 				$full_tot_km=$full_tot_km+$trip_km;
 				$tot_tax=$tot_tax+$trip['state_tax'];
@@ -2412,6 +2296,7 @@ public function profile() {
 				$date2 = date_create($trip['drop_date'].' '.$trip['drop_time']);
 
 				$diff= date_diff($date1, $date2);
+
 				$no_of_days=$diff->d;
 				if($no_of_days==0){
 					$no_of_days='1 Day';

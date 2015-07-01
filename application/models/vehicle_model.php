@@ -89,22 +89,51 @@ public function getDriversInfo(){
 	}
 	}
 	
-public function getOwners(){ 
-	$qry='select vehicle_id,name,mobile,address from vehicle_owners where organisation_id = '.$this->session->userdata('organisation_id') ;
-	$results=$this->db->query($qry);
-	$results=$results->result_array();
-	if(count($results)>0){
-	for($i=0;$i<count($results);$i++){
-		$owners[$results[$i]['vehicle_id']]['name']=$results[$i]['name'];
-		$owners[$results[$i]['vehicle_id']]['mobile']=$results[$i]['mobile'];
-		$owners[$results[$i]['vehicle_id']]['address']=$results[$i]['address'];
+	public function getOwners(){ 
+		$qry='SELECT vehicle_id,name,mobile,address 
+			FROM vehicle_owners 
+			WHERE organisation_id = '.$this->session->userdata('organisation_id');
+
 		
+		$results=$this->db->query($qry);
+		$results=$results->result_array();
+		if(count($results)>0){
+			for($i=0;$i<count($results);$i++){
+				$owners[$results[$i]['vehicle_id']]['name']=$results[$i]['name'];
+				$owners[$results[$i]['vehicle_id']]['mobile']=$results[$i]['mobile'];
+				$owners[$results[$i]['vehicle_id']]['address']=$results[$i]['address'];
+		
+			}
+			return $owners;
+		}else{
+			return false;
 		}
-		return $owners;
-	}else{
-		return false;
 	}
+
+
+	public function get_sql_for_Suppliers($condition){ 
+
+			
+		$qry = "SELECT owner.id,owner.name,owner.address,owner.mobile,owner.email,GROUP_CONCAT(vh.registration_number) as vehicle_details
+			FROM vehicle_owners owner";
+		$qry .= " LEFT JOIN vehicle_owner_mapping vmap ON vmap.owner_id = owner.id";
+		$qry .= " LEFT JOIN vehicles vh ON vmap.vehicle_id = vh.id";
+		$qry .= " WHERE owner.organisation_id=".$this->db->escape($this->session->userdata('organisation_id'));
+
+		if($condition){
+
+			if(isset($condition['where']['mobile']) && $condition['where']['mobile'] != ''){
+				$qry .= " AND mobile = ".$this->db->escape($condition['where']['mobile']);
+			}elseif(isset($condition['like']['name']) && $condition['like']['name'] != ''){
+				$qry .= " AND name LIKE '%".$condition['like']['name']."%'";
+			}
+		}
+		$qry .= " GROUP BY vmap.owner_id";
+
+		return $qry;
 	}
+
+
 	public function getListVehicles(){ 
 	$qry='select V.id,V.supplier_group_id,V.registration_number,V.vehicle_permit_renewal_date,V.tax_renewal_date,VI.insurance_renewal_date,VMA.id as make_id,VMO.id as model_id from vehicles V LEFT JOIN vehicle_models as VMO ON V.vehicle_model_id=VMO.id LEFT JOIN vehicle_makes as VMA ON V.vehicle_make_id=VMA.id LEFT JOIN vehicles_insurance as VI ON VI.vehicle_id=V.id where V.organisation_id='.$this->session->userdata('organisation_id');//echo $qry;exit;
 	$results=$this->db->query($qry);
