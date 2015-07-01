@@ -592,7 +592,7 @@ class Trip_booking extends CI_Controller {
 				
 				$res = $this->trip_booking_model->bookTrip($dbdata,$estimate);
 				if($res!=false && $res>0){
-					$this->session->set_userdata(array('dbSuccess'=>'Trip Booked Succesfully..!!'));
+					$this->session->set_userdata(array('dbSuccess'=>'Trip #'.$res.' Booked Succesfully..!!'));
 					$this->session->set_userdata(array('dbError'=>''));
 					if($dbdata['trip_status_id']==TRIP_STATUS_CONFIRMED){
 						//$this->SendTripConfirmation($res,$dbdata,$customer);
