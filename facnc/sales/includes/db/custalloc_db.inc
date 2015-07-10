@@ -101,7 +101,7 @@ function get_alloc_trans_sql($extra_fields=null, $extra_conditions=null, $extra_
 		trans.tran_date,
 		debtor.name AS DebtorName, 
 		debtor.curr_code, 
-		ov_amount+ov_gst+ov_freight+ov_freight_tax+ov_discount AS Total,
+		ov_amount+ov_gst+ov_freight+ov_freight_tax+ov_discount+ov_tds AS Total,
 		trans.alloc,
 		trans.due_date,
 		debtor.address,
@@ -132,13 +132,13 @@ function get_allocatable_from_cust_sql($customer_id, $settled)
 	$settled_sql = "";
 	if (!$settled)
 	{
-		$settled_sql = " AND (round(ov_amount+ov_gst+ov_freight+ov_freight_tax-ov_discount-alloc,6) > 0)";
+		$settled_sql = " AND (round(ov_amount+ov_tds+ov_gst+ov_freight+ov_freight_tax-ov_discount-alloc,6) > 0)";
 	}
 	$cust_sql = "";
 	if ($customer_id != null)
 		$cust_sql = " AND trans.debtor_no = ".db_escape($customer_id);
 
-	$sql = get_alloc_trans_sql("round(ov_amount+ov_gst+ov_freight+ov_freight_tax+ov_discount-alloc,6) <= 0 AS settled",
+	$sql = get_alloc_trans_sql("round(ov_amount+ov_tds+ov_gst+ov_freight+ov_freight_tax+ov_discount-alloc,6) <= 0 AS settled",
 		"(type=".ST_CUSTPAYMENT." OR type=".ST_CUSTCREDIT." OR type=".ST_BANKDEPOSIT.") AND (trans.ov_amount > 0) " . $settled_sql . $cust_sql);
 
 	return $sql;
@@ -211,7 +211,7 @@ function get_sql_for_customer_allocation_inquiry($from, $to, $customer, $filterT
 		debtor.name,
 		debtor.curr_code,
     	(trans.ov_amount + trans.ov_gst + trans.ov_freight 
-			+ trans.ov_freight_tax + trans.ov_discount)	AS TotalAmount,
+			+ trans.ov_freight_tax + trans.ov_discount + trans.ov_tds)	AS TotalAmount,
 		trans.alloc AS Allocated,
 		((trans.type = ".ST_SALESINVOICE.")
 			AND trans.due_date < '" . date2sql(Today()) . "') AS OverDue,
@@ -271,7 +271,7 @@ function get_sql_for_customer_allocation_inquiry($from, $to, $customer, $filterT
 function credit_sales_invoice_allocate($invoice_no, $credit_no, $amount, $date)
 {
 
-	$sql = "SELECT ov_freight+ov_gst+ov_amount+ov_freight_tax as total, alloc FROM ".TB_PREF."debtor_trans
+	$sql = "SELECT ov_freight+ov_gst+ov_amount+ov_freight_tax+ov_tds as total, alloc FROM ".TB_PREF."debtor_trans
 		WHERE (`type`=".ST_SALESINVOICE." AND trans_no=".db_escape($invoice_no).")";
 	$result = db_query($sql, "can't retrieve invoice totals");
 	$invoice = db_fetch($result);

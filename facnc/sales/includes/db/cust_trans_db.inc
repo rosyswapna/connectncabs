@@ -129,7 +129,7 @@ function get_customer_trans($trans_id, $trans_type)
 	
 
 	$sql = "SELECT trans.*,"
-		."ov_amount+ov_gst+ov_freight+ov_freight_tax+ov_discount AS Total,"
+		."ov_amount+ov_gst+ov_freight+ov_freight_tax+ov_discount+ov_tds AS Total,"
 		."cust.name AS DebtorName, cust.address, "
 		."cust.curr_code, "
 		."cust.tax_id, "
