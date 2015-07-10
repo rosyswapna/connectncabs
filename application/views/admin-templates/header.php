@@ -74,19 +74,24 @@
                 <?php if($this->session->userdata('isLoggedIn')!=null || $this->session->userdata('isLoggedIn')==true) {?>
                 <div class="navbar-right">
                     <ul class="nav navbar-nav">
+
+			<li class="dropdown user user-menu">
+                            <div class="clock"></div>
+			</li>
+
                         <!-- Messages: style can be found in dropdown.less-->
-                       <!--   <li class="dropdown messages-menu">
+                         <!--<li class="dropdown messages-menu">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                 <i class="fa fa-envelope"></i>
                                 <span class="label label-success">4</span>
                             </a>
                             <ul class="dropdown-menu">
-                                <li class="header">You have 4 messages</li>
+                               <!-- <li class="header">You have 4 messages</li>
                                 <li>
                                     <!-- inner menu: contains the actual data -->
-                                 <!--   <ul class="menu">
+                                  <!--<ul class="menu">
                                         <li><!-- start message -->
-                                          <!--  <a href="#">
+                                           <!-- <a href="#">
                                                 <div class="pull-left">
                                                     <img src="<?php echo base_url();?>img/avatar3.png" class="img-circle" alt="User Image"/>
                                                 </div>
@@ -97,7 +102,7 @@
                                                 <p>Why not buy a new awesome theme?</p>
                                             </a>
                                         </li><!-- end message -->
-                                   <!--     <li>
+                                      <!-- <li>
                                             <a href="#">
                                                 <div class="pull-left">
                                                     <img src="<?php echo base_url();?>img/avatar2.png" class="img-circle" alt="user image"/>
@@ -149,9 +154,11 @@
                                 </li>
                                 <li class="footer"><a href="#">See All Messages</a></li>
                             </ul>
-                        </li>
+                        </li>-->
+
+			
                         <!-- Notifications: style can be found in dropdown.less -->
-                       <!-- <li class="dropdown notifications-menu">
+                       <li class="dropdown notifications-menu">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                 <i class="fa fa-warning"></i>
                                 <span class="label label-warning">10</span>
@@ -160,13 +167,68 @@
                                 <li class="header">You have 10 notifications</li>
                                 <li>
                                     <!-- inner menu: contains the actual data -->
-                                  <!--  <ul class="menu">
+                                   <ul class="menu">
                                         <li>
                                             <a href="#">
-                                                <i class="ion ion-ios7-people info"></i> 5 new members joined today
+                                                <i class="ion ion-ios7-people info"></i> You have pending trips to be assigned!
                                             </a>
                                         </li>
-                                        <li>
+
+					<!--<li>
+						<div class="ajax-notifications">
+						<?php
+		
+						if(count($notification)>0 && $notification!=''){
+						for($notification_index=0;$notification_index<count($notification);$notification_index++){?>
+						<a href="<?php echo base_url().'organization/front-desk/trip-booking/'.$notification[$notification_index]->id;?>" class="notify-link">
+						<div class="callout callout-warning no-right-padding">
+						<div class="notification<?php echo $notification_index; ?>">
+							<table style="width:100%;" class="font-size-12-px">
+								<tr>
+									<td class='notification-trip-id'>
+										Trip ID :
+									</td>
+									<td>
+										<?php echo $notification[$notification_index]->id; ?>
+									</td>
+								</tr>
+								<tr>
+									<td class='notification-pickup-city'>
+										Cust :
+									</td>
+									<td>
+										<?php echo $customers_array[$notification[$notification_index]->customer_id]; ?>
+									</td>
+								</tr>
+								<tr>
+									<td class='notification-trip-id'>
+										Pick up :
+									</td>
+									<td>
+										<?php echo $notification[$notification_index]->pick_up_city; ?>
+									</td>
+								</tr>
+								<tr>
+									<td class='notification-pickup-city'>
+									Date :</td><td><?php echo $notification[$notification_index]->pick_up_date; ?>
+									</td>
+								</tr>
+							</table>
+						</div>
+						</div>
+						</a>
+						<?php }
+
+
+						}
+
+
+						?>
+						</div>
+					</li>-->
+
+
+                                       <!-- <li>
                                             <a href="#">
                                                 <i class="fa fa-warning danger"></i> Very long description here that may not fit into the page and may cause design problems
                                             </a>
@@ -186,25 +248,28 @@
                                             <a href="#">
                                                 <i class="ion ion-ios7-person danger"></i> You changed your username
                                             </a>
-                                        </li>
+                                        </li>-->
                                     </ul>
                                 </li>
                                 <li class="footer"><a href="#">View all</a></li>
                             </ul>
                         </li>
+
+
+
                         <!-- Tasks: style can be found in dropdown.less -->
-                      <!--  <li class="dropdown tasks-menu">
-                           <!-- <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                      <!--==== <li class="dropdown tasks-menu">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                 <i class="fa fa-tasks"></i>
                                 <span class="label label-danger">9</span>
                             </a>
                             <ul class="dropdown-menu">
                                 <li class="header">You have 9 tasks</li>
-                               <!-- <li>
+                                <li>
                                     <!-- inner menu: contains the actual data -->
-                                   <!-- <ul class="menu">
-                                     <!--   <li><!-- Task item -->
-                                         <!--   <a href="#">
+                                  <!-- <ul class="menu">
+                                        <li><!-- Task item -->
+                                          <!-- <a href="#">
                                                 <h3>
                                                     Design some buttons
                                                     <small class="pull-right">20%</small>
@@ -216,8 +281,8 @@
                                                 </div>
                                             </a>
                                         </li><!-- end task item -->
-                                     <!--   <li><!-- Task item -->
-                                         <!--   <a href="#">
+                                     <!-- <li><!-- Task item -->
+                                        <!--   <a href="#">
                                                 <h3>
                                                     Create a nice theme
                                                     <small class="pull-right">40%</small>
@@ -229,8 +294,8 @@
                                                 </div>
                                             </a>
                                         </li><!-- end task item -->
-                                        <li><!-- Task item -->
-                                          <!--  <a href="#">
+                                      <!--  <li><!-- Task item -->
+                                        <!--   <a href="#">
                                                 <h3>
                                                     Some task I need to do
                                                     <small class="pull-right">60%</small>
@@ -242,8 +307,8 @@
                                                 </div>
                                             </a>
                                         </li><!-- end task item -->
-                                        <li><!-- Task item -->
-                                          <!--  <a href="#">
+                                      <!--  <li><!-- Task item -->
+                                          <!-- <a href="#">
                                                 <h3>
                                                     Make beautiful transitions
                                                     <small class="pull-right">80%</small>
@@ -254,18 +319,18 @@
                                                     </div>
                                                 </div>
                                             </a>
-                                        </li><!-- end task item -->
-                                 <!--   </ul>
+                                       <!-- </li><!-- end task item -->
+                                  <!-- </ul>
                                 </li>
                                 <li class="footer">
                                     <a href="#">View all tasks</a>
                                 </li>
                             </ul>
-                        </li>-->
+                        </li>
+			====-->
+			
                         <!-- User Account: style can be found in dropdown.less -->
-			 <li class="dropdown user user-menu">
-                            <div class="clock"></div>
-			</li>
+			 
                         <li class="dropdown user user-menu">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                 <i class="glyphicon glyphicon-user"></i>

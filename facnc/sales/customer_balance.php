@@ -34,6 +34,8 @@ if(isset($_POST['PrintCustomerBalance'])){
 	foreach($_POST['PARAM'] as $key=>$val){
 		$pars['PARAM_'.$key] = $val;
 	}
+
+	//echo "<pre>";print_r($pars);echo "</pre>";exit;
 	redirect_to_print_popup(101,$pars);
 	
 }
@@ -65,19 +67,21 @@ start_form(false, false, $_SERVER['PHP_SELF']);
 		end_row();
 
 		start_row();
-			textarea_cells(_('Comments'),'PARAM[6]',NULL,30,4);
+			//textarea_cells(_('Comments'),'PARAM[6]',NULL,30,4);
+			text_cells(_('Comments'),'PARAM[6]',NULL);
 			orientation_list_cells("Orientation",'PARAM[7]');
 		end_row();
+
 
 		start_row();
 		end_row();
 		
-		//print_destination_list_row(_("Destination"),'PARAM[8]');
-		hidden('PARAM[8]',1);
+		print_destination_list_row(_("Destination"),'PARAM[8]');
 
 	end_table();
 
 	submit_center('PrintCustomerBalance', _("Print") ,true, _("Print Customer Balance"),'default');
+	//submit_center('PrintCustomerBalance', _("Print") ,true, _("Print Customer Balance"));
 		
 end_form();
 //-----------------------------------------------------------------------------------

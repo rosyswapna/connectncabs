@@ -90,10 +90,13 @@ function print_customer_balances()
     	$comments = $_POST['PARAM_6'];
 	$orientation = $_POST['PARAM_7'];
 	$destination = $_POST['PARAM_8'];
-	if ($destination)
+	//print_r($_POST);exit;
+	
+	if ($destination){
 		include_once($path_to_root . "/reporting/includes/excel_report.inc");
-	else
+	}else{
 		include_once($path_to_root . "/reporting/includes/pdf_report.inc");
+	}
 
 	$orientation = ($orientation ? 'L' : 'P');
 	if ($fromcust == ALL_TEXT)

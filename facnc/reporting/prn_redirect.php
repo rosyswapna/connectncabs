@@ -57,7 +57,7 @@ elseif (isset($_GET['xml']))
 if (!isset($_POST['REP_ID'])) {	// print link clicked
 	$def_pars = array(0, 0, '', '', 0, '', '', 0); //default values
 	$rep = $_POST['REP_ID'] = $_GET['REP_ID'];
-	for($i=0; $i<8; $i++) {
+	for($i=0; $i<9; $i++) {
 		$_POST['PARAM_'.$i] = isset($_GET['PARAM_'.$i]) 
 			? $_GET['PARAM_'.$i] : $def_pars[$i];
 	}

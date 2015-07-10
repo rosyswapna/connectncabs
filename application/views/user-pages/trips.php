@@ -217,7 +217,8 @@ $tariffs='';
 					    }
 						?></td>
 					    <td>
-							<span class="label <?php echo $status_class[$trips[$trip_index]['trip_status_id']]; ?>"><?php echo $trip_statuses[$trips[$trip_index]['trip_status_id']];?></span> 
+							<span class="label <?php echo $status_class[$trips[$trip_index]['trip_status_id']]; ?>"><?php echo $trip_statuses[$trips[$trip_index]['trip_status_id']];?></span>
+						
 						
 						</td>	
 						
@@ -325,6 +326,18 @@ $tariffs='';
 						?></td>
 					<td>
 							<span class="label <?php echo $status_class[$trips[$trip_index]['trip_status_id']]; ?>"><?php echo $trip_statuses[$trips[$trip_index]['trip_status_id']];?></span> 
+						<br/>
+						<?php 
+						if($trips[$trip_index]['voucher_no'] != null){ 
+							echo "VOU :".$trips[$trip_index]['voucher_no'];
+						 }?>
+						<br/>
+						<?php 
+						if($trips[$trip_index]['invoice_no'] > 0){ 
+							echo "INV :".$trips[$trip_index]['invoice_no'];
+						 }elseif($trips[$trip_index]['delivery_no'] > 0){
+							echo "DLY :".$trips[$trip_index]['delivery_no'];
+						 }?>
 						
 					</td>	
 						

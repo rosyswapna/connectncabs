@@ -171,6 +171,7 @@ function redirect_to_print_popup($rep,$pars = array()){
 	}
 	$pars[] = 'REP_ID='.urlencode($rep);
 	$url .= implode ('&', $pars);
+	//display_notification($url);exit;
 
 	$Ajax->popup($url);
 	$Ajax->run();
