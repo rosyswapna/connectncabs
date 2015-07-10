@@ -122,7 +122,7 @@ function exists_supp_trans($type, $type_no)
 
 function void_supp_trans($type, $type_no)
 {
-	$sql = "UPDATE ".TB_PREF."supp_trans SET ov_amount=0, ov_discount=0, ov_gst=0,
+	$sql = "UPDATE ".TB_PREF."supp_trans SET ov_amount=0, ov_discount=0, ov_gst=0, ov_tds=0
 		alloc=0 WHERE type=".db_escape($type)." AND trans_no=".db_escape($type_no);
 
 	db_query($sql, "could not void supp transactions for type=$type and trans_no=$type_no");
@@ -179,7 +179,7 @@ function get_sql_for_supplier_inquiry($filter, $after_date, $to_date, $supplier_
     	(trans.ov_amount + trans.ov_gst  + trans.ov_discount + trans.ov_tds) AS TotalAmount, 
 		trans.alloc AS Allocated,
 		((trans.type = ".ST_SUPPINVOICE." OR trans.type = ".ST_SUPPCREDIT.") AND trans.due_date < '" . date2sql(Today()) . "') AS OverDue,
-    	(ABS(trans.ov_amount + trans.ov_gst  + trans.ov_discount) - trans.alloc <= ".FLOAT_COMP_DELTA.") AS Settled
+    	(ABS(trans.ov_amount + trans.ov_gst  + trans.ov_discount + trans.ov_tds) - trans.alloc <= ".FLOAT_COMP_DELTA.") AS Settled
     	FROM ".TB_PREF."supp_trans as trans, ".TB_PREF."suppliers as supplier
     	WHERE supplier.supplier_id = trans.supplier_id
      	AND trans.tran_date >= '$date_after'

@@ -105,6 +105,7 @@ function write_customer_trans($trans_type, $trans_no, $debtor_no, $BranchNo,
 		tran_date='$SQLDate', due_date='$SQLDueDate',
 		reference=".db_escape($reference).", tpe=".db_escape($sales_type).", order_=".db_escape($order_no).",
 		ov_amount=$Total, ov_discount=".db_escape($discount).", ov_gst=$Tax,
+		ov_tds=".db_escape($tds).",
 		ov_freight=".db_escape($Freight).", ov_freight_tax=$FreightTax, rate=$rate,
 		ship_via=".db_escape($ship_via).", alloc=$AllocAmt,
 		dimension_id=".db_escape($dimension_id).", dimension2_id=".db_escape($dimension2_id).",
@@ -275,7 +276,7 @@ function get_customer_details_from_trans($type, $type_no)
 function void_customer_trans($type, $type_no)
 {
 	// clear all values and mark as void
-	$sql = "UPDATE ".TB_PREF."debtor_trans SET ov_amount=0, ov_discount=0, ov_gst=0, ov_freight=0,
+	$sql = "UPDATE ".TB_PREF."debtor_trans SET ov_amount=0, ov_discount=0, ov_gst=0, ov_tds=0,  ov_freight=0,
 		ov_freight_tax=0, alloc=0, version=version+1 WHERE type=".db_escape($type)." AND trans_no=".db_escape($type_no);
 
 	db_query($sql, "could not void debtor transactions for type=$type and trans_no=$type_no");
@@ -323,9 +324,9 @@ function get_sql_for_trip_invoices()
 		trip.pick_up_date,
 		trans.tran_date, 
 		(trans.ov_amount + trans.ov_gst + trans.ov_freight 
-			+ trans.ov_freight_tax + trans.ov_discount)	AS TotalAmount,trans.type,"; 
+			+ trans.ov_freight_tax + trans.ov_discount + trans.ov_tds)	AS TotalAmount,trans.type,"; 
    	if ($_POST['filterType'] != ALL_TEXT)
-		$sql .= "@bal := @bal+(trans.ov_amount + trans.ov_gst + trans.ov_freight + trans.ov_freight_tax + trans.ov_discount), ";
+		$sql .= "@bal := @bal+(trans.ov_amount + trans.ov_gst + trans.ov_tds + trans.ov_freight + trans.ov_freight_tax + trans.ov_discount), ";
 
 //	else
 //		$sql .= "IF(trans.type=".ST_CUSTDELIVERY.",'', IF(trans.type=".ST_SALESINVOICE." OR trans.type=".ST_BANKPAYMENT.",@bal := @bal+
@@ -383,7 +384,7 @@ function get_sql_for_trip_invoices()
     	{
     		$today =  date2sql(Today());
     		$sql .= " AND trans.due_date < '$today'
-				AND (trans.ov_amount + trans.ov_gst + trans.ov_freight_tax + 
+				AND (trans.ov_amount + trans.ov_gst + trans.ov_tds + trans.ov_freight_tax + 
 				trans.ov_freight + trans.ov_discount - trans.alloc > 0) ";
     	}
    	}
@@ -412,7 +413,7 @@ function get_sql_for_customer_inquiry()
 		branch.br_name,
 		debtor.curr_code,
 		(trans.ov_amount + trans.ov_gst + trans.ov_freight 
-			+ trans.ov_freight_tax + trans.ov_discount)	AS TotalAmount, "; 
+			+ trans.ov_freight_tax + trans.ov_discount + trans.ov_tds)	AS TotalAmount, "; 
    	if ($_POST['filterType'] != ALL_TEXT)
 		$sql .= "@bal := @bal+(trans.ov_amount + trans.ov_gst + trans.ov_freight + trans.ov_freight_tax + trans.ov_discount), ";
 
@@ -467,7 +468,7 @@ function get_sql_for_customer_inquiry()
     		$today =  date2sql(Today());
     		$sql .= " AND trans.due_date < '$today'
 				AND (trans.ov_amount + trans.ov_gst + trans.ov_freight_tax + 
-				trans.ov_freight + trans.ov_discount - trans.alloc > 0) ";
+				trans.ov_freight + trans.ov_discount + trans.ov_tds - trans.alloc > 0) ";
     	}
    	}
 	$sql .= " GROUP BY trans.trans_no, trans.type";
@@ -551,7 +552,7 @@ function get_sql_for_sales_deliveries_view($selected_customer, $selected_stock_i
 			voucher.voucher_no,
 			trip.pick_up_date,
 			trans.tran_date,
-			(ov_amount+ov_gst+ov_freight+ov_freight_tax) AS DeliveryValue,
+			(ov_amount+ov_gst+ov_freight+ov_freight_tax+ov_tds) AS DeliveryValue,
 			debtor.curr_code,
 			Sum(line.quantity-line.qty_done) AS Outstanding,
 			Sum(line.qty_done) AS Done,
