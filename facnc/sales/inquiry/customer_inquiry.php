@@ -64,7 +64,7 @@ start_row();
 
 if(!(isset($_GET['CustomerPaymentInquiry'])))
 
-	echo text_cells_ex('Invoice ID', 'invoice_id','5');
+	//echo text_cells_ex('Invoice Ref', 'invoice_id','5');
     
 if (!@$_GET['popup']){
 	if(isset($_GET['CustomerPaymentInquiry'])){
@@ -77,8 +77,8 @@ if (!@$_GET['popup']){
 	
 }
 
-date_cells(_("From:"), 'TransAfterDate', '', null, -30);
-date_cells(_("To:"), 'TransToDate', '', null, 1);
+date_cells(_("Date From:"), 'TransAfterDate', '', null, -30);
+date_cells(_("Date To:"), 'TransToDate', '', null, 1);
 
 if (!isset($_POST['filterType']))
 	$_POST['filterType'] = 0;
@@ -305,7 +305,7 @@ db_query("set @bal:=0");
 if($_POST['filterType'] == 1){
 	$sql = get_sql_for_trip_invoices();//echo $sql;exit;
 	$cols = array(
-	_("Invoice ID"),
+	_("Invoice Ref"),
 	_("Customer"),//_("Company"),
 	_("Trip(s)") => array('fun'=>'trip_ids', 'ord'=>''),
 	_("Voucher(s)") => array('fun'=>'vouchers', 'ord'=>''), 

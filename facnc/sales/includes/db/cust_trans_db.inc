@@ -317,14 +317,14 @@ function get_sql_for_trip_invoices()
     $date_to = date2sql($_POST['TransToDate']);
 	//IF(cg.name IS NULL,'CASH', debtor.name) AS company
   	$sql = "SELECT 
-		trans.trans_no, 
+		trans.reference, 
 		debtor.name customer,
 		trip.id,
 		voucher.id,
 		trip.pick_up_date,
 		trans.tran_date, 
 		(trans.ov_amount + trans.ov_gst + trans.ov_freight 
-			+ trans.ov_freight_tax + trans.ov_discount + trans.ov_tds)	AS TotalAmount,trans.type,"; 
+			+ trans.ov_freight_tax + trans.ov_discount + trans.ov_tds)	AS TotalAmount,trans.type, trans.trans_no,"; 
    	if ($_POST['filterType'] != ALL_TEXT)
 		$sql .= "@bal := @bal+(trans.ov_amount + trans.ov_gst + trans.ov_tds + trans.ov_freight + trans.ov_freight_tax + trans.ov_discount), ";
 
