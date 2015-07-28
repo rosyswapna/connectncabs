@@ -65,7 +65,8 @@ class Trip_booking_model extends CI_Model {
 	function getTripExpenses(){
 		$org_id=$this->session->userdata('organisation_id');
 		$this->db->from('trip_expense_type');
-    		$this->db->where( 'organisation_id', $org_id );
+		$filter = array( 'organisation_id'=> $org_id,'expense_for'=>EXPENSE_FOR_TRIP);
+    		$this->db->where($filter);
 		//---
     		$results = $this->db->get()->result();
 		if(count($results)>0){//print_r($results);

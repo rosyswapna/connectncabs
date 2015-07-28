@@ -103,6 +103,17 @@ define('OWNED_VEHICLE',1);
 //driver status
 define('OWNED_DRIVER',1);
 define('ATTACHED_DRIVER',2);
+
+
+//expense_for types
+define('EXPENSE_FOR_TRIP',1);
+define('EXPENSE_FOR_DRIVER',2);
+define('EXPENSE_FOR_VEHICLE',3);
+define('EXPENSE_FOR_SUPPLIER',4);
+define('EXPENSE_FOR_CUSTOMER',5);
+
+
+
 /*
 |--------------------------------------------------------------------------
 | File Stream Modes

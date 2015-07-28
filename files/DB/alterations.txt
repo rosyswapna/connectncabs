@@ -54,3 +54,8 @@ CREATE TABLE IF NOT EXISTS `vehicle_owner_mapping` (
   `vehicle_id` int(11) NOT NULL,
   KEY `owner_id` (`owner_id`,`vehicle_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+
+
+----------------------28 july 2015--------------------------------------
+ALTER TABLE `trip_expense_type`  ADD `expense_for` SMALLINT(1) NULL AFTER `value`;
