@@ -64,7 +64,7 @@ start_row();
 
 if(!(isset($_GET['CustomerPaymentInquiry'])))
 
-	//echo text_cells_ex('Invoice Ref', 'invoice_id','5');
+	echo text_cells_ex('Invoice Ref', 'invoice_ref','5');//invoice reference number
     
 if (!@$_GET['popup']){
 	if(isset($_GET['CustomerPaymentInquiry'])){
