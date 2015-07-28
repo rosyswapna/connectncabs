@@ -251,7 +251,8 @@ return true;
 		$data['login_id'] = $login_id;
 		$qry=$this->db->set('created', 'NOW()', FALSE);
 		$v_id=$this->mysession->get('vehicle_id');
-		$qry=$this->db->set('vehicle_id', $v_id);
+		if($v_id != null)
+			$qry=$this->db->set('vehicle_id', $v_id);
 		$qry=$this->db->insert('vehicle_owners',$data);
 		$o_id=$this->db->insert_id();
 		   if($o_id>0){
