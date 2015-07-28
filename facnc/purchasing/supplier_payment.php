@@ -330,8 +330,10 @@ function check_inputs()
 function handle_add_payment()
 {
 	$gl = array();
-	foreach($_POST['account_'] as $ac => $amount) {
-		$gl[$ac] = user_numeric($amount);	
+	if(isset($_POST['account_'])){
+		foreach($_POST['account_'] as $ac => $amount) {
+			$gl[$ac] = user_numeric($amount);	
+		}
 	}
 	
 	
@@ -474,14 +476,17 @@ start_form();
 	//get gl accounts 
 	if(isset($_GET['SupplierPayment']) && substr($_GET['SupplierPayment'],0,2) == 'DR'){
 		$pmt_gls = get_driver_expense_accounts();
+
+		$pmt_gls[get_company_pref('default_driver_bata_act')] = _("Driver Bata");
+		$pmt_gls[get_company_pref('default_night_halt_act')] = _("Night Halt");
+
 	}else if(isset($_GET['SupplierPayment']) && substr($_GET['SupplierPayment'],0,2) == 'VW'){
 		$pmt_gls = get_supplier_expense_accounts();
 	}else{
 		$pmt_gls = get_trip_expense_accounts();
 	}
 	
-	$pmt_gls[get_company_pref('default_driver_bata_act')] = _("Driver Bata");
-	$pmt_gls[get_company_pref('default_night_halt_act')] = _("Night Halt");
+	
 
 	foreach($pmt_gls as $gl_ac=>$gl_name){
 		$gl_amount = 0;//get_gl_trans_from_to_supplier(get_post('TransAfterDate'),get_post('TransToDate'), $gl_ac, get_post('supplier_id'));
