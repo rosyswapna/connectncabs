@@ -121,7 +121,7 @@ class User extends CI_Controller {
 		}elseif($param1=='driver-profile'&&($param2== ''|| is_numeric($param2))){
 		$this->ShowDriverProfile($param1,$param2);
 		}elseif($param1=='supplier-profile'&&($param2== ''|| is_numeric($param2))){
-		$this->ShowSupplierProfile($param2);
+		$this->ShowSupplierProfile($param2,$param3);
 		}
 		//elseif($param1=='vehicle' && ($param2!= ''|| is_numeric($param2)||$param2== '') &&($param3== ''|| is_numeric($param3))){
 		elseif($param1=='vehicle'){
@@ -1717,7 +1717,7 @@ public function profile() {
 		}
 	}
 
-	public function ShowSupplierProfile($owner_id){ 
+	public function ShowSupplierProfile($owner_id,$param2){ 
 		if($this->session_check()==true) { 
 			if(is_numeric($owner_id) && $owner_id > 0){
 				$data['profile']=$this->user_model->getOwner($owner_id); 	
@@ -1725,6 +1725,30 @@ public function profile() {
 			$active_tab = 'o_tab';//default profile tab
 			$data['owner_id'] = $owner_id;
 			//print_r($data);exit;
+
+			//-----trip tab
+			$tdate=date('Y-m-d');
+			$date=explode("-",$tdate);
+			$fdate=$date[0].'-'.$date[1].'-01';
+			$todate=$date[0].'-'.$date[1].'-31';
+
+			if((isset($_REQUEST['from_pick_date'])|| isset($_REQUEST['to_pick_date']))&& isset($_REQUEST['vdate_search'])){
+			if($_REQUEST['from_pick_date']==null && $_REQUEST['to_pick_date']==null){
+				$fdate=$date[0].'-'.$date[1].'-01';
+				$todate=$date[0].'-'.$date[1].'-31';
+			}else{
+				$fdate=$_REQUEST['from_pick_date'];
+				$todate=$_REQUEST['to_pick_date'];}
+				$data['trip_tab']='active';
+			}
+			$vid = $this->vehicle_model->getSupplierVehicles($owner_id);
+			if($param2 == 'trip')
+				$active_tab = 't_tab';
+			$trips=$this->trip_booking_model->getVehicleVouchers($vid,$fdate,$todate); 
+			//array values for Vehicle Trip tab
+			list($data['TripTableData'], $data['TotalTable']) = $this->VehicleTripsTable($trips);
+			
+			//----------------------
 			
 			$data['tabs'] = $this->set_up_supplier_tabs($active_tab,$owner_id);
 			$data['title']='Supplier Profile| '.PRODUCT_NAME;
@@ -1990,6 +2014,9 @@ public function profile() {
 						'content_class'=>'tab-pane');
 
 		if($supplier_id!='' && $supplier_id > 0){
+
+			$tabs['t_tab'] = array('class'=>'','tab_id'=>'tab_6','text'=>'Trip',
+						'content_class'=>'tab-pane');	
 
 			$tabs['p_tab'] = array('class'=>'','tab_id'=>'tab_3','text'=>'Payments',
 						'content_class'=>'tab-pane');

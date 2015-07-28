@@ -135,6 +135,22 @@ public function getDriversInfo(){
 
 		return $qry;
 	}
+	
+	public function getSupplierVehicles($id){
+		$this->db->select('vehicle_id');
+		$this->db->from('vehicle_owner_mapping');
+		$this->db->where('owner_id',$id);
+
+		$result = $this->db->get();
+		$v = array();
+		if($result->num_rows() > 0){
+			$rows = $result->result();
+			foreach($rows as $row)
+				$v[] = $row->vehicle_id;
+		}
+		return $v;
+	}
+
 
 
 	public function getListVehicles(){ 

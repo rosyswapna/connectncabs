@@ -160,6 +160,100 @@ if($this->mysession->get('owner_post_all')!=null ){
         	</div>
 		<?php }?>
 
+		<?php if (array_key_exists('t_tab', $tabs)) {?>
+		<div class="<?php echo $tabs['t_tab']['content_class'];?>" id="<?php echo $tabs['t_tab']['tab_id'];?>">
+		<div class="page-outer">
+			<fieldset class="body-border">
+			<legend class="body-head">Trip</legend>
+			<div class="form-group">
+			<div class="box-body table-responsive no-padding"> 
+				<?php  echo form_open(base_url().'organization/front-desk/supplier-profile/'.$owner_id.'/trip'); ?>
+				<table>
+				<td><?php echo form_input(array('name'=>'from_pick_date','class'=>'pickupdatepicker initialize-date-picker form-control' ,'placeholder'=>'From Date','value'=>'')); ?></td>
+				<td><?php echo form_input(array('name'=>'to_pick_date','class'=>'pickupdatepicker initialize-date-picker form-control' ,'placeholder'=>'To Date','value'=>'')); ?></td>
+				<td><?php echo form_submit("vdate_search","Search","class='btn btn-primary'");
+				echo form_close();?></td>
+				</table><br/>			
+
+
+				<?php if($TripTableData){?>
+
+
+					<?php  echo form_open(base_url()."account/driver_trip_save"); ?>
+
+					<table class="table table-hover table-bordered">
+					<tbody>
+					<?php if(isset($TripTableData['theader'])){?>
+					<tr style="background:#CCC">
+					<?php foreach($TripTableData['theader'] as $thead){?>
+					<th><?=$thead;?></th>			
+					<?php }?>
+					</tr>
+					<?php }?>
+
+					<?php foreach($TripTableData['tdata'] as $tr){?>
+					<tr>
+					<?php foreach($tr as $td){?>
+					<td><?=$td;?></td>			
+					<?php }?>
+					</tr>
+					<?php }?>
+
+					<?php if(isset($TripTableData['tfooter'])){?>
+					<tr style="background:#CCC">
+					<?php foreach($TripTableData['tfooter'] as $td){?>
+					<td><?php echo $td;?></td>			
+					<?php }?>
+					</tr>
+					<?php }?>
+
+					</tbody>
+					</table>
+
+					<?php if($TotalTable){?>
+					<table class="table table-hover table-bordered">
+					<tbody>
+
+					<?php if(isset($TotalTable['theader'])){?>
+					<tr style="background:#CCC">
+					<?php foreach($TotalTable['theader'] as $thead){?>
+					<?=$thead;?>			
+					<?php }?>
+					</tr>
+					<?php }?>
+
+
+					<?php foreach($TotalTable['tdata'] as $tr){?>
+					<tr>
+					<?php foreach($tr as $i=>$td){?>
+					<td><?php echo ($i=='label')?$td:number_format($td,2);?></td>			
+					<?php }?>
+					</tr>
+					<?php }?>
+
+					<?php if(isset($TotalTable['tfooter'])){?>
+					<tr style="background:#CCC">
+					<?php foreach($TotalTable['tfooter'] as $td){?>
+					<td><?php echo $td;?></td>			
+					<?php }?>
+					</tr>
+					<?php }?>
+
+					</tbody>
+					</table>
+					<?php }?>
+
+				<?php }else{?><!--Trip table condition-->
+					<div class="msg"> No Data</div>
+				<?php }?>
+
+			</div>
+			</div>
+			</fieldset>
+		</div>
+		</div>
+		<?php } ?>
+
 
 		<?php if (array_key_exists('p_tab', $tabs)) {?>
 
