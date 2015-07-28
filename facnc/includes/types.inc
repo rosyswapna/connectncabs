@@ -49,6 +49,14 @@ define('ST_DIMENSION', 40);
 define ('ST_STATEMENT', 91);
 define ('ST_CHEQUE', 92);
 
+
+//expense_for types from taxi constatnts
+define('EXPENSE_FOR_TRIP',1);
+define('EXPENSE_FOR_DRIVER',2);
+define('EXPENSE_FOR_VEHICLE',3);
+define('EXPENSE_FOR_SUPPLIER',4);
+define('EXPENSE_FOR_CUSTOMER',5);
+
 // document inheritance
 $document_child_types = array(
 		ST_SALESQUOTE => ST_SALESORDER,
