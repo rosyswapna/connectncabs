@@ -270,9 +270,10 @@ function updateTripPaymentNo($payment_no=0,$trip_id){
 }
 
 
+//-----------------expense types------------------------------------------
 function get_trip_expense_accounts()
 {
-	$sql = "SELECT value,description FROM trip_expense_type";
+	$sql = "SELECT value,description FROM trip_expense_type WHERE expense_for = ".EXPENSE_FOR_TRIP;
 	$result = db_query($sql,"could not get trip expense");
 	$ret = array();
 	while($row = db_fetch($result)){
@@ -282,6 +283,54 @@ function get_trip_expense_accounts()
 	return $ret;
 }
 
+function get_driver_expense_accounts()
+{
+	$sql = "SELECT value,description FROM trip_expense_type WHERE expense_for = ".EXPENSE_FOR_DRIVER;
+	$result = db_query($sql,"could not get trip expense");
+	$ret = array();
+	while($row = db_fetch($result)){
+		$ret[$row['value']] = $row['description'];
+	}
+
+	return $ret;
+}
+
+function get_vehicle_expense_accounts()
+{
+	$sql = "SELECT value,description FROM trip_expense_type WHERE expense_for = ".EXPENSE_FOR_VEHICLE;
+	$result = db_query($sql,"could not get trip expense");
+	$ret = array();
+	while($row = db_fetch($result)){
+		$ret[$row['value']] = $row['description'];
+	}
+
+	return $ret;
+}
+
+function get_supplier_expense_accounts()
+{
+	$sql = "SELECT value,description FROM trip_expense_type WHERE expense_for = ".EXPENSE_FOR_SUPPLIER;
+	$result = db_query($sql,"could not get trip expense");
+	$ret = array();
+	while($row = db_fetch($result)){
+		$ret[$row['value']] = $row['description'];
+	}
+
+	return $ret;
+}
+
+function get_customer_expense_accounts()
+{
+	$sql = "SELECT value,description FROM trip_expense_type WHERE expense_for = ".EXPENSE_FOR_CUSTOMER;
+	$result = db_query($sql,"could not get trip expense");
+	$ret = array();
+	while($row = db_fetch($result)){
+		$ret[$row['value']] = $row['description'];
+	}
+
+	return $ret;
+}
+//---------------------------------------------------------
 
 
 

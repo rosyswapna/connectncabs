@@ -472,7 +472,14 @@ start_form();
 	amount_row(_("Amount of TDS:"), 'tds', null, '', $supplier_currency);
 
 	//get gl accounts 
-	$pmt_gls = get_trip_expense_accounts();
+	if(isset($_GET['SupplierPayment']) && substr($_GET['SupplierPayment'],0,2) == 'DR'){
+		$pmt_gls = get_driver_expense_accounts();
+	}else if(isset($_GET['SupplierPayment']) && substr($_GET['SupplierPayment'],0,2) == 'VW'){
+		$pmt_gls = get_supplier_expense_accounts();
+	}else{
+		$pmt_gls = get_trip_expense_accounts();
+	}
+	
 	$pmt_gls[get_company_pref('default_driver_bata_act')] = _("Driver Bata");
 	$pmt_gls[get_company_pref('default_night_halt_act')] = _("Night Halt");
 
