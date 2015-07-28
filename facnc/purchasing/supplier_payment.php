@@ -428,7 +428,7 @@ start_form();
 	else
 		$_POST['amount'] = price_format(0);
 
-        bank_accounts_list_row(_("From Bank Account:"), 'bank_account', null, false);
+        bank_accounts_list_row(_("From Bank Account:"), 'bank_account', null, true);
 
 	bank_balance_row($_POST['bank_account']);
 

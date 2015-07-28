@@ -42,6 +42,7 @@ function display_bank_header(&$order)
 			$_POST['person_id'] = "";
 	}
 	if (isset($_POST['_PayType_update'])) {
+		
 		$_POST['person_id'] = '';
 		$Ajax->activate('pmt_header');
 		$Ajax->activate('code_id');
@@ -56,21 +57,27 @@ function display_bank_header(&$order)
 		case PT_MISC :
     		text_row_ex($payment ?_("To the Order of:"):_("Name:"),
 				 'person_id', 20, 50);
+		$target = '';
     		break;
 		//case PT_WORKORDER :
     	//	workorders_list_row(_("Work Order:"), 'person_id', null);
     	//	break;
 		case PT_SUPPLIER :
     		supplier_list_row(_("Supplier:"), 'person_id', null, false, true, false, true);
+		$target = "../purchasing/supplier_payment.php?SupplierPayment=VW".get_post('person_id');
     		break;
 		case PT_DRIVER :
     		driver_list_row(_("Driver:"), 'person_id', null, false, true, false, true);
+		$target = "../purchasing/supplier_payment.php?SupplierPayment=DR".get_post('person_id');
+		
     		break;
 		case PT_OWNER :
     		owner_list_row(_("Vehicle Owner:"), 'person_id', null, false, true, false, true);
+		$target = "../purchasing/supplier_payment.php?SupplierPayment=VW".get_post('person_id');
     		break;
 		case PT_CUSTOMER :
     		customer_list_row(_("Customer:"), 'person_id', null, false, true, false, true);
+		$target = '';
 
         	if (db_customer_has_branches($_POST['person_id']))
         	{
@@ -97,6 +104,7 @@ function display_bank_header(&$order)
 
 		case PT_QUICKENTRY :
 			quick_entries_list_row(_("Type").":", 'person_id', null, ($payment ? QE_PAYMENT : QE_DEPOSIT), true);
+			$target = '';
 			$qid = get_quick_entry(get_post('person_id'));
 			if (list_updated('person_id')) {
 				unset($_POST['totamount']); // enable default
@@ -110,6 +118,14 @@ function display_bank_header(&$order)
     	//	dimensions_list_row(_("Dimension:"), 'person_id', $_POST['person_id'], false, null, true);
     	//	break;
     }
+
+	if($target != ''){
+	start_row();
+		hyperlink_no_params_td($target, _("Allocate"));
+	end_row();
+	}
+
+
 
 	table_section(3, "30%");
 
