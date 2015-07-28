@@ -77,7 +77,8 @@ function display_bank_header(&$order)
     		break;
 		case PT_CUSTOMER :
     		customer_list_row(_("Customer:"), 'person_id', null, false, true, false, true);
-		$target = '';
+		$customer = get_customer(get_post('person_id'));
+		$target = "../sales/customer_payments.php?CustomerPayment=".$customer['debtor_ref'];
 
         	if (db_customer_has_branches($_POST['person_id']))
         	{

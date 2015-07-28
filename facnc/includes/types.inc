@@ -105,6 +105,7 @@ define('PT_QUICKENTRY', 4);
 define('PT_DIMESION', 5);
 define('PT_DRIVER', 6);
 define('PT_OWNER', 7);
+define('PT_VEHICLE', 8);
 
 function payment_person_currency($type, $person_id)  {
 	switch ($type)

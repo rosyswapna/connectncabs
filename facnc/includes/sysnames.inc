@@ -95,7 +95,8 @@ $payment_person_types = array (
 	PT_WORKORDER => _("Work Order"),
 	PT_CUSTOMER => _("Customer"),
 	PT_DRIVER => _("Driver"),
-	PT_OWNER => _("Vehicle Owner"),
+	PT_OWNER => _("Supplier"),
+	PT_VEHICLE => _("Vehicle"),
 	//PT_SUPPLIER => _("Supplier"),
 	PT_QUICKENTRY => _("Quick Entry"),
 	);
