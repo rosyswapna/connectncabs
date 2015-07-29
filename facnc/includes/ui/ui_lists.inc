@@ -546,6 +546,47 @@ function supplier_accounts_list_row($label, $supplier_id, $name, $selected_id=nu
 	echo "</tr>";
 }
 //----------------------------------------------------------------------------------------------
+function vehicle_list($name, $selected_id=null, $spec_option=false, $submit_on_change=false,
+	$all=false, $editkey = false)
+{
+	global $all_items;
+
+	$sql = "SELECT id, registration_number FROM vehicles WHERE organisation_id = 1";
+		
+	$ret = combo_input($name, $selected_id, $sql, 'id', 'registration_number',
+	array(
+	   	 'order' => array('registration_number'),
+		'type' => 1,
+		'spec_option' => $spec_option === true ? _("All Vehicles") : $spec_option,
+		'spec_id' => $all_items,
+		'select_submit'=> $submit_on_change,
+		'async' => false,
+		'sel_hint' => $mode ? _('Press Space tab to filter by name fragment') :
+		_('Select Vehicle'),
+		'show_inactive'=>$all
+		));	
+	return $ret;
+}
+
+function vehicle_list_cells($label, $name, $selected_id=null, $all_option=false, 
+	$submit_on_change=false, $all=false, $editkey = false)
+{
+	if ($label != null)
+		echo "<td>$label</td><td>\n";
+		echo vehicle_list($name, $selected_id, $all_option, $submit_on_change, 
+		$all, $editkey);
+		echo "</td>\n";
+}
+
+function vehicle_list_row($label, $name, $selected_id=null, $all_option = false, 
+	$submit_on_change=false, $all=false, $editkey = false)
+{
+	echo "<tr><td class='label'>$label</td><td>";
+	echo vehicle_list($name, $selected_id, $all_option, $submit_on_change,
+		$all, $editkey);
+	echo "</td></tr>\n";
+}
+//----------------------------------------------------------------------------------------------
 function driver_list($name, $selected_id=null, $spec_option=false, $submit_on_change=false,
 	$all=false, $editkey = false)
 {
@@ -1057,6 +1098,50 @@ function dimensions_list_row($label, $name, $selected_id=null, $no_option=false,
 {
 	echo "<tr><td class='label'>$label</td>";
 	dimensions_list_cells(null, $name, $selected_id, $no_option, $showname,
+		$showclosed, $showtype, $submit_on_change);
+	echo "</tr>\n";
+}
+
+
+
+//--------------------------------------vehicle dimension-----------------------------------------------------------------
+function vehicle_dimensions_list($name, $selected_id=null, $no_option=false, $showname=' ',
+	$submit_on_change=false, $showclosed=false, $showtype=1)
+{
+$sql = "SELECT dm.id, CONCAT(dm.reference,'  ',dm.name) as ref FROM ".TB_PREF."dimensions dm,vehicles vh
+	WHERE vh.registration_number = dm.reference";
+
+$options = array(
+	'order' => 'reference',
+	'spec_option'=>$no_option ? $showname : false,
+	'spec_id' => 0,
+	'select_submit'=> $submit_on_change,
+	'async' => false,
+	);
+
+	if (!$showclosed)
+		$options['where'][] = "closed=0";
+	if($showtype)
+		$options['where'][] = "type_=".db_escape($showtype);
+
+	return combo_input($name, $selected_id, $sql, 'id', 'ref', $options);
+}
+
+function vehicle_dimensions_list_cells($label, $name, $selected_id=null, $no_option=false, $showname=null,
+	$showclosed=false, $showtype=0, $submit_on_change=false)
+{
+	if ($label != null)
+		echo "<td>$label</td>\n";
+	echo "<td>";
+	echo vehicle_dimensions_list($name, $selected_id, $no_option, $showname, $submit_on_change, $showclosed, $showtype);
+	echo "</td>\n";
+}
+
+function vehicle_dimensions_list_row($label, $name, $selected_id=null, $no_option=false, $showname=null,
+	$showclosed=false, $showtype=0, $submit_on_change=false)
+{
+	echo "<tr><td class='label'>$label</td>";
+	vehicle_dimensions_list_cells(null, $name, $selected_id, $no_option, $showname,
 		$showclosed, $showtype, $submit_on_change);
 	echo "</tr>\n";
 }

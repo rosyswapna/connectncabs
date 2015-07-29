@@ -57,6 +57,10 @@ if (list_updated('PersonDetailID')) {
 	$Ajax->activate('person_id');
 }
 
+
+
+
+
 //--------------------------------------------------------------------------------------------------
 function line_start_focus() {
   global 	$Ajax;
@@ -417,6 +421,7 @@ start_row();
 echo "<td>";
 display_gl_items($_SESSION['pay_items']->trans_type==ST_BANKPAYMENT ?
 	_("Payment Items"):_("Deposit Items"), $_SESSION['pay_items']);
+
 gl_options_controls($_SESSION['pay_items']);
 echo "</td>";
 end_row();

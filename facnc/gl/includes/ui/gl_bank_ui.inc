@@ -44,14 +44,17 @@ function display_bank_header(&$order)
 	if (isset($_POST['_PayType_update'])) {
 		
 		$_POST['person_id'] = '';
+		$_POST['dimension_id'] = 0;
 		$Ajax->activate('pmt_header');
 		$Ajax->activate('code_id');
 		$Ajax->activate('pagehelp');
 		$Ajax->activate('editors');
 		$Ajax->activate('footer');
+		$Ajax->activate('dimension_id');
 	}
     payment_person_types_list_row( $payment ? _("Pay To:"):_("From:"),
 		 'PayType', $_POST['PayType'], true);
+	
     switch ($_POST['PayType'])
     {
 		case PT_MISC :
@@ -75,6 +78,19 @@ function display_bank_header(&$order)
     		owner_list_row(_("Vehicle Owner:"), 'person_id', null, false, true, false, true);
 		$target = "../purchasing/supplier_payment.php?SupplierPayment=VW".get_post('person_id');
     		break;
+
+		case PT_VEHICLE :
+    		vehicle_dimensions_list_row(_("Vehicle:"), 'vehilce_dimension',null, false, null,false,0, true);
+		$vehicleDimension = get_dimension(get_post('vehilce_dimension'));
+		
+		hidden('person_id',$vehicleDimension['reference']);
+		$_POST['dimension_id'] = get_post('vehilce_dimension');
+		$Ajax->activate('dimension_id');
+		
+
+		$target = "";
+    		break;
+
 		case PT_CUSTOMER :
     		customer_list_row(_("Customer:"), 'person_id', null, false, true, false, true);
 		$customer = get_customer(get_post('person_id'));
@@ -163,6 +179,8 @@ function display_bank_header(&$order)
 function display_gl_items($title, &$order)
 {
 	global $path_to_root;
+
+	
 
 	$dim = get_company_pref('use_dimension');
 	$colspan = ($dim == 2 ? 4 : ($dim == 1 ? 3 : 2));
@@ -258,7 +276,8 @@ function gl_edit_item_controls(&$order, $dim, $Index=null)
 	else
 	{
 		$_POST['amount'] = price_format(0);
-		$_POST['dimension_id'] = 0;
+		if(!isset($_POST['dimension_id']))
+			$_POST['dimension_id'] = 0;
 		$_POST['dimension2_id'] = 0;
 		//$_POST['LineMemo'] = ""; // let memo go to next line Joe Hunt 2010-05-30
 		if(isset($_POST['_code_id_update'])) {
