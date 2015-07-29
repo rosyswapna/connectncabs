@@ -28,6 +28,7 @@ function display_bank_header(&$order)
 
 	if($_GET['VehiclePayment']){
 		hidden('PayType', $_POST['PayType']);
+		hidden('vehicle_dimension', $_GET['VehiclePayment']);
 		$vehicleDimension = get_dimension($_GET['VehiclePayment']);
 		hidden('person_id',$vehicleDimension['reference']);
 		$_POST['dimension_id'] = $_GET['VehiclePayment'];
@@ -98,7 +99,8 @@ function display_bank_header(&$order)
 			$vehicleDimension = get_dimension(get_post('vehilce_dimension'));
 
 			hidden('person_id',$vehicleDimension['reference']);
-			$_POST['dimension_id'] = get_post('vehilce_dimension');
+			$_POST['dimension_id'] = $_POST['vehicle_dimension'] = get_post('vehilce_dimension');
+			$Ajax->activate('vehicle_dimension');
 			$Ajax->activate('dimension_id');
 
 
@@ -269,7 +271,7 @@ function gl_edit_item_controls(&$order, $dim, $Index=null)
 	global $Ajax;
 	$payment = $order->trans_type == ST_BANKPAYMENT;
 
-	
+
 
 	start_row();
 	$id = find_submit('Edit');
@@ -319,8 +321,12 @@ function gl_edit_item_controls(&$order, $dim, $Index=null)
 				get_company_pref($payment ? 'default_cogs_act':'default_inv_sales_act');
 		}
 		echo gl_all_accounts_list('code_id', null, true, true);
+
 		if ($dim >= 1)
 			dimensions_list_cells(null, 'dimension_id', null, true, " ", false, 1);
+			
+			
+
 		if ($dim > 1)
 			dimensions_list_cells(null, 'dimension2_id', null, true, " ", false, 2);
 	}
@@ -328,6 +334,7 @@ function gl_edit_item_controls(&$order, $dim, $Index=null)
 		hidden('dimension_id', 0);
 	if ($dim < 2)
 		hidden('dimension2_id', 0);
+	
 
 	amount_cells(null, 'amount');
 	text_cells_ex(null, 'LineMemo', 35, 255);
