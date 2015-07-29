@@ -297,8 +297,16 @@ function gl_edit_item_controls(&$order, $dim, $Index=null)
 
 		hidden('Index', $id);
 		echo gl_all_accounts_list('code_id', null, true, true);
-		if ($dim >= 1)
-			dimensions_list_cells(null, 'dimension_id', null, true, " ", false, 1);
+		if ($dim >= 1){
+			if(get_post('vehicle_dimension')){
+				hidden('dimension_id',get_post('vehicle_dimension'));
+				//label_cell(get_post('vehicle_dimension'));
+			}
+			else{
+				dimensions_list_cells(null, 'dimension_id', null, true, " ", false, 1);
+			}
+		}
+			
 		if ($dim > 1)
 			dimensions_list_cells(null, 'dimension2_id', null, true, " ", false, 2);
 	    $Ajax->activate('items_table');
