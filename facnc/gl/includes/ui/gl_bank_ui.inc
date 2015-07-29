@@ -28,11 +28,12 @@ function display_bank_header(&$order)
 
 	if($_GET['VehiclePayment']){
 		hidden('PayType', $_POST['PayType']);
-		hidden('vehicle_dimension', $_GET['VehiclePayment']);
+		hidden('vehicle_dimension');
 		$vehicleDimension = get_dimension($_GET['VehiclePayment']);
 		hidden('person_id',$vehicleDimension['reference']);
-		$_POST['dimension_id'] = $_GET['VehiclePayment'];
+		$_POST['dimension_id'] = $_POST['vehicle_dimension'] = $_GET['VehiclePayment'];
 		$Ajax->activate('dimension_id');
+		$Ajax->activate('vehicle_dimension');
 
 		table_section(3, "60%");
 	}else{
@@ -41,17 +42,17 @@ function display_bank_header(&$order)
 
 		if (!isset($_POST['PayType']))
 		{
-		if (isset($_GET['PayType']))
-			$_POST['PayType'] = $_GET['PayType'];
-		else
-			$_POST['PayType'] = "";
+			if (isset($_GET['PayType']))
+				$_POST['PayType'] = $_GET['PayType'];
+			else
+				$_POST['PayType'] = "";
 		}
 		if (!isset($_POST['person_id']))
 		{
-		if (isset($_GET['PayPerson']))
-			$_POST['person_id'] = $_GET['PayPerson'];
-		else
-			$_POST['person_id'] = "";
+			if (isset($_GET['PayPerson']))
+				$_POST['person_id'] = $_GET['PayPerson'];
+			else
+				$_POST['person_id'] = "";
 		}
 		if (isset($_POST['_PayType_update'])) {
 
@@ -69,6 +70,11 @@ function display_bank_header(&$order)
 		payment_person_types_list_row( $payment ? _("Pay To:"):_("From:"),
 		'PayType', $_POST['PayType'], true); 
 
+		if(list_updated('PayType') || list_updated('vehilce_dimension')){
+			$order->clear_items();
+			$Ajax->activate('items_table');	
+		}
+
 
 		switch ($_POST['PayType'])
 		{
@@ -76,6 +82,7 @@ function display_bank_header(&$order)
 			text_row_ex($payment ?_("To the Order of:"):_("Name:"),
 			'person_id', 20, 50);
 			$target = '';
+			unset($_POST['vehicle_dimension']);
 			break;
 			//case PT_WORKORDER :
 			//	workorders_list_row(_("Work Order:"), 'person_id', null);
@@ -95,16 +102,17 @@ function display_bank_header(&$order)
 			break;
 
 			case PT_VEHICLE :
-			vehicle_dimensions_list_row(_("Vehicle:"), 'vehilce_dimension',$_POST['vehicle_dimension'], false, null,false,0, true);
-			$vehicleDimension = get_dimension(get_post('vehilce_dimension'));
+				vehicle_dimensions_list_row(_("Vehicle:"), 'vehilce_dimension',$_POST['vehicle_dimension'], false, null,false,0, true);
+				$vehicleDimension = get_dimension(get_post('vehilce_dimension'));
 
-			hidden('person_id',$vehicleDimension['reference']);
-			$_POST['dimension_id'] = $_POST['vehicle_dimension'] = get_post('vehilce_dimension');
-			$Ajax->activate('vehicle_dimension');
-			$Ajax->activate('dimension_id');
+				hidden('person_id',$vehicleDimension['reference']);
+				$_POST['dimension_id'] = $_POST['vehicle_dimension'] = get_post('vehilce_dimension');
+				$Ajax->activate('vehicle_dimension');
+				$Ajax->activate('dimension_id');
 
+				$target = "";
 
-			$target = "";
+				
 			break;
 
 			case PT_CUSTOMER :
@@ -198,7 +206,7 @@ function display_gl_items($title, &$order)
 {
 	global $path_to_root;
 
-	
+	//display_notification(get_post('vehicle_dimension'));
 
 	$dim = get_company_pref('use_dimension');
 	$colspan = ($dim == 2 ? 4 : ($dim == 1 ? 3 : 2));
@@ -207,10 +215,10 @@ function display_gl_items($title, &$order)
     div_start('items_table');
 	start_table(TABLESTYLE, "colspan=7 width=95%");
 
-	if ($dim == 2)
+	if ($dim == 2 && !(get_post('vehicle_dimension')) ) 
 		$th = array(_("Account Code"), _("Account Description"), _("Dimension")." 1",
 			_("Dimension")." 2", _("Amount"), _("Memo"), "");
-	else if ($dim == 1)
+	else if ($dim == 1 && !(get_post('vehicle_dimension')) )
 		$th = array(_("Account Code"), _("Account Description"), _("Dimension"),
 			_("Amount"), _("Memo"), "");
 	else
@@ -231,9 +239,11 @@ function display_gl_items($title, &$order)
 
 			label_cell($item->code_id);
 			label_cell($item->description);
-    		if ($dim >= 1)
+
+		
+    		if ($dim >= 1 && !(get_post('vehicle_dimension')) )
 				label_cell(get_dimension_string($item->dimension_id, true));
-    		if ($dim > 1)
+    		if ($dim > 1 && !(get_post('vehicle_dimension')) )
 				label_cell(get_dimension_string($item->dimension2_id, true));
 			//amount_cell(abs($item->amount));
 			if ($order->trans_type == ST_BANKDEPOSIT)
@@ -322,8 +332,17 @@ function gl_edit_item_controls(&$order, $dim, $Index=null)
 		}
 		echo gl_all_accounts_list('code_id', null, true, true);
 
-		if ($dim >= 1)
-			dimensions_list_cells(null, 'dimension_id', null, true, " ", false, 1);
+		if ($dim >= 1){
+
+			if(get_post('vehicle_dimension')){
+				hidden('dimension_id',get_post('vehicle_dimension'));
+				//label_cell(get_post('vehicle_dimension'));
+			}
+			else{
+				dimensions_list_cells(null, 'dimension_id', null, true, " ", false, 1);
+			}
+		}
+			
 			
 			
 
