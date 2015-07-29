@@ -1009,7 +1009,7 @@ if($this->mysession->get('loan_post_all')!=null ){
 			<?php if (array_key_exists('p_tab', $tabs)) {?>
 				<div class="<?php echo $tabs['p_tab']['content_class'];?>" id="<?php echo $tabs['p_tab']['tab_id'];?>">
 						<div class="page-outer">
-						<iframe src="<?php echo base_url().'account/front_desk/SupplierPayment/VW'.$owner_id.'/true';?>" height="600px" width="100%">
+						<iframe src="<?php echo base_url().'account/front_desk/VehiclePayment/'.$vehicle['dimension_id'].'/true';?>" height="600px" width="100%">
 						<p>Browser not Support</p>
 						</iframe>
 						</div>

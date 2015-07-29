@@ -15,6 +15,9 @@
 	elseif(isset($_GET['NewBankDeposit'])){
 
 		meta_forward('gl/gl_bank.php','NewDeposit=Yes');
+	}elseif(isset($_GET['VehiclePayment'])){
+
+		meta_forward('gl/gl_bank.php','VehiclePayment='.$_GET['VehiclePayment']);
 	}
 	elseif(isset($_GET['BankTransfer'])){
 

@@ -59,3 +59,11 @@ CREATE TABLE IF NOT EXISTS `vehicle_owner_mapping` (
 
 ----------------------28 july 2015--------------------------------------
 ALTER TABLE `trip_expense_type`  ADD `expense_for` SMALLINT(1) NULL AFTER `value`;
+
+
+----------------------29 july 2015--------------------------------------
+ALTER TABLE `vehicles`  ADD `dimension_id` INT(11) NOT NULL AFTER `driver_percentage`,  ADD INDEX (`dimension_id`);
+
+
+
+

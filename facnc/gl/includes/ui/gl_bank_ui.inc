@@ -25,126 +25,142 @@ function display_bank_header(&$order)
 
 	ref_row(_("Reference:"), 'ref', '');
 
-	table_section(2, "40%");
 
-	if (!isset($_POST['PayType']))
-	{
+	if($_GET['VehiclePayment']){
+		hidden('PayType', $_POST['PayType']);
+		$vehicleDimension = get_dimension($_GET['VehiclePayment']);
+		hidden('person_id',$vehicleDimension['reference']);
+		$_POST['dimension_id'] = $_GET['VehiclePayment'];
+		$Ajax->activate('dimension_id');
+
+		table_section(3, "60%");
+	}else{
+
+		table_section(2, "40%");
+
+		if (!isset($_POST['PayType']))
+		{
 		if (isset($_GET['PayType']))
 			$_POST['PayType'] = $_GET['PayType'];
 		else
 			$_POST['PayType'] = "";
-	}
-	if (!isset($_POST['person_id']))
-	{
+		}
+		if (!isset($_POST['person_id']))
+		{
 		if (isset($_GET['PayPerson']))
 			$_POST['person_id'] = $_GET['PayPerson'];
 		else
 			$_POST['person_id'] = "";
-	}
-	if (isset($_POST['_PayType_update'])) {
-		
-		$_POST['person_id'] = '';
-		$_POST['dimension_id'] = 0;
-		$Ajax->activate('pmt_header');
-		$Ajax->activate('code_id');
-		$Ajax->activate('pagehelp');
-		$Ajax->activate('editors');
-		$Ajax->activate('footer');
-		$Ajax->activate('dimension_id');
-	}
-    payment_person_types_list_row( $payment ? _("Pay To:"):_("From:"),
-		 'PayType', $_POST['PayType'], true);
+		}
+		if (isset($_POST['_PayType_update'])) {
+
+			$_POST['person_id'] = '';
+			$_POST['dimension_id'] = 0;
+			$Ajax->activate('pmt_header');
+			$Ajax->activate('code_id');
+			$Ajax->activate('pagehelp');
+			$Ajax->activate('editors');
+			$Ajax->activate('footer');
+			$Ajax->activate('dimension_id');
+		}
+
 	
-    switch ($_POST['PayType'])
-    {
-		case PT_MISC :
-    		text_row_ex($payment ?_("To the Order of:"):_("Name:"),
-				 'person_id', 20, 50);
-		$target = '';
-    		break;
-		//case PT_WORKORDER :
-    	//	workorders_list_row(_("Work Order:"), 'person_id', null);
-    	//	break;
-		case PT_SUPPLIER :
-    		supplier_list_row(_("Supplier:"), 'person_id', null, false, true, false, true);
-		$target = "../purchasing/supplier_payment.php?SupplierPayment=VW".get_post('person_id');
-    		break;
-		case PT_DRIVER :
-    		driver_list_row(_("Driver:"), 'person_id', null, false, true, false, true);
-		$target = "../purchasing/supplier_payment.php?SupplierPayment=DR".get_post('person_id');
-		
-    		break;
-		case PT_OWNER :
-    		owner_list_row(_("Vehicle Owner:"), 'person_id', null, false, true, false, true);
-		$target = "../purchasing/supplier_payment.php?SupplierPayment=VW".get_post('person_id');
-    		break;
+		payment_person_types_list_row( $payment ? _("Pay To:"):_("From:"),
+		'PayType', $_POST['PayType'], true); 
 
-		case PT_VEHICLE :
-    		vehicle_dimensions_list_row(_("Vehicle:"), 'vehilce_dimension',null, false, null,false,0, true);
-		$vehicleDimension = get_dimension(get_post('vehilce_dimension'));
-		
-		hidden('person_id',$vehicleDimension['reference']);
-		$_POST['dimension_id'] = get_post('vehilce_dimension');
-		$Ajax->activate('dimension_id');
-		
 
-		$target = "";
-    		break;
+		switch ($_POST['PayType'])
+		{
+			case PT_MISC :
+			text_row_ex($payment ?_("To the Order of:"):_("Name:"),
+			'person_id', 20, 50);
+			$target = '';
+			break;
+			//case PT_WORKORDER :
+			//	workorders_list_row(_("Work Order:"), 'person_id', null);
+			//	break;
+			case PT_SUPPLIER :
+			supplier_list_row(_("Supplier:"), 'person_id', null, false, true, false, true);
+			$target = "../purchasing/supplier_payment.php?SupplierPayment=VW".get_post('person_id');
+			break;
+			case PT_DRIVER :
+			driver_list_row(_("Driver:"), 'person_id', null, false, true, false, true);
+			$target = "../purchasing/supplier_payment.php?SupplierPayment=DR".get_post('person_id');
 
-		case PT_CUSTOMER :
-    		customer_list_row(_("Customer:"), 'person_id', null, false, true, false, true);
-		$customer = get_customer(get_post('person_id'));
-		$target = "../sales/customer_payments.php?CustomerPayment=".$customer['debtor_ref'];
+			break;
+			case PT_OWNER :
+			owner_list_row(_("Vehicle Owner:"), 'person_id', null, false, true, false, true);
+			$target = "../purchasing/supplier_payment.php?SupplierPayment=VW".get_post('person_id');
+			break;
 
-        	if (db_customer_has_branches($_POST['person_id']))
-        	{
-        		customer_branches_list_row(_("Branch:"), $_POST['person_id'], 
-					'PersonDetailID', null, false, true, true, true);
-        	}
-        	else
-        	{
-				$_POST['PersonDetailID'] = ANY_NUMERIC;
-        		hidden('PersonDetailID');
-        	}
-        	$trans = get_customer_habit($_POST['person_id']); // take care of customers on hold
-        	if ($trans['dissallow_invoices'] != 0)
-        	{
-        		if ($payment)
-        		{
-        			$customer_error = true;
-					display_error(_("This customer account is on hold."));
-        		}
-        		else			
-					display_warning(_("This customer account is on hold."));
-        	}		
-    		break;
+			case PT_VEHICLE :
+			vehicle_dimensions_list_row(_("Vehicle:"), 'vehilce_dimension',$_POST['vehicle_dimension'], false, null,false,0, true);
+			$vehicleDimension = get_dimension(get_post('vehilce_dimension'));
 
-		case PT_QUICKENTRY :
+			hidden('person_id',$vehicleDimension['reference']);
+			$_POST['dimension_id'] = get_post('vehilce_dimension');
+			$Ajax->activate('dimension_id');
+
+
+			$target = "";
+			break;
+
+			case PT_CUSTOMER :
+			customer_list_row(_("Customer:"), 'person_id', null, false, true, false, true);
+			$customer = get_customer(get_post('person_id'));
+			$target = "../sales/customer_payments.php?CustomerPayment=".$customer['debtor_ref'];
+
+			if (db_customer_has_branches($_POST['person_id']))
+			{
+			customer_branches_list_row(_("Branch:"), $_POST['person_id'], 
+			'PersonDetailID', null, false, true, true, true);
+			}
+			else
+			{
+			$_POST['PersonDetailID'] = ANY_NUMERIC;
+			hidden('PersonDetailID');
+			}
+			$trans = get_customer_habit($_POST['person_id']); // take care of customers on hold
+			if ($trans['dissallow_invoices'] != 0)
+			{
+			if ($payment)
+			{
+			$customer_error = true;
+			display_error(_("This customer account is on hold."));
+			}
+			else			
+			display_warning(_("This customer account is on hold."));
+			}		
+			break;
+
+			case PT_QUICKENTRY :
 			quick_entries_list_row(_("Type").":", 'person_id', null, ($payment ? QE_PAYMENT : QE_DEPOSIT), true);
 			$target = '';
 			$qid = get_quick_entry(get_post('person_id'));
 			if (list_updated('person_id')) {
-				unset($_POST['totamount']); // enable default
-				$Ajax->activate('footer');
-				$Ajax->activate('totamount');
+			unset($_POST['totamount']); // enable default
+			$Ajax->activate('footer');
+			$Ajax->activate('totamount');
 			}
 			amount_row($qid['base_desc'].":", 'totamount', price_format($qid['base_amount']),
-				 null, "&nbsp;&nbsp;".submit('go', _("Go"), false, false, true));
+			null, "&nbsp;&nbsp;".submit('go', _("Go"), false, false, true));
 			break;	
-		//case payment_person_types::Project() :
-    	//	dimensions_list_row(_("Dimension:"), 'person_id', $_POST['person_id'], false, null, true);
-    	//	break;
-    }
+			//case payment_person_types::Project() :
+			//	dimensions_list_row(_("Dimension:"), 'person_id', $_POST['person_id'], false, null, true);
+			//	break;
+			}
 
-	if($target != ''){
-	start_row();
-		hyperlink_no_params_td($target, _("Allocate"));
-	end_row();
+			if($target != ''){
+			start_row();
+			hyperlink_no_params_td($target, _("Allocate"));
+			end_row();
+		}
+	table_section(3, "30%");
 	}
 
 
 
-	table_section(3, "30%");
+	
 
 	if (!$order->order_id && !get_post('bank_account'))
 	{
@@ -252,6 +268,8 @@ function gl_edit_item_controls(&$order, $dim, $Index=null)
 {
 	global $Ajax;
 	$payment = $order->trans_type == ST_BANKPAYMENT;
+
+	
 
 	start_row();
 	$id = find_submit('Edit');

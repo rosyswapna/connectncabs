@@ -34,7 +34,16 @@ if (isset($_GET['NewPayment'])) {
 	//$_SESSION['page_title'] = _($help_context = "Bank Account Payment Entry");
 	$_SESSION['page_title'] = _($help_context = "Payment Entry");
 	create_cart(ST_BANKPAYMENT, 0);
-} else if(isset($_GET['NewDeposit'])) {
+
+} 
+else if (isset($_GET['VehiclePayment'])) {
+	//$_SESSION['page_title'] = _($help_context = "Bank Account Payment Entry");
+	$_SESSION['page_title'] = _($help_context = "Vehicle Payment Entry");
+	create_cart(ST_BANKPAYMENT, 0);
+	$_POST['PayType'] = PT_VEHICLE;
+	$_POST['vehicle_dimension'] = $_GET['VehiclePayment'];
+}
+else if(isset($_GET['NewDeposit'])) {
 	//$_SESSION['page_title'] = _($help_context = "Bank Account Deposit Entry");
 	$_SESSION['page_title'] = _($help_context = "Receipt Entry");
 	create_cart(ST_BANKDEPOSIT, 0);

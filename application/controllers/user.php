@@ -2168,6 +2168,7 @@ public function profile() {
 			
 			$org_id=$this->session->userdata('organisation_id');
 			$data['select']=$this->select_Vehicle_Values();
+
 			
 			if($param1!='' && is_numeric($param1)){
 				
@@ -2215,7 +2216,8 @@ public function profile() {
 				//----------------------
 				$data['record_values']=$this->user_model->getRecordsById($tbl,$vid); 
 				$data['driver']=$data['record_values']['driver'];
-				$data['vehicle']=$data['record_values']['vehicle'];//print_r($data['vehicle']);exit;
+				$data['vehicle']=$data['record_values']['vehicle'];
+				//echo "<pre>";print_r($data['record_values']);echo "</pre>";exit;
 				$data['device']=$data['record_values']['device'];
 				$insurance_id=$data['vehicle']['vehicles_insurance_id'];
 				$loan_id=$data['vehicle']['vehicle_loan_id'];
