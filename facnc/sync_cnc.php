@@ -18,6 +18,8 @@
 	}elseif(isset($_GET['VehiclePayment'])){
 
 		meta_forward('gl/gl_bank.php','VehiclePayment='.$_GET['VehiclePayment']);
+	}else if(isset($_GET['VehicleTransaction'])){
+		meta_forward('dimensions/view/view_dimension.php','VehicleTransaction='.$_GET['VehicleTransaction']);
 	}
 	elseif(isset($_GET['BankTransfer'])){
 

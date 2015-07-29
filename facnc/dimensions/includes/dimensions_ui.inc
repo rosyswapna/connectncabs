@@ -27,7 +27,7 @@ function display_dimension_balance($id, $from, $to)
     {
 		display_heading2(_("Balance for this Dimension"));
 		br();
-		start_table(TABLESTYLE);
+		start_table(TABLESTYLE,'width="70%"');
 		$th = array(_("Account"), _("Debit"), _("Credit"));
 		table_header($th);
 

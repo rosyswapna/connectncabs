@@ -17,7 +17,7 @@ include_once($path_to_root . "/includes/session.inc");
 $js = "";
 if ($use_date_picker)
 	$js .= get_js_date_picker();
-page(_($help_context = "View Dimension"), true, false, "", $js);
+
 
 include_once($path_to_root . "/includes/date_functions.inc");
 include_once($path_to_root . "/includes/data_checks.inc");
@@ -27,10 +27,22 @@ include_once($path_to_root . "/dimensions/includes/dimensions_ui.inc");
 
 //-------------------------------------------------------------------------------------------------
 
+
 if (isset($_GET['trans_no']) && $_GET['trans_no'] != "")
 {
 	$id = $_GET['trans_no'];
+	$_SESSION['page_title'] = _($help_context = "View Dimension");
 }
+else if (isset($_GET['VehicleTransaction']) && $_GET['VehicleTransaction'] != ""){
+	$id = $_GET['VehicleTransaction'];
+
+	$_SESSION['page_title'] = _($help_context = "Vehicle Transactions");
+}else{
+	$_SESSION['page_title'] = _($help_context = "View Dimension");
+}
+
+page($_SESSION['page_title'] , true, false, "", $js);
+
 
 if (isset($_POST['Show']))
 {
@@ -38,59 +50,66 @@ if (isset($_POST['Show']))
 	$Ajax->activate('_page_body');
 }
 
-
-display_heading($systypes_array[ST_DIMENSION] . " # " . $id);
-
-br(1);
 $myrow = get_dimension($id);
 
-if (strlen($myrow[0]) == 0)
-{
-	echo _("The dimension number sent is not valid.");
-    exit;
+if (isset($_GET['trans_no'])){
+
+	
+
+	display_heading($systypes_array[ST_DIMENSION] . " # " . $id);
+
+	br(1);
+
+	if (strlen($myrow[0]) == 0)
+	{
+		echo _("The dimension number sent is not valid.");
+	    exit;
+	}
+
+	start_table(TABLESTYLE);
+
+	$th = array(_("#"), _("Reference"), _("Name"), _("Type"), _("Date"), _("Due Date"));
+	table_header($th);
+
+	start_row();
+	label_cell($myrow["id"]);
+	label_cell($myrow["reference"]);
+	label_cell($myrow["name"]);
+	label_cell($myrow["type_"]);
+	label_cell(sql2date($myrow["date_"]));
+	label_cell(sql2date($myrow["due_date"]));
+	end_row();
+
+	comments_display_row(ST_DIMENSION, $id);
+
+	end_table();
 }
 
-start_table(TABLESTYLE);
+	if ($myrow["closed"] == true)
+	{
+		display_note(_("This dimension is closed."));
+	}
 
-$th = array(_("#"), _("Reference"), _("Name"), _("Type"), _("Date"), _("Due Date"));
-table_header($th);
 
-start_row();
-label_cell($myrow["id"]);
-label_cell($myrow["reference"]);
-label_cell($myrow["name"]);
-label_cell($myrow["type_"]);
-label_cell(sql2date($myrow["date_"]));
-label_cell(sql2date($myrow["due_date"]));
-end_row();
+	start_form();
 
-comments_display_row(ST_DIMENSION, $id);
+	start_table(TABLESTYLE_NOBORDER);
+	start_row();
 
-end_table();
+	if (!isset($_POST['TransFromDate']))
+		$_POST['TransFromDate'] = begin_fiscalyear();
+	if (!isset($_POST['TransToDate']))
+		$_POST['TransToDate'] = Today();
+	date_cells(_("Period From:"), 'TransFromDate');
+	date_cells(_("Period To:"), 'TransToDate');
+	submit_cells('Show',_("Show"), '', false,'default');
 
-if ($myrow["closed"] == true)
-{
-	display_note(_("This dimension is closed."));
-}
+	end_row();
 
-start_form();
+	end_table();
+	hidden('trans_no', $id);
+	end_form();
 
-start_table(TABLESTYLE_NOBORDER);
-start_row();
-
-if (!isset($_POST['TransFromDate']))
-	$_POST['TransFromDate'] = begin_fiscalyear();
-if (!isset($_POST['TransToDate']))
-	$_POST['TransToDate'] = Today();
-date_cells(_("from:"), 'TransFromDate');
-date_cells(_("to:"), 'TransToDate');
-submit_cells('Show',_("Show"), '', false);
-
-end_row();
-
-end_table();
-hidden('trans_no', $id);
-end_form();
 
 display_dimension_balance($id, $_POST['TransFromDate'], $_POST['TransToDate']);
 
