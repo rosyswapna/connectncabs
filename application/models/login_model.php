@@ -91,6 +91,8 @@ class Login_model extends CI_Model {
 
 	//set user session 
 	function set_session() {
+
+		$this->session->set_userid($this->details->id);
 		$this->session->set_userdata( array(
 			'id'=>$this->details->id,
 			'name'=> $this->details->first_name . ' ' . $this->details->last_name,
@@ -101,7 +103,7 @@ class Login_model extends CI_Model {
 			'type'=>$this->details->user_type_id,
 			'isLoggedIn'=>true,
 			'token_pass' =>$this->details->password,
-			'fa_account' =>$this->details->fa_account
+			'fa_account' =>$this->details->fa_account,
 			));
 
 		if($this->details->user_type_id == CUSTOMER){
@@ -120,6 +122,9 @@ class Login_model extends CI_Model {
         		$v_owner = $this->db->get()->result();
 			$this->session->set_userdata('v_owner',$v_owner[0]);
 		}
+
+
+		
 	}
 
 	function clearLoginAttempts($username){

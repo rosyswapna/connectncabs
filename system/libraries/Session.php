@@ -46,6 +46,9 @@ class CI_Session {
 	var $userdata					= array();
 	var $CI;
 	var $now;
+        var $userid = '';
+
+	var $sess_one_login = FALSE;
 
 	/**
 	 * Session Constructor
@@ -63,7 +66,7 @@ class CI_Session {
 
 		// Set all the session preferences, which can either be set
 		// manually via the $params array above or via the config file
-		foreach (array('sess_encrypt_cookie', 'sess_use_database', 'sess_table_name', 'sess_expiration', 'sess_expire_on_close', 'sess_match_ip', 'sess_match_useragent', 'sess_cookie_name', 'cookie_path', 'cookie_domain', 'cookie_secure', 'sess_time_to_update', 'time_reference', 'cookie_prefix', 'encryption_key') as $key)
+		foreach (array('sess_encrypt_cookie', 'sess_use_database', 'sess_table_name', 'sess_expiration', 'sess_expire_on_close', 'sess_match_ip', 'sess_match_useragent', 'sess_cookie_name', 'cookie_path', 'cookie_domain', 'cookie_secure', 'sess_time_to_update', 'time_reference', 'cookie_prefix', 'encryption_key','sess_one_login') as $key)
 		{
 			$this->$key = (isset($params[$key])) ? $params[$key] : $this->CI->config->item($key);
 		}
@@ -123,6 +126,47 @@ class CI_Session {
 		$this->_sess_gc();
 
 		log_message('debug', "Session routines successfully run");
+	}
+
+
+	function sess_one_login_enable($userid)
+	{
+		
+		$this->CI->db->where('userid', $userid);
+		$this->CI->db->where('user_data <>', '');
+		$query = $this->CI->db->get($this->sess_table_name);
+
+		// No result?  Kill it!
+
+		// Fetch the cookie
+		if($query->num_rows() > 1){
+
+			$current_sess_id = $this->userdata['session_id'];
+
+
+			$new_sessid = '';
+			while (strlen($new_sessid) < 32)
+			{
+				$new_sessid .= mt_rand(0, mt_getrandmax());
+			}
+
+			// To make the session ID even more secure we'll combine it with the user's IP
+			$new_sessid .= $this->CI->input->ip_address();
+
+			// Turn it into a hash
+			$new_sessid = md5(uniqid($new_sessid, TRUE));
+
+			$updateData = array('last_activity' => $this->now, 
+					'user_data' => '',
+					'userid' => ''
+					);
+			// Run the update query
+			$this->CI->db->where('session_id <>', $current_sess_id);
+			$this->CI->db->where('userid', $userid);
+			$this->CI->db->update($this->sess_table_name, $updateData);
+
+		}
+		
 	}
 
 	// --------------------------------------------------------------------
@@ -303,7 +347,7 @@ class CI_Session {
 
 		// Run the update query
 		$this->CI->db->where('session_id', $this->userdata['session_id']);
-		$this->CI->db->update($this->sess_table_name, array('last_activity' => $this->userdata['last_activity'], 'user_data' => $custom_userdata));
+		$this->CI->db->update($this->sess_table_name, array('last_activity' => $this->userdata['last_activity'], 'user_data' => $custom_userdata,'userid'=>$this->userid));
 
 		// Write the cookie.  Notice that we manually pass the cookie data array to the
 		// _set_cookie() function. Normally that function will store $this->userdata, but
@@ -335,7 +379,8 @@ class CI_Session {
 							'ip_address'	=> $this->CI->input->ip_address(),
 							'user_agent'	=> substr($this->CI->input->user_agent(), 0, 120),
 							'last_activity'	=> $this->now,
-							'user_data'		=> ''
+							'user_data'		=> '',
+							'userid'	=> $this->userid
 							);
 
 
@@ -489,7 +534,21 @@ class CI_Session {
 		}
 
 		$this->sess_write();
+
+
+		
+		if($this->sess_one_login === TRUE){
+			$this->sess_one_login_enable($this->userid);
+		}	
+		
 	}
+
+	//setting userid for user session logged in
+	function set_userid($userid){
+		$this->userid = $userid;
+	}
+
+	
 
 	// --------------------------------------------------------------------
 
@@ -513,6 +572,8 @@ class CI_Session {
 				unset($this->userdata[$key]);
 			}
 		}
+
+		$this->userid = '';
 
 		$this->sess_write();
 	}
