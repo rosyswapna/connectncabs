@@ -208,6 +208,40 @@ class account_model extends CI_Model {
 	}
 
 
+	// vehicle----- as dimension in erp----------------------------------------------
+	function add_fa_dimension($data)
+	{
+		$fa_dimension_table = $this->session->userdata('organisation_id')."_dimensions";
+		
+
+		if($this->check_fa_table_exists($fa_dimension_table) && is_array($data))
+		{
+			$this->db->insert($fa_dimension_table,$data);
+			return $this->db->insert_id();	
+
+		}else{
+			return false;//could not insert in fa , supplier table not set for this organisation
+		}
+	}
+
+	function edit_fa_dimension($id,$data)
+	{
+		$fa_dimension_table = $this->session->userdata('organisation_id')."_dimensions";
+		
+
+		if($this->check_fa_table_exists($fa_dimension_table) && is_array($data))
+		{
+			$this->db->where('id',$id);
+			$this->db->update($fa_dimension_table,$data);
+			return true;
+
+		}else{
+			return false;//could not insert in fa , supplier table not set for this organisation
+		}
+	}
+	//------------------------------------------------------------------
+
+
 	//supplier-------------------------------------------------
 	function get_cnc_driver($id)
 	{

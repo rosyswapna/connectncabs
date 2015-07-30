@@ -8,6 +8,8 @@ class Vehicle extends CI_Controller {
 		$this->load->model("vehicle_model");
 		$this->load->model("trip_booking_model");
 		$this->load->helper('my_helper');
+
+		$this->load->model('account_model');
 		no_cache();
 		
 		}
@@ -227,11 +229,14 @@ class Vehicle extends CI_Controller {
 		
 		//return 
 		}
-		public function vehicle_validation(){
-		if($this->session_check()==true) {
-		if(isset($_REQUEST['vehicle-submit'])){
+	public function vehicle_validation(){
+		if($this->session_check()==true && isset($_REQUEST['vehicle-submit'])) {
+			
+			$dimensionData = array();
 	
-			$v_id=$this->input->post('hidden_id');//exit;
+			$v_id = $this->input->post('hidden_id');//exit;
+			$data['dimension_id'] = $this->input->post('dimension_id');
+
 			$data['vehicle_ownership_types_id']=$this->input->post('ownership');
 			$data['vehicle_percentage']=$this->input->post('vehicle_percentage');
 			$data['driver_percentage']=$this->input->post('driver_percentage');
@@ -250,7 +255,7 @@ class Vehicle extends CI_Controller {
 			$hid_device=$this->input->post('hid_device');
 			$device_data['from_date_device']=$this->input->post('from_date_device');
 			$h_fdate_device=$this->input->post('h_fdate_device');
-			$data['registration_number']=$this->input->post('reg_number');
+			$data['registration_number'] = $dimensionData['reference'] =$this->input->post('reg_number');
 			$data['registration_date']=$this->input->post('reg_date');
 			
 			$data['engine_number']=$this->input->post('eng_num');
@@ -336,43 +341,40 @@ class Vehicle extends CI_Controller {
 			 $this->mysession->set('Driver','Choose Any Driver');
 			} */
 
-	 if($this->form_validation->run()==False|| $err==False){
+		if($this->form_validation->run()==False|| $err==False){
 	
 		
-		
-		$data['vehicle_percentages'] = $data['driver_percentages']= array();
-		if($data['vehicle_ownership_types_id'] > 0 && $data['vehicle_ownership_types_id']!=OWNED_VEHICLE){
-			$percentages	= $this->trip_booking_model->getPercentages();
-			if(isset($percentages['vehicle'])){
-				foreach($percentages['vehicle'] as $val){
-					$data['vehicle_percentages'][$val['id']] = $val['value']; 
+			$data['vehicle_percentages'] = $data['driver_percentages']= array();
+			if($data['vehicle_ownership_types_id'] > 0 && $data['vehicle_ownership_types_id']!=OWNED_VEHICLE)
+			{
+				$percentages	= $this->trip_booking_model->getPercentages();
+				if(isset($percentages['vehicle'])){
+					foreach($percentages['vehicle'] as $val){
+						$data['vehicle_percentages'][$val['id']] = $val['value']; 
+					}
+				}
+				if(isset($percentages['driver'])){
+					foreach($percentages['driver'] as $val){
+						$data['driver_percentages'][$val['id']] = $val['value'];
+					}
 				}
 			}
-			if(isset($percentages['driver'])){
-				foreach($percentages['driver'] as $val){
-					$data['driver_percentages'][$val['id']] = $val['value'];
-				}
-			}
-		}
 
 			
+			$this->mysession->set('v_id',$v_id);
+			$this->mysession->set('post_all',$data);
+			$this->mysession->set('post_driver',$driver_data);
+			$this->mysession->set('post_device',$device_data);
 		
-		$this->mysession->set('v_id',$v_id);
-		$this->mysession->set('post_all',$data);
-		$this->mysession->set('post_driver',$driver_data);
-		$this->mysession->set('post_device',$device_data);
 		
-		
-		if($v_id==gINVALID){
-		$r_id='';
-		}
-		else{
-		$r_id=$v_id;
-		}
-		redirect(base_url().'organization/front-desk/vehicle/'.$r_id);	// ?? driver data?? device_data??
-	 }
-	 
-	  else{
+			if($v_id==gINVALID){
+				$r_id='';
+			}
+			else{
+				$r_id=$v_id;
+			}
+			redirect(base_url().'organization/front-desk/vehicle/'.$r_id);	// ?? driver data?? device_data??
+	 	}else{
 	  		$date=explode("-",$driver_data['from_date']);
 			$year=$date[0];
 			$month=$date[1];
@@ -393,40 +395,51 @@ class Vehicle extends CI_Controller {
 				$dev_formatted_date = date('Y-m-d', $dev_day_before);
 			}
 			
-	  if($v_id==gINVALID){ 
-		$res=$this->vehicle_model->insertVehicle($data,$driver_data,$device_data);
-		$v_id=$this->mysession->get('vehicle_id');
-		if( $res==true ) {
-			$this->vehicle_model->map_drivers($driver_data['driver_id'],$driver_data['from_date'],$formatted_date);
-			if($device_data['device_id'] > 0)
-				$this->vehicle_model->map_devices($device_data['device_id'],$device_data['from_date_device'],$dev_formatted_date);
+	 		if($v_id==gINVALID){ 
+				$data['dimension_id'] = $this->account_model->add_fa_dimension($dimensionData);
+				if($data['dimension_id']){
 
-			$this->mysession->set('dbSuccess',' Vehicle Details Added Succesfully..!');
-			$this->mysession->set('dbError','');
-			redirect(base_url().'organization/front-desk/vehicle/'.$v_id);
-		}
-		}
-		else{
+					$res=$this->vehicle_model->insertVehicle($data,$driver_data,$device_data);
+					$v_id=$this->mysession->get('vehicle_id');
+					if( $res==true ) {
+						$this->vehicle_model->map_drivers($driver_data['driver_id'],$driver_data['from_date'],$formatted_date);
+						if($device_data['device_id'] > 0)
+							$this->vehicle_model->map_devices($device_data['device_id'],$device_data['from_date_device'],$dev_formatted_date);
+
+						$this->mysession->set('dbSuccess',' Vehicle Details Added Succesfully..!');
+						$this->mysession->set('dbError','');
+						redirect(base_url().'organization/front-desk/vehicle/'.$v_id);
+					}
+				}
 		
-			$res=$this->vehicle_model->UpdateVehicledetails($data,$v_id); 
-			if($res==true){
-				$this->vehicle_model->map_drivers($driver_data['driver_id'],$driver_data['from_date'],$formatted_date);
-				if($device_data['device_id'] > 0)
-					$this->vehicle_model->map_devices($device_data['device_id'],$device_data['from_date_device'],$dev_formatted_date);
-				$this->mysession->set('dbSuccess',' Vehicle Details Updated Succesfully..!');
-	    			$this->mysession->set('dbError','');
-	    			redirect(base_url().'organization/front-desk/vehicle/'.$v_id);
-			}
-		}
+		
+			}else{
+
+		 		if($data['dimension_id'] == gINVALID)
+					$data['dimension_id'] = $this->account_model->add_fa_dimension($dimensionData);
+		 		else
+					$this->account_model->edit_fa_dimension($data['dimension_id'],$dimensionData);
+		
+					$res=$this->vehicle_model->UpdateVehicledetails($data,$v_id); 
+					if($res==true){
+						$this->vehicle_model->map_drivers($driver_data['driver_id'],$driver_data['from_date'],$formatted_date);
+						if($device_data['device_id'] > 0)
+							$this->vehicle_model->map_devices($device_data['device_id'],$device_data['from_date_device'],$dev_formatted_date);
+						$this->mysession->set('dbSuccess',' Vehicle Details Updated Succesfully..!');
+		    				$this->mysession->set('dbError','');
+		    				redirect(base_url().'organization/front-desk/vehicle/'.$v_id);
+					}
+				}
 	 
-		}
-		}
-		}
-		else{
-			$this->notAuthorized();
 			}
+		}else{
+			$this->notAuthorized();
 		}
-		public function insurance_validation(){
+			
+	}
+	//--------------------------------------------
+
+	public function insurance_validation(){
 		if($this->session_check()==true) {
 			if(isset($_REQUEST['insurance-submit'])){
 			$ins_id=$this->input->post('hidden_ins_id');
@@ -858,7 +871,7 @@ $err=True;
 					
 					if($res==true){
 						//edit vehicle owner enter as supplier in fa
-						$this->load->model('account_model');
+						
 						$this->account_model->edit_fa_supplier($owner_id,"VW");
 						$id=$this->mysession->get('vehicle_id');
 						$this->mysession->set('owner_Success',' Owner Details Updated Succesfully..!');
@@ -949,7 +962,7 @@ $err=True;
 					$owner_id=$this->vehicle_model->insertOwner($data,$login);
 					if($owner_id){
 						//vehicle owner enter as supplier in fa 
-						$this->load->model('account_model');
+						
 						$this->account_model->add_fa_supplier($owner_id,"VW");
 						$this->mysession->set('owner_Success',' Owner Details Added Succesfully..!');
 						$this->mysession->set('owner_Error','');
@@ -962,7 +975,7 @@ $err=True;
 					
 					if($res==true){
 						//edit vehicle owner enter as supplier in fa
-						$this->load->model('account_model');
+						
 						$this->account_model->edit_fa_supplier($owner_id,"VW");
 						$this->mysession->set('owner_Success',' Owner Details Updated Succesfully..!');
 				    		$this->mysession->set('owner_Error','');

@@ -26,6 +26,8 @@
 				$driver_data=$this->mysession->get('post_driver');
 				$device_data=$this->mysession->get('post_device');
 				$vehicle_id=$this->mysession->get('v_id');
+
+				$dimension_id=$data['dimension_id'];
 				$ownership =$data['vehicle_ownership_types_id'];
 				$vehicle_type=$data['vehicle_type_id'];
 				$make=$data['vehicle_make_id'];
@@ -58,6 +60,8 @@
 
 			}else if(isset($vehicle)&& $vehicle!=null){ 
 				$vehicle_id=$vehicle['id'];
+				$dimension_id=$vehicle['dimension_id'];
+
 			    	$ownership =$vehicle['vehicle_ownership_types_id'];
 
 				if($ownership <= OWNED_VEHICLE){
@@ -94,6 +98,7 @@
 				$tax_date=$vehicle['tax_renewal_date'];
 			}else{
 				$vehicle_id=gINVALID;
+				$dimension_id=gINVALID;
 				$ownership ="";
 				$vehicle_type="";
 				$make="";
@@ -151,7 +156,7 @@
            	<div class="width-30-percent-with-margin-left-20-Driver-View">
 
 		<fieldset class="body-border-Driver-View border-style-Driver-view" >
-		<legend class="body-head">Vehicle Details</legend>
+		<legend class="body-head">Vehicle Details<?php echo $dimension_id;?></legend>
 
 		<div class="form-group">
 			<?php echo form_label('Vehicle Ownership Type','usernamelabel'); ?>
@@ -484,8 +489,13 @@
            <?php echo form_input(array('name'=>'tax_date','class'=>'fromdatepicker form-control' ,'value'=>$tax_date)); ?>
 	   <?php echo $this->form_functions->form_error_session('tax_date', '<p class="text-red">', '</p>'); ?>
         </div> <div class="hide-me"><?php echo form_input(array('name'=>'h_tax','value'=>$tax_date));?></div>
-	<div class='hide-me'><?php  echo $vehicle_id;
-		echo form_input(array('name'=>'hidden_id','class'=>'form-control','value'=>$vehicle_id));?></div>
+
+	<div class='hide-me'>
+	<?php  echo $vehicle_id;
+		echo form_input(array('name'=>'hidden_id','class'=>'form-control','value'=>$vehicle_id));
+		echo form_input(array('name'=>'dimension_id','class'=>'form-control','value'=>$dimension_id));
+	?>
+	</div>
 	
    		<div class="box-footer"><?php echo br();
 			if($vehicle_id==gINVALID){
