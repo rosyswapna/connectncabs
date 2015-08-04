@@ -78,7 +78,7 @@ if (!@$_GET['popup']){
 }
 
 date_cells(_("Date From:"), 'TransAfterDate', '', null, -30);
-date_cells(_("Date To:"), 'TransToDate', '', null, 1);
+date_cells(_("Date To:"), 'TransToDate', '', null, 0);
 
 if (!isset($_POST['filterType']))
 	$_POST['filterType'] = 0;
