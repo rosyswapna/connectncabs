@@ -122,7 +122,7 @@ function exists_supp_trans($type, $type_no)
 
 function void_supp_trans($type, $type_no)
 {
-	$sql = "UPDATE ".TB_PREF."supp_trans SET ov_amount=0, ov_discount=0, ov_gst=0, ov_tds=0
+	$sql = "UPDATE ".TB_PREF."supp_trans SET ov_amount=0, ov_discount=0, ov_gst=0, ov_tds=0,
 		alloc=0 WHERE type=".db_escape($type)." AND trans_no=".db_escape($type_no);
 
 	db_query($sql, "could not void supp transactions for type=$type and trans_no=$type_no");
