@@ -114,6 +114,12 @@ function void_customer_trans_details($type, $type_no)
 }
 //----------------------------------------------------------------------------------------
 
+
+function release_delivery($id){
+	$sql = "UPDATE ".TB_PREF."debtor_trans_details SET qty_done= 0 WHERE id=".db_escape($id);
+	db_query($sql, "The debtor transaction detail could not be written");
+}
+
 function write_customer_trans_detail_item($debtor_trans_type, $debtor_trans_no, $stock_id, $description,
 	$quantity, $unit_price, $unit_tax, $discount_percent, $std_cost, $src_id, $line_id=0,$trip_voucher=0,$unit_taxable_amount)
 {

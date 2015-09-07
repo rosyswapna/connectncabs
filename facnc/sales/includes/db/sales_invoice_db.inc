@@ -182,6 +182,13 @@ function write_sales_invoice(&$invoice)
 		} /*quantity dispatched is more than 0 */
 	} /*end of delivery_line loop */
 
+
+	if(count($invoice->removeDnQtyDone) > 0){
+		foreach($invoice->removeDnQtyDone as $dnLineId){
+			release_delivery($dnLineId);
+		}
+	}
+
 	if (($items_total + $charge_shipping) != 0) {
 		$total += add_gl_trans_customer(ST_SALESINVOICE, $invoice_no, $date_, $branch_data["receivables_account"], 0, 0,
 			($items_total + $charge_shipping + $items_added_tax + $freight_added_tax),

@@ -653,6 +653,8 @@ class line_details
 	var $night_halt;
 	var $advance_amount;
 	var $payment_no;
+
+	var $removeDnQtyDone = array();
 	
 
 

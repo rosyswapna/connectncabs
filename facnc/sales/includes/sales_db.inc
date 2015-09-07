@@ -309,6 +309,8 @@ function read_sales_trans($doc_type, $trans_no, &$cart)
 		$result = get_customer_trans_details($doc_type,$trans_no);
 		if (db_num_rows($result) > 0) {
 			for($line_no=0; $myrow = db_fetch($result); $line_no++)	{
+
+				if($myrow["quantity"] > 0 && $myrow["unit_price"] > 0){
 				$trans_no = $myrow["debtor_trans_no"];
 				//echo "<pre>";print_r($myrow);echo "</pre>";exit;
 				$cart->line_items[$line_no] = new line_details(
@@ -317,6 +319,7 @@ function read_sales_trans($doc_type, $trans_no, &$cart)
 					$myrow["qty_done"], $myrow["standard_cost"],
 					$myrow["StockDescription"],$myrow["id"], $myrow["debtor_trans_no"],
 					@$myrow["src_id"],$myrow["trip_voucher"],@$particulars[$trans_no]);
+				}
 			}
 
 		

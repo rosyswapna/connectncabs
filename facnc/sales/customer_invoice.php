@@ -103,10 +103,15 @@ if (isset($_GET['AddedID'])) {
 		
 		$line = &$_SESSION['Items']->line_items[$line_no];
 		if ($line->src_no == $_GET['RemoveDN']) {
+
+			$_SESSION['Items']->removeDnQtyDone[] = $line->src_id;
 			$line->voucher_inv_remove = $line->trip_voucher;
 			$line->quantity = $line->qty_done;
 			$line->qty_dispatched = 0;
 			$line->trip_voucher = 0;
+			$line->src_id = 0;
+			$line->unit_price = 0;
+			$line->unit_taxable_amount = 0;
 		}else{
 			$comments .= " ".$line->particulars;
 		}
@@ -218,9 +223,9 @@ if ( (isset($_GET['DeliveryNumber']) && ($_GET['DeliveryNumber'] > 0) )
 
 	end_page();
 	exit;
-} elseif (!isset($_POST['process_invoice']) && !check_quantities()) {
+} /*elseif (!isset($_POST['process_invoice']) && !check_quantities()) {
 	display_error(_("Selected quantity cannot be less than quantity credited nor more than quantity not invoiced yet."));
-}
+}*/
 if (isset($_POST['Update'])) {
 	$Ajax->activate('Items');
 }
@@ -238,29 +243,34 @@ if (list_updated('payment')) {
 function check_quantities()
 {
 	$ok =1;
-	foreach ($_SESSION['Items']->line_items as $line_no=>$itm) {
-		if (isset($_POST['Line'.$line_no])) {
-			if($_SESSION['Items']->trans_no) {
-				$min = $itm->qty_done;
-				$max = $itm->quantity;
-			} else {
-				$min = 0;
-				$max = $itm->quantity - $itm->qty_done;
-			}
-			if (check_num('Line'.$line_no, $min, $max)) {
-				$_SESSION['Items']->line_items[$line_no]->qty_dispatched =
-				    input_num('Line'.$line_no);
-			}
-			else {
-				$ok = 0;
-			}
-				
-		}
 
-		if (isset($_POST['Line'.$line_no.'Desc'])) {
-			$line_desc = $_POST['Line'.$line_no.'Desc'];
-			if (strlen($line_desc) > 0) {
-				$_SESSION['Items']->line_items[$line_no]->item_description = $line_desc;
+	//echo "<pre>";print_r($_SESSION['Items']);echo "</pre>";exit;
+	foreach ($_SESSION['Items']->line_items as $line_no=>$itm) {
+
+		if($itm->voucher_inv_remove == 0){
+			if (isset($_POST['Line'.$line_no])) {
+				if($_SESSION['Items']->trans_no) {
+					$min = $itm->qty_done;
+					$max = $itm->quantity;
+				} else {
+					$min = 0;
+					$max = $itm->quantity - $itm->qty_done;
+				}
+				if (check_num('Line'.$line_no, $min, $max)) {
+					$_SESSION['Items']->line_items[$line_no]->qty_dispatched =
+					    input_num('Line'.$line_no);
+				}
+				else {
+					$ok = 0;
+				}
+				
+			}
+
+			if (isset($_POST['Line'.$line_no.'Desc'])) {
+				$line_desc = $_POST['Line'.$line_no.'Desc'];
+				if (strlen($line_desc) > 0) {
+					$_SESSION['Items']->line_items[$line_no]->item_description = $line_desc;
+				}
 			}
 		}
 	}
@@ -766,11 +776,11 @@ textarea_row(_("Remarks/Memo"), 'Comments', null, 100, 4);
 
 end_table(1);
 
-submit_center_first('Update', _("Update"),
-  _('Refresh document page'), true);
+//submit_center_first('Update', _("Update"),
+  //_('Refresh document page'), true);
 //submit_center_last('process_invoice', _("Process Invoice"),
   //_('Check entered data and save document'), 'default');
-submit_center_last('process_invoice', _("Process Invoice"),
+submit_center('process_invoice', _("Process Invoice"),
   _('Check entered data and save document'));
 
 end_form();
