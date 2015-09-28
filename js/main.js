@@ -90,6 +90,44 @@ $('.drop-down-drivers-list').live('click',function(e){
 
 });
 //_______________________________________________________
+//2. supplier list_____________________________________
+$('#supplier-list-div #supplier_name').keyup(function(){
+
+	var term = $(this).val();
+
+	var li_list = '';
+		$.post(base_url+"/trip-booking/getSuppliersName",{term:term},
+		function(data){
+			if(data!='false'){ 
+				data=jQuery.parseJSON(data);
+			
+				for(var i=0;i<data.length;i++){
+				
+		li_list = li_list+'<li><a class="drop-down-suppliers-list" supplier_name="'+data[i].name+'">'+data[i].name+'</a></li>';
+				}
+				
+				$('.autofill-supplier-name').html(li_list);
+				$('.autofill-supplier-name').css('display','block');//show list
+				
+			
+			}else{
+				$('.autofill-supplier-name').css('display','none');//hide list
+			}
+			
+		});
+		
+
+});
+
+$('.drop-down-suppliers-list').live('click',function(e){
+
+	var name=$(this).attr('supplier_name');
+	$(this).parent().parent().css('display','none');//hide list
+	$('#supplier_name').val(name);
+	
+	
+
+});
 
 
 //====================================================================

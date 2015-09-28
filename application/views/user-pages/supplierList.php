@@ -15,7 +15,7 @@
 	  <?php 
 	  //search?>
 
-<div class="page-outer">    
+<div class="page-outer" id= "supplier-list-div">    
 	<fieldset class="body-border">
 		<legend class="body-head">List Supplier</legend>
 		<div class="box-body table-responsive no-padding">
@@ -23,7 +23,8 @@
 			<table class="table list-org-table">
 				<tbody> 
 				<tr>
-					<td><?php echo form_input(array('name'=>'supplier_name','class'=>'form-control','id'=>'supplier_name','placeholder'=>'By Name','size'=>30,'value'=>$supplier_name));?> </td>
+					<td><?php echo form_input(array('name'=>'supplier_name','class'=>'form-control','id'=>'supplier_name','placeholder'=>'By Name','size'=>30,'value'=>$supplier_name));?>
+					<ul class="auto-fill autofill-supplier-name"></ul> </td>
 					<td><?php echo form_input(array('name'=>'supplier_mobile','class'=>'form-control','id'=>'supplier_mobile','placeholder'=>'By Mobile','size'=>30,'value'=>$supplier_mobile));?> </td>
 					<td><?php echo form_submit("search","Search","class='btn btn-primary'");?></td>
 			<?php echo form_close();?>

@@ -49,6 +49,10 @@ class Trip_booking extends CI_Controller {
                         }else if($param2=='getDriversName') {
 		
 				$this->getDriversName();
+			}else if($param2=='getSuppliersName') {
+		
+				$this->getSuppliersName();
+			
 			}else if($param2=='getVehicleDriverPercentages') {
 		
 				$this->getVehicleDriverPercentages();
@@ -989,7 +993,7 @@ class Trip_booking extends CI_Controller {
 			
 	}
 
-public function getDriversName()
+	public function getDriversName()
 	{
 		$term = $_REQUEST['term'];
 		$drivers= $this->settings_model->get_autocomplete_array($term, 'drivers', 'name');
@@ -1000,6 +1004,27 @@ public function getDriversName()
 				$retArray[] = array(
 						
 						'name'=>$driver['name']
+						
+						);
+			}
+			echo json_encode($retArray);
+		}else{
+			echo 'false';
+		}
+			
+	}
+
+	public function getSuppliersName()
+	{
+		$term = $_REQUEST['term'];
+		$suppliers= $this->settings_model->get_autocomplete_array($term, 'vehicle_owners', 'name');
+		$retArray = array();
+		$jsondata ='';
+		if($suppliers){
+			foreach($suppliers as $supplier){
+				$retArray[] = array(
+						
+						'name'=>$supplier['name']
 						
 						);
 			}
