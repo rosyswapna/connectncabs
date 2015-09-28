@@ -2168,9 +2168,11 @@ $('.trips-booking-div #customer').keyup(function(){
 });
 
 //autofill for customer name search
-$('#name').keyup(function(){
+$('#name, .trips #c_name').keyup(function(){
 
 	var term = $(this).val();
+
+	var input_id = $(this).attr('id');
 
 	var li_list = '';
 		$.post(base_url+"/trip-booking/getCustomersName",{term:term},
@@ -2180,7 +2182,7 @@ $('#name').keyup(function(){
 			
 				for(var i=0;i<data.length;i++){
 				
-		li_list = li_list+'<li><a class="drop-down-customers-list" customer_name="'+data[i].name+'">'+data[i].name+'</a></li>';
+		li_list = li_list+'<li><a class="drop-down-customers-list" input_id="'+input_id+'" customer_name="'+data[i].name+'">'+data[i].name+'</a></li>';
 				}
 				
 				$('.autofill-customer-name').html(li_list);
@@ -2199,8 +2201,11 @@ $('#name').keyup(function(){
 $('.drop-down-customers-list').live('click',function(e){
 
 	var name=$(this).attr('customer_name');
+	var input_id=$(this).attr('input_id');
+
 	$(this).parent().parent().css('display','none');//hide list
-	$('#name').val(name);
+	//$('#name').val(name);
+	$('#'+input_id).val(name);
 	
 	
 
