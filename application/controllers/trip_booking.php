@@ -1154,32 +1154,50 @@ public function getDriversName()
 	}
 	
 	public function SmsPopUp(){
-	if(isset($_REQUEST['trip_id'])){ 
-		$data=$this->trip_booking_model->get_trip($_REQUEST['trip_id']);
-		$data=$data[0]; 
+		if(isset($_REQUEST['trip_id'])){ 
+			$data=$this->trip_booking_model->get_trip($_REQUEST['trip_id']);
+			//print_r($data);exit;
+			$data=$data[0]; 
 	
-		if($data['guest_name']!='' || $data['guest_info']!=''){
-			$customer_name=$data['guest_name'];
-			$customer_contact=$data['guest_info'];
-		}else{
-			$customer_id=$data['customer_id'];
-		$customer=$this->trip_booking_model->getCustomerDetails($customer_id);
-		$customer_name=$customer[0]->name;
-		$customer_contact=$customer[0]->mobile;
-		}
+			if($data['guest_name']!='' || $data['guest_info']!=''){
+				$customer_name=$data['guest_name'];
+				$customer_contact=$data['guest_info'];
+			}else{
+				$customer_id=$data['customer_id'];
+				$customer=$this->trip_booking_model->getCustomerDetails($customer_id);
+				$customer_name=$customer[0]->name;
+				$customer_contact=$customer[0]->mobile;
+			}
 		
 		
-		$message='Hi Customer, Your Trip Id: '.$_REQUEST['trip_id'].' has been confirmed on '.$data['pick_up_date'].'.Pickup time: '.$data['pick_up_time'].'.Location : '.$data['pick_up_city'].'-'.$data['drop_city'].'. Driver: '.$data['driver'].', '.$data['driver_info'].'.';
-		$dr_message='Hi, Your trip id: '.$_REQUEST['trip_id'].' had been allocated on '.$data['pick_up_date'].'. Guest details: '.$customer_name.', '.$customer_contact.'.Pickup: '.$data['pick_up_city'].', '.$data['pick_up_time'];
-		$tbl_arry=array('vehicle_types','vehicle_ac_types','vehicle_makes','vehicle_models');
-		$data_sms['customer_msg']=$message;
-		$data_sms['driver_msg']=$dr_message;
-		$data_sms['guest_info']=$customer_contact;
-		$data_sms['driver_info']=$data['driver_info']; 
-		if($data_sms){
-		echo json_encode($data_sms);
+			/*$message='Hi Customer, Your Trip Id: '.$_REQUEST['trip_id'].' has been confirmed on '.$data['pick_up_date'].'.Pickup time: '.$data['pick_up_time'].'.Location : '.$data['pick_up_city'].'-'.$data['drop_city'].'. Driver: '.$data['driver'].', '.$data['driver_info'].'.';
+
+			$dr_message='Hi, Your trip id: '.$_REQUEST['trip_id'].' had been allocated on '.$data['pick_up_date'].'. Guest details: '.$customer_name.', '.$customer_contact.'.Pickup: '.$data['pick_up_city'].', '.$data['pick_up_time'];*/
+
+			$trip_data = ' Booking no : '.$_REQUEST['trip_id'].','
+					.' Company name : '.$data['org_name'].','
+					.' Guest name : '.$customer_name.','
+					.' Mobile no : '.$customer_contact.','
+					.' Type of cab : '.$data['v_model'].','
+					.' Reporting date : '.$data['pick_up_date'].','
+					.' Time  : '.$data['pick_up_time'].','
+					.' Place : '.$data['pick_up_city'].','
+					.' destination : '.$data['drop_city'];
+
+			$message = 'Hi Customer , Your Trip'.$trip_data;
+
+			$dr_message='Hi, Your trip'.$trip_data;
+
+			
+			$tbl_arry=array('vehicle_types','vehicle_ac_types','vehicle_makes','vehicle_models');
+			$data_sms['customer_msg']=$message;
+			$data_sms['driver_msg']=$dr_message;
+			$data_sms['guest_info']=$customer_contact;
+			$data_sms['driver_info']=$data['driver_info']; 
+			if($data_sms){
+			echo json_encode($data_sms);
+			}
 		}
-	}
 	}
 
 	public function notAuthorized(){
