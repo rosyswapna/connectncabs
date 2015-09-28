@@ -101,6 +101,8 @@ class User extends CI_Controller {
 			$this->getNotifications();
 		}elseif($param1=='tripvouchers'){
 			$this->tripVouchers($param2);
+		}elseif($param1=='autoCustomers'){
+			$this->autoComplete('customers','name');
 		}
 
 		elseif($param1=='tarrif-masters'&& ($param2== ''|| is_numeric($param2))){
@@ -159,6 +161,16 @@ class User extends CI_Controller {
 		}
 	
     }
+
+        function autoComplete($table='',$name=''){
+    
+              if (isset($_GET['term']) && $table != '' && $name != ''){
+                     $q = strtolower($_GET['term']);
+	           $this->settings_model->get_autocomplete_array($q, $table, $name);
+               }
+      
+       }
+
 	/*public function ShowService(){
 	if($this->session_check()==true) {
 	$data['title']="Service | ".PRODUCT_NAME;  
@@ -510,7 +522,7 @@ class User extends CI_Controller {
 			$data=$this->build_Trip_Data($trip_id);
 			
 			//set form arrays
-			$tbl_arry=array('booking_sources','available_drivers','trip_models','drivers','vehicle_types','vehicle_models','vehicle_makes','vehicle_ac_types','vehicle_fuel_types','vehicle_seating_capacity','vehicle_beacon_light_options','languages','payment_type','customer_types','customer_groups','supplier_groups');
+			$tbl_arry=array('booking_sources','available_drivers','trip_models','drivers','vehicle_types','vehicle_models','vehicle_makes','vehicle_ac_types','vehicle_fuel_types','vehicle_seating_capacity','vehicle_beacon_light_options','languages','payment_type','customer_types','customer_groups','supplier_groups','vehicle_owners');
 			for ($i=0;$i<count($tbl_arry);$i++){
 				$result=$this->user_model->getArray($tbl_arry[$i]);
 				if($result!=false){
@@ -2291,7 +2303,7 @@ public function profile() {
 		$tripsTable = $totalTable = array();
 
 		//trips table column header
-		$tripsTable['theader'] = array("Trip Id","Voucher","Date","Days","Total Km","Trip Amount","Trip %");
+		$tripsTable['theader'] = array("Trip Id","Voucher","Date","Days","Total Km","Total Hrs","Trip Amount","Trip %");
 			
 		//total table column header
 		$totalTable['theader'] = array(
@@ -2314,7 +2326,7 @@ public function profile() {
 			$TotalExpense = array();
 			$TotalHalt = $TotalBata = $TotalTripAmount = $full_tot_km= $tot_tax= $tot_vehicle_payment_amount=$tot_vehicle_trip_amount=0;
 			foreach($trips as $trip){
-				
+				$trip_hrs = 0;
 				$trip_km=$trip['end_km_reading']-$trip['start_km_reading'];
 				$full_tot_km=$full_tot_km+$trip_km;
 				$tot_tax=$tot_tax+$trip['state_tax'];
@@ -2325,6 +2337,7 @@ public function profile() {
 				$date2 = date_create($trip['drop_date'].' '.$trip['drop_time']);
 
 				$diff= date_diff($date1, $date2);
+                                                              $trip_hrs = $diff->h;                                              
 
 				$no_of_days=$diff->d;
 				if($no_of_days==0){
@@ -2335,7 +2348,7 @@ public function profile() {
 							
 				}
 
-				$tdata[$i] = array($trip['id'],$trip['voucher_no'],$trip['pick_up_date'],$no_of_days,$trip_km,number_format($trip['vehicle_trip_amount'],2),number_format($trip['vehicle_payment_amount'],2)
+				$tdata[$i] = array($trip['id'],$trip['voucher_no'],$trip['pick_up_date'],$no_of_days,$trip_km,$trip_hrs,number_format($trip['vehicle_trip_amount'],2),number_format($trip['vehicle_payment_amount'],2)
 					);
 
 				$expenseValue = unserialize($trip['trip_expense']);

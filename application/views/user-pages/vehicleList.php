@@ -15,7 +15,7 @@
 	  <?php 
 	  //search?>
 
-<div class="page-outer">    
+<div class="page-outer" id="vehicle-list-div">    
 	<fieldset class="body-border">
 		<legend class="body-head">List Vehicles</legend><?php //print_r($vehicles);exit; ?>
 		<div class="box-body table-responsive no-padding">
@@ -23,7 +23,9 @@
 			<table class="table list-org-table">
 				<tbody>
 					<tr>
-					    <td><?php echo form_input(array('name'=>'reg_num','class'=>'form-control','id'=>'reg_num','placeholder'=>'By Registration Number','size'=>30,'value'=>$reg_num));?> </td>
+					    <td><?php echo form_input(array('name'=>'reg_num','class'=>'form-control','id'=>'reg_num','placeholder'=>'By Registration Number','size'=>30,'value'=>$reg_num));?>
+<ul class="auto-fill autofill-vehicle-name"></ul>
+ </td>
 						 <td><?php $class="form-control";
 						 $id="vehicle-owner";
 						 if(isset($owner)){

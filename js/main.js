@@ -8,6 +8,94 @@ var hr_flag = 2;
 
 
 
+//autocomplete events=================================
+
+
+//1. Vehicle list__________________________________-
+$('#vehicle-list-div #reg_num').keyup(function(){
+
+	var term = $(this).val();
+
+	var li_list = '';
+		$.post(base_url+"/trip-booking/getVehiclesName",{term:term},
+		function(data){
+			if(data!='false'){ 
+				data=jQuery.parseJSON(data);
+			
+				for(var i=0;i<data.length;i++){
+				
+		li_list = li_list+'<li><a class="drop-down-vehicles-list" vehicle_name="'+data[i].name+'">'+data[i].name+'</a></li>';
+				}
+				
+				$('.autofill-vehicle-name').html(li_list);
+				$('.autofill-vehicle-name').css('display','block');//show list
+				
+			
+			}else{
+				$('.autofill-vehicle-name').css('display','none');//hide list
+			}
+			
+		});
+		
+
+});
+
+$('.drop-down-vehicles-list').live('click',function(e){
+
+	var name=$(this).attr('vehicle_name');
+	$(this).parent().parent().css('display','none');//hide list
+	$('#reg_num').val(name);
+	
+	
+
+});
+//___________________________________________________
+
+//2. driver list_____________________________________
+$('#driver-list-div #driver_name').keyup(function(){
+
+	var term = $(this).val();
+
+	var li_list = '';
+		$.post(base_url+"/trip-booking/getDriversName",{term:term},
+		function(data){
+			if(data!='false'){ 
+				data=jQuery.parseJSON(data);
+			
+				for(var i=0;i<data.length;i++){
+				
+		li_list = li_list+'<li><a class="drop-down-drivers-list" driver_name="'+data[i].name+'">'+data[i].name+'</a></li>';
+				}
+				
+				$('.autofill-driver-name').html(li_list);
+				$('.autofill-driver-name').css('display','block');//show list
+				
+			
+			}else{
+				$('.autofill-driver-name').css('display','none');//hide list
+			}
+			
+		});
+		
+
+});
+
+$('.drop-down-drivers-list').live('click',function(e){
+
+	var name=$(this).attr('driver_name');
+	$(this).parent().parent().css('display','none');//hide list
+	$('#driver_name').val(name);
+	
+	
+
+});
+//_______________________________________________________
+
+
+//====================================================================
+
+
+
 //-------------add vehicle page related js -----------------------
 
 

@@ -1012,6 +1012,7 @@ if($this->mysession->get('loan_post_all')!=null ){
 			
 		</div>
 </div>
+<?php echo form_close();?>
 </fieldset>
 </div>
 				</div>

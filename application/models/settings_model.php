@@ -1,5 +1,14 @@
 <?php 
 class Settings_model extends CI_Model {
+
+        var $organisation_id;
+	public function __construct()
+	{ 
+		parent::__construct();
+		$this->organisation_id=$this->session->userdata('organisation_id');
+		
+
+	}
 	
 	
 	public function addValues($tbl,$data){
@@ -13,6 +22,22 @@ class Settings_model extends CI_Model {
 	$this->db->insert($tbl,$data);
 	return $this->db->insert_id();
 	}
+
+        function get_autocomplete_array($q, $table, $name){
+
+                if($name == '')
+			return false;
+
+		$this->db->where('organisation_id',$this->organisation_id);
+		$this->db->like($name, $q, 'after'); 
+		$this->db->order_by($name);
+		$qry = $this->db->get($table);//echo $this->db->last_query();exit;
+		if($qry->num_rows() > 0){
+			return $qry->result_array();
+		}else{
+			return false;
+		}
+       }
 
 	public function getValues($id,$tbl){ 
 	$this->db->select('id,description,name');

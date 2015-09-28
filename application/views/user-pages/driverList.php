@@ -15,7 +15,7 @@
 	  <?php 
 	  //search?>
 
-<div class="page-outer">    
+<div class="page-outer" id= "driver-list-div">    
 	<fieldset class="body-border">
 		<legend class="body-head">List Drivers</legend>
 		<div class="box-body table-responsive no-padding">
@@ -23,7 +23,9 @@
 			<table class="table list-org-table">
 				<tbody> 
 					<tr>
-					    <td><?php echo form_input(array('name'=>'driver_name','class'=>'form-control','id'=>'driver_name','placeholder'=>'By Name','size'=>30,'value'=>$driver_name));?> </td>
+					    <td><?php echo form_input(array('name'=>'driver_name','class'=>'form-control','id'=>'driver_name','placeholder'=>'By Name','size'=>30,'value'=>$driver_name));?>
+<ul class="auto-fill autofill-driver-name"></ul>
+ </td>
 						<td><?php echo form_input(array('name'=>'driver_city','class'=>'form-control','id'=>'driver_city','placeholder'=>'By City','size'=>30,'value'=>$driver_city));?> </td>
 						<td><?php $class="form-control ";
 							  $id='status';

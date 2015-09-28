@@ -9,6 +9,7 @@ class Trip_booking extends CI_Controller {
 		$this->load->model("driver_model");
 		$this->load->model("vehicle_model");
 		$this->load->model("customers_model");
+                $this->load->model("settings_model");
 		$this->load->helper('my_helper');
 		no_cache();
 
@@ -41,7 +42,13 @@ class Trip_booking extends CI_Controller {
 			}else if($param2=='getCustomersName') {
 		
 				$this->getCustomersName();
-			
+
+			}else if($param2=='getVehiclesName') {
+		
+				$this->getVehiclesName();
+                        }else if($param2=='getDriversName') {
+		
+				$this->getDriversName();
 			}else if($param2=='getVehicleDriverPercentages') {
 		
 				$this->getVehicleDriverPercentages();
@@ -961,6 +968,48 @@ class Trip_booking extends CI_Controller {
 		}
 			
 	}
+	public function getVehiclesName()
+	{
+		$term = $_REQUEST['term'];
+		$vehicles = $this->settings_model->get_autocomplete_array($term, 'vehicles', 'registration_number');
+		$retArray = array();
+		$jsondata ='';
+		if($vehicles ){
+			foreach($vehicles as $vehicle){
+				$retArray[] = array(
+						
+						'name'=>$vehicle['registration_number']
+						
+						);
+			}
+			echo json_encode($retArray);
+		}else{
+			echo 'false';
+		}
+			
+	}
+
+public function getDriversName()
+	{
+		$term = $_REQUEST['term'];
+		$drivers= $this->settings_model->get_autocomplete_array($term, 'drivers', 'name');
+		$retArray = array();
+		$jsondata ='';
+		if($drivers){
+			foreach($drivers as $driver){
+				$retArray[] = array(
+						
+						'name'=>$driver['name']
+						
+						);
+			}
+			echo json_encode($retArray);
+		}else{
+			echo 'false';
+		}
+			
+	}
+
 
 	public function getVehicle(){
 		if(isset($_REQUEST['id'])){

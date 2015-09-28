@@ -209,12 +209,14 @@ if ( (isset($_GET['DeliveryNumber']) && ($_GET['DeliveryNumber'] > 0) )
 	}
 	processing_start();
 	$_SESSION['Items'] = new Cart(ST_SALESINVOICE, $_GET['ModifyInvoice']);
+//echo "<pre>";print_r($_SESSION['Items']->line_items);echo "</pre>";
 
 	if ($_SESSION['Items']->count_items() == 0) {
 		echo"<center><br><b>" . _("All quantities on this invoice has been credited. There is nothing to modify on this invoice") . "</b></center>";
 		display_footer_exit();
 	}
 	copy_from_cart();
+
 } elseif (!processing_active()) {
 	/* This page can only be called with a delivery for invoicing or invoice no for edit */
 	display_error(_("This page can only be opened after delivery selection. Please select delivery to invoicing first."));
@@ -453,6 +455,7 @@ $dspans[] = $spanlen;
 
 $is_batch_invoice = count($_SESSION['Items']->src_docs) > 1;
 
+
 $is_edition = $_SESSION['Items']->trans_type == ST_SALESINVOICE && $_SESSION['Items']->trans_no != 0;
 start_form();
 hidden('cart_id');
@@ -587,6 +590,8 @@ $show_qoh = true;
 $dn_line_cnt = 0;
 
 $slno = 1;
+
+
 foreach ($_SESSION['Items']->line_items as $line=>$ln_itm) {
 	
 	
@@ -641,10 +646,16 @@ foreach ($_SESSION['Items']->line_items as $line=>$ln_itm) {
 		}
 		$dn_line_cnt--;
 	}else{
-		if ($dn_line_cnt == 0) {
+              
+
+		if ($dn_line_cnt == 0 && $slno == 1) {
 			$dn_line_cnt = $dspans[0];
 			label_cell('', "rowspan=$dn_line_cnt class=oddrow");
-		}
+                        
+		}else{$dn_line_cnt = $dspans[0];
+                        label_cell("<a href='" . $_SERVER['PHP_SELF'] . "?RemoveDN=".
+				$ln_itm->src_no."'>" . _("Remove") . "</a>", "rowspan=$dn_line_cnt class=oddrow");
+                }
 		$dn_line_cnt--;
 	}
 	end_row();
@@ -740,6 +751,8 @@ if ($is_batch_invoice && $accumulate_shipping)
 $colspan = 6;
 
 hidden('ChargeFreightCost',null);
+
+
 	
 $inv_items_total = $_SESSION['Items']->get_items_total_dispatch();
 
@@ -780,6 +793,7 @@ end_table(1);
   //_('Refresh document page'), true);
 //submit_center_last('process_invoice', _("Process Invoice"),
   //_('Check entered data and save document'), 'default');
+
 submit_center('process_invoice', _("Process Invoice"),
   _('Check entered data and save document'));
 

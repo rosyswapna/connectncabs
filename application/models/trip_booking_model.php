@@ -356,7 +356,7 @@ $qry='SELECT TV.total_trip_amount,TV.start_km_reading,TV.end_km_reading,TV.end_k
 		$this->db->join('customers AS C','T.customer_id=C.id','left');
 		$this->db->join('customer_groups AS CG','T.customer_group_id=CG.id','left');
 		$this->db->where(array_merge($where_basic,$where_more));
-		if(is_array($vehicle_id))
+		if(is_array($vehicle_id) && count($vehicle_id)>0)
 			$this->db->where_in('T.vehicle_id',$vehicle_id);
 
 		$query = $this->db->get();
@@ -369,7 +369,7 @@ $qry='SELECT TV.total_trip_amount,TV.start_km_reading,TV.end_km_reading,TV.end_k
 			$this->db->join('customers AS C','T.customer_id=C.id','left');
 			$this->db->join('customer_groups AS CG','T.customer_group_id=CG.id','left');
 			$this->db->where($where_basic);
-			if(is_array($vehicle_id))
+			if(is_array($vehicle_id) && count($vehicle_id)>0)
 			$this->db->where_in('T.vehicle_id',$vehicle_id);
 			$query = $this->db->get();
 			if($query->num_rows() > 0){

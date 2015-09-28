@@ -475,23 +475,23 @@
 		
 <td style="width:5%;"></td>
 <td><div class="form-group">
-	<?php echo form_open(base_url()."general/supplier-groups");?>
-	<?php echo form_label('Supplier Group');?></td>
+	<?php //echo form_open(base_url()."general/supplier-groups");?>
+	<?php //echo form_label('Supplier Group');?></td>
 <td><?php  
-	$class="form-control";
-	$tbl="supplier_groups";
-	echo $this->form_functions->populate_editable_dropdown('select',$supplier_groups,$class,$tbl)?>
-	<?php echo form_input(array('name'=>'select_text','id'=>'editbox','class'=>'form-control','style'=>'display:none','trigger'=>'true'));?>
-	<?php echo form_input(array('name'=>'id_val','id'=>'id','style'=>'display:none'));?>
+	//$class="form-control";
+	//$tbl="supplier_groups";
+	//echo $this->form_functions->populate_editable_dropdown('select',$supplier_groups,$class,$tbl)?>
+	<?php //echo form_input(array('name'=>'select_text','id'=>'editbox','class'=>'form-control','style'=>'display:none','trigger'=>'true'));?>
+	<?php //echo form_input(array('name'=>'id_val','id'=>'id','style'=>'display:none'));?>
 	</td>
-<td><?php echo form_input(array('name'=>'description','class'=>'form-control','id'=>'description','placeholder'=>'Description','value'=>'')); ?></td>
+<td><?php //echo form_input(array('name'=>'description','class'=>'form-control','id'=>'description','placeholder'=>'Description','value'=>'')); ?></td>
 
-	<td><div  class="settings-add" ><?php echo nbs(5);?><i class="fa fa-plus-circle"></i><?php echo nbs(5);?></div><div class="hide-me"><?php echo form_submit("add","Add","id=settings-add-id","class=btn");?></div
-	></td>
-<td><div  class="settings-edit" ><?php echo nbs(5);?><i class="fa fa-edit"></i><?php echo nbs(5);?></div><div class="hide-me xx"><?php echo form_submit("edit","Edit","id=settings-edit-id","class=btn");?></div></td>
-    <td><div  class="settings-delete" ><?php echo nbs(5);?><i class="fa fa-trash-o"></i><?php echo nbs(5);?></div><div class="hide-me"><?php echo form_submit("delete","Delete","id=settings-delete-id","class=btn");?></div></td>
-    <?php echo form_error('name', '<p class="text-red">', '</p>'); ?>
-	<?php echo form_close();?>
+	<td><!--<div  class="settings-add" ><?php echo nbs(5);?><i class="fa fa-plus-circle"></i><?php echo nbs(5);?></div><div class="hide-me"><?php echo form_submit("add","Add","id=settings-add-id","class=btn");?></div
+	>--></td>
+<td><!--<div  class="settings-edit" ><?php echo nbs(5);?><i class="fa fa-edit"></i><?php echo nbs(5);?></div><div class="hide-me xx"><?php echo form_submit("edit","Edit","id=settings-edit-id","class=btn");?></div>--></td>
+    <td><!--<div  class="settings-delete" ><?php echo nbs(5);?><i class="fa fa-trash-o"></i><?php echo nbs(5);?></div><div class="hide-me"><?php echo form_submit("delete","Delete","id=settings-delete-id","class=btn");?></div>--></td>
+    <?php //echo form_error('name', '<p class="text-red">', '</p>'); ?>
+	<?php //echo form_close();?>
 		
 </tr>
 </table>

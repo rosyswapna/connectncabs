@@ -35,7 +35,7 @@ $mobile='';
 			<table class="table list-trip-table no-border">
 				<tbody>
 					<tr>
-						<!--<td><?php echo form_input(array('name'=>'customer','id'=>'name','class'=>'customer form-control' ,'placeholder'=>'Customer name','value'=>$customer)); ?></td>-->
+						<!--<td><?php echo form_input(array('name'=>'customer','id'=>'name','class'=>'customer form-control customer-autocomplete' ,'placeholder'=>'Customer name','value'=>$customer)); ?></td>-->
 					    <td><?php echo form_input(array('name'=>'customer','id'=>'name','class'=>'customer form-control' ,'placeholder'=>'Customer Name','value'=>$customer,'autocomplete'=>'off')); ?>
 					    <ul class="auto-fill autofill-customer-name"></ul>
 					    </td>
