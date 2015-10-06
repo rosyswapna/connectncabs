@@ -620,5 +620,20 @@ AND CURDATE() BETWEEN T.pick_up_date AND T.drop_date';
 	$results = $qry->result_array();
 	return $results;
 	}
+
+
+	//add new vehicle owner as supplier from trip booiking
+	public function addSupplierFromTripBooking($value = null){
+
+		if($value !=null){
+			$data['name'] = $value;
+			$data['organisation_id']=$this->session->userdata('organisation_id');
+			$data['user_id']=$this->session->userdata('id');
+			$this->db->set('created', 'NOW()', FALSE);
+			$this->db->insert('vehicle_owners',$data);
+			return mysql_insert_id();
+		}
+		return -1;
+	}
 }
 ?>

@@ -650,6 +650,8 @@ class User extends CI_Controller {
 	$return_data['customer_type']					= -1;
 	$return_data['available_vehicles']='';
 	$return_data['tariffs']='';
+
+	$return_data['supplier_id'] ='';
 	
 	
 	
@@ -737,6 +739,10 @@ class User extends CI_Controller {
 		$return_data['available_vehicles']	='';
 		$return_data['available_driver']	=$data['driver_id'];
 		$return_data['available_vehicle']	=$data['vehicle_id'];
+
+		$return_data['supplier_id'] = $data['supplier_id'];
+
+		
 
 		
 		
@@ -861,6 +867,8 @@ class User extends CI_Controller {
 				$return_data['available_vehicle']		=	$data->vehicle_id;
 				$return_data['available_vehicles']='';
 				$return_data['tariffs']='';
+
+				$return_data['supplier_id'] = $data->supplier_group_id;
 
 				
 

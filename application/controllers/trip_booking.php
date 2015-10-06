@@ -442,6 +442,19 @@ class Trip_booking extends CI_Controller {
 				 $data['driver_id'] = $this->driver_model->addDriverFromTripBooking($this->input->post('driver_list'));
 			}
 
+
+			//----------------------get supplier--------------------------------------------
+			
+			if(is_numeric($this->input->post('supplier_list')) && $this->input->post('supplier_list') > 0){
+
+				$data['supplier_id'] = $this->input->post('supplier_list');
+
+			}else if($this->input->post('supplier_list') == '' || $this->input->post('supplier_list') == gINVALID){
+				$data['supplier_id'] = gINVALID;
+			}else{ 
+				 $data['supplier_id'] = $this->trip_booking_model->addSupplierFromTripBooking($this->input->post('supplier_list'));
+			}
+
 			//---------------if driver not selected get driver from vehicle if selected------------
 			if($data['driver_id'] == gINVALID && $data['vehicle_id']  > 0){
 				
@@ -545,6 +558,8 @@ class Trip_booking extends CI_Controller {
 			$dbdata['trip_model_id']		=$data['trip_model'];
 			$dbdata['tariff_id']			=$data['tariff'];
 			$dbdata['vehicle_id']			=$data['vehicle_id'];
+
+			$dbdata['supplier_group_id']			=$data['supplier_id'];
 			
 			$dbdata['driver_id']			=$data['driver_id'];
 			$dbdata['remarks']			=$data['remarks'];
