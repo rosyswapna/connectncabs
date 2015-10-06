@@ -117,6 +117,8 @@ function write_sales_invoice(&$invoice)
 		if($invoice_line->trip_voucher == 0){
 				reset_invoiced_trip_as_delivered($invoice_line->voucher_inv_remove);
 				$invoice_line->voucher_inv_remove = 0;
+		}else{
+			set_invoiced_trip_as_invoiced($invoice_line->trip_voucher,$invoice_no);
 		}
 
 		// Update delivery items for the quantity invoiced

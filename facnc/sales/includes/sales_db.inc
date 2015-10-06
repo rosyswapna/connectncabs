@@ -479,6 +479,18 @@ function reset_invoiced_trip_as_delivered($voucher){
 
 }
 
+function set_invoiced_trip_as_invoiced($voucher,$invoice_no){
+	
+	$sql_voucher = "UPDATE trip_vouchers SET invoice_no = ".db_escape($invoice_no)." WHERE id = ".db_escape($voucher);
+	db_query($sql_voucher,"Trip voucher updation failed");
+
+	$sql_trip = "UPDATE trips SET trip_status_id = ".TRIP_STATUS_TRIP_INVOICED." WHERE id IN(SELECT trip_id from trip_vouchers where id=".db_escape($voucher).")";
+	db_query($sql_trip,"Trip status updation failed");
+	
+	return true;
+
+}
+
 
 //----------------------------------------------------------------------------------------
 
