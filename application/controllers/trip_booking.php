@@ -1198,13 +1198,16 @@ class Trip_booking extends CI_Controller {
 			$data=$this->trip_booking_model->get_trip($_REQUEST['trip_id']);
 			//print_r($data);exit;
 			$data=$data[0]; 
+
+			$customer_name = $guest_name = '';
+			$customer_id=$data['customer_id'];
+			$customer=$this->trip_booking_model->getCustomerDetails($customer_id);
 	
 			if($data['guest_name']!='' || $data['guest_info']!=''){
 				$customer_name=$data['guest_name'];
 				$customer_contact=$data['guest_info'];
 			}else{
-				$customer_id=$data['customer_id'];
-				$customer=$this->trip_booking_model->getCustomerDetails($customer_id);
+				
 				$customer_name=$customer[0]->name;
 				$customer_contact=$customer[0]->mobile;
 			}
@@ -1215,9 +1218,9 @@ class Trip_booking extends CI_Controller {
 			$dr_message='Hi, Your trip id: '.$_REQUEST['trip_id'].' had been allocated on '.$data['pick_up_date'].'. Guest details: '.$customer_name.', '.$customer_contact.'.Pickup: '.$data['pick_up_city'].', '.$data['pick_up_time'];*/
 
 			$trip_data = ' Booking no : '.$_REQUEST['trip_id'].','
-					.' Company name : '.$data['org_name'].','
-					.' Guest name : '.$customer_name.','
-					.' Mobile no : '.$customer_contact.','
+					.' Company name : '.$customer[0]->name.','
+					.' Customer name : '.$data['guest_name'].','
+					.' Mobile no : '.$data['guest_info'].','
 					.' Type of cab : '.$data['v_model'].','
 					.' Reporting date : '.$data['pick_up_date'].','
 					.' Time  : '.$data['pick_up_time'].','
