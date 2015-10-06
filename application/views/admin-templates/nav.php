@@ -203,7 +203,8 @@
                             <ul class="treeview-menu">
 				 <li><a href="<?php echo base_url().'account/front_desk/TrialBalance';?>"><i class="fa fa-angle-double-right"></i> Trial Balance</a></li>
                                 <li><a href="<?php echo base_url().'account/front_desk/BalanceSheet';?>"><i class="fa fa-angle-double-right"></i> Balance sheet</a></li>
-				 <li><a href="<?php echo base_url().'account/front_desk/ProfitLoss';?>"><i class="fa fa-angle-double-right"></i> Profit and Loss</a></li>                                
+				 <li><a href="<?php echo base_url().'account/front_desk/ProfitLoss';?>"><i class="fa fa-angle-double-right"></i> Profit and Loss</a></li> 
+				<li><a href="<?php echo base_url().'account/front_desk/TaxReport';?>"><i class="fa fa-angle-double-right"></i> Tax Report</a></li>                                 
                                 
                             </ul>
                         </li>

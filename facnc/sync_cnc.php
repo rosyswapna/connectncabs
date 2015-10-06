@@ -180,6 +180,11 @@
 		
 	}
 
+	elseif(isset($_GET['TaxReport'])){
+		meta_forward('reporting/reports_main.php?Class=6&REP_ID=709');
+		
+	}
+
 
 
 	

@@ -23,8 +23,8 @@ if ($use_date_picker)
 
 add_js_file('reports.js');
 
+//page(_($help_context = "Reports and Analysis"), false, false, "", $js);
 page(_($help_context = "Reports and Analysis"), false, false, "", $js);
-
 $reports = new BoxReports;
 
 $dim = get_company_pref('use_dimension');

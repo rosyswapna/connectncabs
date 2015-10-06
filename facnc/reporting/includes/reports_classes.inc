@@ -45,7 +45,7 @@ class BoxReports
 		$this->ar_reports[$class][$id] = new Report($id, $rep_name, $params);
 	}
 
-	function getDisplay($class=null)
+	/*function getDisplay($class=null)
 	{
 		global $path_to_root, $pdf_debug, $Ajax;
 
@@ -116,6 +116,82 @@ class BoxReports
 		$st = "<table align='center' width='80%' style='border:1px solid #cccccc;'><tr valign='top'>";
 		$st .= "<td width='30%'>$st_classes</td>";
 		$st .= "<td width='35%' style='border-left:1px solid #cccccc;border-right:1px solid #cccccc;padding-left:3px;'>$st_reports</td>";
+		$st .= "<td width='35%'>$st_params</td>";
+		$st .= "</tr></table><br>";
+
+		return $st;
+	}*/
+	function getDisplay($class=null)
+	{
+		global $path_to_root, $pdf_debug, $Ajax;
+
+		if (find_submit('Rep') != -1) {
+			include($path_to_root.'/reporting/prn_redirect.php');
+			return;
+		}
+
+		$temp = array_values($this->ar_classes);
+		$display_class = $class==null ? $temp[0] : $this->ar_classes[$class];
+		$st_reports = "";
+		$st_params = "";
+		$st_classes = "<b>" . _("Report Classes:") . "</b><br>";
+
+		if (isset($_GET['Class']))
+			set_focus('class'.$_GET['Class']);
+
+		$cur_class = $_REQUEST['Class'];
+
+		foreach($this->ar_classes as $class_id => $name)
+		{
+			if (!isset($this->ar_reports[$class_id]))
+				continue; // e.g. no dimensions
+
+			$acc = access_string($name);
+			$st_classes .= "<a href='"
+				.$_SERVER['PHP_SELF']."?Class=$class_id'"
+				." style='font-weight:". ($cur_class == $class_id ? 'bold' : 'normal')."'"
+				." class='repclass_link' id='".'class'.$class_id."'"
+				."$acc[1]>$acc[0]</a> <br>";
+
+			$style = $class_id==$cur_class ? '' : "style='display:none'";
+			$st_reports .= "<table class='repclass' id='TAB_" . $class_id ."' $style cellpadding=0 cellspacing=0 border=0 width='100%'><tr><td><b>" . _("Reports For Class: ") . "&nbsp;$name</b></td></tr>\n";
+			foreach($this->ar_reports[$class_id] as $rep_id => $report)
+			{
+				$acc = access_string($report->name);
+				$st_reports .= "<tr><td><a class='repopts_link'"
+					." href='".$_SERVER['PHP_SELF']."?Class=$class_id&REP_ID=$report->id'"
+					." style='font-weight:". (@$_REQUEST['REP_ID'] == $report->id ? 'bold' : 'normal')."'"
+					." id='".$id = default_focus()."'"
+					."$acc[1]>$acc[0]</a><tr><td>\n";
+
+				if (@$_REQUEST['REP_ID'] == $report->id) {
+					$Ajax->activate($id);
+				}
+
+				if (isset($_REQUEST['REP_ID']) && $_REQUEST['REP_ID']==$report->id) {
+					// parameters form
+					$action = $_SERVER['PHP_SELF'];
+					$st_params = "<table><tr><td>\n"
+						. "<form method='POST' action='$action' target='_blank'>\n";
+					$st_params .= submit('Rep'.$report->id,  
+						_("Display: ") . access_string($report->name, true),
+						false, '', $pdf_debug ? false : 'default process') . hidden('REP_ID', $report->id, false).'<br><br>';
+					$st_params .= $this->getOptions($report->get_controls(), $report->id);
+					$st_params .= "\n<input type=hidden name='Class' value=".$cur_class.">"
+						."\n</form></td></tr></table>\n";
+					set_focus('Rep'.$report->id);
+					$Ajax->addUpdate(true, 'rep_form', $st_params);
+				}
+			}
+			$st_reports .= "</table>";
+		}
+
+		$st_params = "<div id='rep_form'>".
+			"$st_params</div>";
+		
+		$st = "<table align='center' width='80%' style='border:1px solid #cccccc;'><tr valign='top'>";
+		//$st .= "<td width='30%'>$st_classes</td>";
+		//$st .= "<td width='35%' style='border-left:1px solid #cccccc;border-right:1px solid #cccccc;padding-left:3px;'>$st_reports</td>";
 		$st .= "<td width='35%'>$st_params</td>";
 		$st .= "</tr></table><br>";
 
