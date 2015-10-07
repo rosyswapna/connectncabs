@@ -772,7 +772,7 @@ $tariffs='';
 				<!--  section 4 start-->
 				<div class="row-100-percent-width-margin-0-8">
 
-					<div class=" form-group div-with-20-percent-width-with-margin-0-10 hide-me">
+					<div class=" form-group div-with-20-percent-width-with-margin-0-10 ">
 						<?php echo form_label('Driver Bata','driverbatalabel'); ?>
 						<?php echo form_input(array('name'=>'driverbata','class'=>'form-control driverbata padding-2px-0-0-10-px voucher-text-box','placeholder'=>'Enter Driver Bata')); ?>
 				

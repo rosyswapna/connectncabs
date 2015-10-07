@@ -148,7 +148,7 @@ $(document).ready(function(){
 					$('.totalvehiclehramount').attr('totamountset','false');
 				}
 
-	
+				$('.supplier').val(data['trip'].supplier);
 				$('.customer').val(customer_name);
 				$('.company').val(company_name);
 				$('#vehicle_model_id').val(vehicle_model_id);
@@ -201,7 +201,7 @@ $(document).ready(function(){
 
 					$('.voucherno').val(data['voucher'].voucher_no);
 
-					$('.supplier').val(data['trip'].supplier);
+					
 					//$('.voucherno').attr('readonly','true');
 
 					$('.startdt').val(formatDate_d_m_Y(data['voucher'].trip_start_date));
@@ -228,8 +228,10 @@ $(document).ready(function(){
 					$('.nighthalt').val(data['voucher'].night_halt_charges);
 					$('.nighthalt').attr('night_halt',data['voucher'].night_halt_charges);
 				
-					$('.driverbata').val(data['voucher'].driver_bata);
-					$('.driverbata').attr('driver_bata',data['voucher'].driver_bata);
+					//$('.driverbata').val(data['voucher'].driver_bata);
+					//$('.driverbata').attr('driver_bata',data['voucher'].driver_bata);
+					$('.driverbata').val(0);
+					$('.driverbata').attr('driver_bata',0);
 				
 					$('.basekm').val(data['voucher'].base_kilometers);
 					$('.basekmamount').val(data['voucher'].base_kilometer_amount);
