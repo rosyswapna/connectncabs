@@ -1228,6 +1228,9 @@ class Trip_booking extends CI_Controller {
 					.' destination : '.$data['drop_city'];
 
 			$message = 'Hi Customer , Your Trip'.$trip_data;
+			if($data['driver']!=''){
+				$message .= ', Driver Details: '.$data['driver'].', '.$data['driver_info'];
+			}
 
 			$dr_message='Hi, Your trip'.$trip_data;
 
