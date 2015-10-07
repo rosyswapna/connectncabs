@@ -1762,9 +1762,14 @@ public function profile() {
 				$data['trip_tab']='active';
 			}
 			$vid = $this->vehicle_model->getSupplierVehicles($owner_id);
+
+			
 			if($param2 == 'trip')
 				$active_tab = 't_tab';
-			$trips=$this->trip_booking_model->getVehicleVouchers($vid,$fdate,$todate); 
+			if(count($vid) > 0)
+				$trips=$this->trip_booking_model->getVehicleVouchers($vid,$fdate,$todate); 
+			else
+				$trips=array();
 			//array values for Vehicle Trip tab
 			list($data['TripTableData'], $data['TotalTable']) = $this->VehicleTripsTable($trips);
 			
