@@ -10,6 +10,8 @@
     <div class="box-body">
 <div class="trip-booking-body">
 <?php    if($this->session->userdata('dbSuccess') != '') { ?>
+
+	
         <div class="success-message">
 			
             <div class="alert alert-success alert-dismissable">
@@ -20,7 +22,36 @@
                 $this->session->set_userdata(array('dbSuccess'=>''));
                 ?>
            </div>
+
        </div>
+
+	
+
+	<!-- sms container starts -->
+
+	<div class='overlay-container' id='sms-overlay'>
+		<div class="overlay modal"></div>
+		<div class="loading-img"></div>
+		<div class="modal-body border-2-px box-shadow">
+		 <?php echo form_open( base_url().'trip-booking/trip-confirmation');?>
+		<table>
+		<tr><td>Customer Contact:</td><td><?php echo form_input(array('name'=>'customer-info','id'=>'customer-info','class'=>'form-control'));?></td>
+		<td>Customer Message:</td><td><?php echo form_textarea(array('name'=>'customer-msg','id'=>'customer-msg','class'=>'form-control','rows'=>2,'style'=> 'width:80%'));?></td><td></td>
+		</tr>
+		<tr><td>Driver Contact:</td><td><?php echo form_input(array('name'=>'driver-info','id'=>'driver-info','class'=>'form-control'));?></td>
+		<td>Driver Message:</td><td><?php echo form_textarea(array('name'=>'driver-msg','id'=>'driver-msg','class'=>'form-control','rows'=>2,'style'=> 'width:80%'));?></td><td>
+								<?php  echo form_submit("add","Save","class='btn btn-primary'");
+								 ?> </td>
+		</tr>
+		</table>
+	<?php echo form_close();?>
+	
+	
+		
+		</div>
+	</div>
+	<!-- sms container ends -->
+
        <?php    }else if($this->session->userdata('dbError') != ''){ ?>
 	<div class="alert alert-danger alert-dismissable">
         <i class="fa fa-ban"></i>
