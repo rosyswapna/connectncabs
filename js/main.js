@@ -2239,6 +2239,8 @@ $('.trips-booking-div .vehicle-list').on('change',function(){
 				data=jQuery.parseJSON(data);
 			
 				$(".trips-booking-div .supplier").val(data.owner_id);
+				//$('.trips-booking-div .supplier option[value!="'+data.owner_id+'"]').remove();
+				
 				
 			
 			}else{

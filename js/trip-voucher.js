@@ -228,10 +228,9 @@ $(document).ready(function(){
 					$('.nighthalt').val(data['voucher'].night_halt_charges);
 					$('.nighthalt').attr('night_halt',data['voucher'].night_halt_charges);
 				
-					//$('.driverbata').val(data['voucher'].driver_bata);
-					//$('.driverbata').attr('driver_bata',data['voucher'].driver_bata);
-					$('.driverbata').val(0);
-					$('.driverbata').attr('driver_bata',0);
+					$('.driverbata').val(data['voucher'].driver_bata);
+					$('.driverbata').attr('driver_bata',data['voucher'].driver_bata);
+					
 				
 					$('.basekm').val(data['voucher'].base_kilometers);
 					$('.basekmamount').val(data['voucher'].base_kilometer_amount);
@@ -1672,6 +1671,7 @@ $(document).ready(function(){
 		
 			var total_tarif=$('.'+$('.totalamount').attr('amount-class-to-be-selected')).val();
 			var total = Number(total_tarif)+Number(driverbata)+Number(nighthalt);
+			//var total = Number(total_tarif);
 
 			$(".trip-expense-input").each(function(){
 				total += Number($(this).val());
@@ -1852,8 +1852,10 @@ $(document).ready(function(){
 			}
 		}else{
 			if(ownership == ATTACHED_VEHICLE && driver_status_id == ATTACHED_DRIVER){
-				kmcommsn = Number(kmcommsn)+Number(driverbata)+Number(nighthalt);
-				hrcommsn = Number(hrcommsn)+Number(driverbata)+Number(nighthalt);
+				//kmcommsn = Number(kmcommsn)+Number(driverbata)+Number(nighthalt);
+				//hrcommsn = Number(hrcommsn)+Number(driverbata)+Number(nighthalt);
+				kmcommsn = Number(kmcommsn);
+				hrcommsn = Number(hrcommsn);
 			}
 		}
 	
@@ -1885,14 +1887,14 @@ $(document).ready(function(){
 		},function(data){
 
 			data=jQuery.parseJSON(data);
-			var driver_bata= 0;
+			
 			if(data!=false){
 				var additional_kilometer_rate = data.data[0].additional_kilometer_rate;
 				var minimum_kilometers = data.data[0].minimum_kilometers;
 				var additional_hour_rate = data.data[0].additional_hour_rate;
 				var minimum_hours = data.data[0].minimum_hours;
 				var rate = data.data[0].rate;
-				//var driver_bata=data.data[0].driver_bata;
+				var driver_bata=data.data[0].driver_bata;
 				var night_halt=data.data[0].night_halt;
 			}else{
 		
@@ -1901,7 +1903,7 @@ $(document).ready(function(){
 				var additional_hour_rate = $('#trip-tariff option:selected').attr('additional_hour_rate');
 				var minimum_hours = $('#trip-tariff option:selected').attr('minimum_hours');
 				var rate = $('#trip-tariff option:selected').attr('rate');
-				//var driver_bata=$('#trip-tariff option:selected').attr('driver_bata');
+				var driver_bata=$('#trip-tariff option:selected').attr('driver_bata');
 				
 				var night_halt=$('#trip-tariff option:selected').attr('night_halt');
 
