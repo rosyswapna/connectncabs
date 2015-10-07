@@ -2316,7 +2316,7 @@ public function profile() {
 		$tripsTable = $totalTable = array();
 
 		//trips table column header
-		$tripsTable['theader'] = array("Trip Id","Voucher","Date","Days","Total Km","Total Hrs","Trip Amount","Trip %");
+		$tripsTable['theader'] = array("Trip Id","Voucher","Date","Days","Total Km","Total Hrs","Trip Amount","Cash","Trip %");
 			
 		//total table column header
 		$totalTable['theader'] = array(
@@ -2361,7 +2361,7 @@ public function profile() {
 							
 				}
 
-				$tdata[$i] = array($trip['id'],$trip['voucher_no'],$trip['pick_up_date'],$no_of_days,$trip_km,$trip_hrs,number_format($trip['vehicle_trip_amount'],2),number_format($trip['vehicle_payment_amount'],2)
+				$tdata[$i] = array($trip['id'],$trip['voucher_no'],$trip['pick_up_date'],$no_of_days,$trip_km,$trip_hrs,number_format($trip['vehicle_trip_amount'],2),number_format(0,2),number_format($trip['vehicle_payment_amount'],2)
 					);
 
 				$expenseValue = unserialize($trip['trip_expense']);
