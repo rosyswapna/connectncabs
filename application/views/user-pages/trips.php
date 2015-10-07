@@ -468,6 +468,12 @@ $tariffs='';
 					</div>
 
 					<div class="form-group div-with-20-percent-width-with-margin-10">
+						<?php echo form_label('Supplier','Supplier'); ?>
+						<?php echo form_input(array('name'=>'supplier','class'=>'form-control padding-2px-0-0-10-px voucher-text-box supplier format-time','placeholder'=>'Supplier','readonly'=>'true','tabindex'=>"")); 
+						?>
+					</div>
+
+					<div class="form-group div-with-20-percent-width-with-margin-10">
 						<?php echo form_label('Vehicle','model'); ?>
 						<?php // echo form_input(array('name'=>'model','class'=>'form-control padding-2px-0-0-10-px voucher-text-box model','placeholder'=>'Vehicle Model','readonly'=>'true','tabindex'=>"13")); 
 					$name = 'vehicle_model_id';
