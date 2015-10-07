@@ -117,7 +117,7 @@ public function getDriversInfo(){
 	public function get_sql_for_Suppliers($condition){ 
 
 			
-		$qry = "SELECT owner.id,owner.name,owner.address,owner.mobile,owner.email,CONCAT(vh.registration_number) as vehicle_details
+		$qry = "SELECT owner.id,owner.name,owner.address,owner.mobile,owner.email,GROUP_CONCAT(vh.registration_number SEPARATOR ', ') as vehicle_details
 			FROM vehicle_owners owner";
 		$qry .= " LEFT JOIN vehicle_owner_mapping vmap ON vmap.owner_id = owner.id";
 		$qry .= " LEFT JOIN vehicles vh ON vmap.vehicle_id = vh.id";

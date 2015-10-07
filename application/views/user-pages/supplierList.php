@@ -72,10 +72,11 @@
 
 					<td>
 					<?php
-					$vh = explode(',',$supplier['vehicle_details']);
+					/*$vh = explode(',',$supplier['vehicle_details']);
 					foreach($vh as $v){
 						echo $v.br();
-					}
+					}*/
+					echo $supplier['vehicle_details'];
 					?>
 					</td>
 					
