@@ -2326,6 +2326,7 @@ public function profile() {
 				'<th style="width:10%;">Outstanding</th>');
 		//total table row header
 		$Particulars[0]= array("label"=>"Total Trip Amount","tariff"=>0,"credit"=>0,"outstanding"=>0);
+		
 		$Particulars[1]= array("label"=>"Less Cash Trip/Advance Amount","tariff"=>0,"credit"=>0,"outstanding"=>0);
 		$Particulars[2]= array("label"=>"Total Trip Percentage","tariff"=>0,"credit"=>0,"outstanding"=>0);
 		$Particulars[3]= array("label"=>"Less Cash Trip Percentage","tariff"=>0,"credit"=>0,"outstanding"=>0);
@@ -2361,7 +2362,13 @@ public function profile() {
 							
 				}
 
-				$tdata[$i] = array($trip['id'],$trip['voucher_no'],$trip['pick_up_date'],$no_of_days,$trip_km,$trip_hrs,number_format($trip['vehicle_trip_amount'],2),number_format(0,2),number_format($trip['vehicle_payment_amount'],2)
+				if($trip['payment_type_id'] == CASH){
+					$cash = number_format($trip['vehicle_trip_amount'],2);
+				}else{
+					$cash = number_format(0,2);
+				}
+
+				$tdata[$i] = array($trip['id'],$trip['voucher_no'],$trip['pick_up_date'],$no_of_days,$trip_km,$trip_hrs,number_format($trip['vehicle_trip_amount'],2),$cash,number_format($trip['vehicle_payment_amount'],2)
 					);
 
 				$expenseValue = unserialize($trip['trip_expense']);
@@ -2377,6 +2384,8 @@ public function profile() {
 						$TotalExpense['ots'][$expense->value]	= $expAmt;
 				}
 				$Particulars[0]['outstanding'] += $trip['vehicle_trip_amount'];
+				if($trip['payment_type_id'] == CASH)
+				$Particulars[1]['outstanding'] += $trip['vehicle_trip_amount'];
 				$Particulars[2]['outstanding'] += $trip['vehicle_payment_amount'];
 				
 				$Total['ots'] += $trip['vehicle_trip_amount']+$trip['vehicle_payment_amount'];

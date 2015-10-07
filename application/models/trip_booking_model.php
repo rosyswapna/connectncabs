@@ -331,7 +331,7 @@ $qry='SELECT TV.total_trip_amount,TV.start_km_reading,TV.end_km_reading,TV.end_k
 	//-----------------------get vehicle vouchers or supplier vehicles vouchers
 	function getVehicleVouchers($vehicle_id,$fpdate='',$tpdate=''){
 
-		$select = 'C.name as customer,CG.name as company,TV.trip_expense,TV.trip_starting_time,TV.trip_ending_time,TV.voucher_no,TV. vehicle_payment_amount,TV.vehicle_trip_amount,TV.total_trip_amount,TV.start_km_reading,TV.end_km_reading,TV.end_km_reading,TV.releasing_place,TV.parking_fees,TV.toll_fees,TV.state_tax,TV.night_halt_charges,TV.fuel_extra_charges, T.id,T.pick_up_city,T.drop_city,T.pick_up_date,T.pick_up_time,T.drop_date,T.drop_time,T.tariff_id';
+		$select = 'C.name as customer,CG.name as company,TV.trip_expense,TV.trip_starting_time,TV.trip_ending_time,TV.voucher_no,TV. vehicle_payment_amount,TV.vehicle_trip_amount,TV.total_trip_amount,TV.start_km_reading,TV.end_km_reading,TV.end_km_reading,TV.releasing_place,TV.parking_fees,TV.toll_fees,TV.state_tax,TV.night_halt_charges,TV.fuel_extra_charges, T.id,T.pick_up_city,T.drop_city,T.pick_up_date,T.pick_up_time,T.drop_date,T.drop_time,T.tariff_id,TV.payment_type_id';
 
 		$where_basic['TV.organisation_id']=$this->session->userdata('organisation_id');
 		if(!is_array($vehicle_id)){
