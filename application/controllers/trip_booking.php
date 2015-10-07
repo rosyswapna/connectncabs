@@ -85,6 +85,10 @@ class Trip_booking extends CI_Controller {
 			}else if($param2=='check-voucher') {
 
 				$this->check_voucher_no();
+			}else if($param2=='getVehicleOwner') {
+		
+				$this->getVehicleOwner();
+
 			}else{
 				$this->notFound();
 			}	
@@ -144,6 +148,8 @@ class Trip_booking extends CI_Controller {
 	public function bookTrip() {
 			
 			if(isset($_REQUEST['book_trip'])){
+
+			echo $this->input->post('available_vehicle');exit;
 
 				$my_customer = $this->session->userdata('customer_id');
 				
@@ -965,6 +971,19 @@ class Trip_booking extends CI_Controller {
 			echo 'false';
 		}
 			
+	}
+
+	public function getVehicleOwner(){
+		$vehicle_id = $_REQUEST['vehicle'];
+
+		$supplier = $this->vehicle_model->get_owner($vehicle_id);
+		if($supplier){
+			echo json_encode($supplier);
+		}else{
+			echo 'false';
+		}
+
+		
 	}
 	
 	public function getCustomersName()

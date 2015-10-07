@@ -458,7 +458,7 @@
 						}
 						echo $this->form_functions->populate_editable_dropdown('driver_list', $driver_availability,$class,'drivers',array(),"Driver",$available_driver);
 						}
-						$class="form-control row-source-50-percent-width-with-margin-8";
+						$class="form-control row-source-50-percent-width-with-margin-8 supplier";
 						echo $this->form_functions->populate_editable_dropdown('supplier_list', $vehicle_owners,$class,'suppliers',array(),"Suppliers",@$supplier_id);
 						echo br(2);
 						 ?>

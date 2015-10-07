@@ -2226,6 +2226,32 @@ $('.drop-down-customers').live('click',function(e){
 
 });
 
+
+
+$('.trips-booking-div .vehicle-list').on('change',function(){
+	var vehicle = $(this).val();
+	var selected_text = $(".trips-booking-div .vehicle-list option:selected").text();
+
+	if(vehicle != '' && vehicle != selected_text){
+		$.post(base_url+"/trip-booking/getVehicleOwner",{vehicle:vehicle},
+		function(data){
+			if(data!='false'){ 
+				data=jQuery.parseJSON(data);
+			
+				$(".trips-booking-div .supplier").val(data.owner_id);
+				
+			
+			}else{
+				$(".trips-booking-div .supplier").val('');
+				
+			}
+			
+		});
+	}
+	
+	
+});
+
 //-----------------------
 scrollAmount=0;
 $('.scroll-item').on('keydown',function(e){
