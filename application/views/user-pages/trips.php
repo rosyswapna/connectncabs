@@ -109,7 +109,7 @@ $tariffs='';
 						<ul class="auto-fill autofill-customer-name"></ul>
 						</div></td>
 						<td><div class="scroll-item"><?php $class="form-control".@$input_class['suppliers']; $id='suppliers';
-						echo $this->form_functions->populate_dropdown('suppliers',$supplier_groups,$supplier_group_id,$class,$id,$msg="Supplier");?></div></td>
+						echo $this->form_functions->populate_dropdown('suppliers',$vehicle_owners,$supplier_group_id,$class,$id,$msg="Supplier");?></div></td>
 
 						</tr>
 				</tbody>
