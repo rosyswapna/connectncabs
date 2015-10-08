@@ -2325,13 +2325,14 @@ public function profile() {
 				'<th style="width:10%;">Credit</th>',
 				'<th style="width:10%;">Outstanding</th>');
 		//total table row header
-		$Particulars[0]= array("label"=>"Total Trip Amount","tariff"=>0,"credit"=>0,"outstanding"=>0);
+		$Particulars[]= array("label"=>"Total Trip Amount","tariff"=>0,"credit"=>0,"outstanding"=>0);
+		$Particulars[]= array("label"=>"Total Trip Percentage","tariff"=>0,"credit"=>0,"outstanding"=>0);
 		
-		$Particulars[1]= array("label"=>"Less Cash Trip/Advance Amount","tariff"=>0,"credit"=>0,"outstanding"=>0);
-		$Particulars[2]= array("label"=>"Total Trip Percentage","tariff"=>0,"credit"=>0,"outstanding"=>0);
-		$Particulars[3]= array("label"=>"Less Cash Trip Percentage","tariff"=>0,"credit"=>0,"outstanding"=>0);
-		$Particulars[4]= array("label"=>"Balance Due","tariff"=>0,"credit"=>0,"outstanding"=>0);
-		$Particulars[5]= array("label"=>"TDS 1 %","tariff"=>0,"credit"=>0,"outstanding"=>0);
+		$Particulars[]= array("label"=>"Less Cash Trip/Advance Amount","tariff"=>0,"credit"=>0,"outstanding"=>0);
+		
+		//$Particulars[3]= array("label"=>"Less Cash Trip Percentage","tariff"=>0,"credit"=>0,"outstanding"=>0);
+		$Particulars[]= array("label"=>"Balance Due","tariff"=>0,"credit"=>0,"outstanding"=>0);
+		
 		
 		$Total = array('trf'=>0,'cr'=>0,'ots'=>0);
 		
@@ -2384,18 +2385,21 @@ public function profile() {
 						$TotalExpense['ots'][$expense->value]	= $expAmt;
 				}
 				$Particulars[0]['outstanding'] += $trip['vehicle_trip_amount'];
-				if($trip['payment_type_id'] == CASH)
-				$Particulars[1]['outstanding'] += $trip['vehicle_trip_amount'];
-				$Particulars[2]['outstanding'] += $trip['vehicle_payment_amount'];
+				$Particulars[1]['outstanding'] += $trip['vehicle_payment_amount'];
+				$Particulars[2]['outstanding'] += ($trip['payment_type_id'] == CASH)?$trip['vehicle_trip_amount']:0;
+				
+				
+				
 				
 				$Total['ots'] += $trip['vehicle_trip_amount']+$trip['vehicle_payment_amount'];
 				
 				$i++;//next td values
 			}//trips loop ends 
+			$Particulars[3]['outstanding'] = $Particulars[1]['outstanding'] - $Particulars[2]['outstanding'];
 			
 			
 			$tripsTable['tdata'] = $tdata;
-
+			$totalExpense = 0;
 			foreach($expenses as $expense){
 				//trip table headers for expense
 				array_push($tripsTable['theader'] ,$expense->description);
@@ -2406,11 +2410,17 @@ public function profile() {
 				$Total['ots'] += $TotalExAmt;
 				
 				$Particulars[]= array("label"=>"Less ".$expense->description,"tariff"=>0,"credit"=>0,"outstanding"=>$TotalExAmt);
+
+				$totalExpense += $TotalExAmt;
 		
 			}
+			$TDSamt =($Particulars[3]['outstanding']-$totalExpense) / 100;
+			
+			$Particulars[]= array("label"=>"TDS 1 %","tariff"=>0,"credit"=>0,"outstanding"=>$TDSamt);
 			
 			//total table footer
-			$totalTable['tfooter']= array("label"=>"Total","tariff"=>number_format(0,2),"credit"=>number_format(0,2),"outstanding"=>number_format($Total['ots'],2));
+			$netPayableAmt = $Particulars[3]['outstanding']-$totalExpense-$TDSamt;
+			$totalTable['tfooter']= array("label"=>"Net Amount Payable","tariff"=>number_format(0,2),"credit"=>number_format(0,2),"outstanding"=>number_format($netPayableAmt,2));
 			$totalTable['tdata'] = $Particulars;
 			
 			//echo "<pre>";print_r($totalTable);echo "</pre>";exit;
