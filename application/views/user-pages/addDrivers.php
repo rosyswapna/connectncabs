@@ -683,7 +683,7 @@ $this->mysession->delete('post');
 		
 		<?php if (array_key_exists('a_tab', $tabs)) {?>
 	<div class="<?php echo $tabs['a_tab']['content_class'];?>" id="<?php echo $tabs['a_tab']['tab_id'];?>"> 
-        		<iframe src="<?php echo base_url().'account/front_desk/DriverPaymentInquiry/DR'.$driver_id.'/true';?>" height="600px" width="100%">
+        		<iframe src="<?php echo base_url().'account/front_desk/DriverGLInquiry/DR'.$driver_id.'/true';?>" height="600px" width="100%">
 		<p>Browser not Support</p>
 		</iframe>
         	</div>

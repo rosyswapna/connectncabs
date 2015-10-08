@@ -29,8 +29,10 @@ if (!@$_GET['popup'])
 }
 
 if(isset($_GET['OwnerPaymentInquiry'])){
+	unset($_GET['supplier_id']);
 	$_POST['Mode'] = 'OwnerPaymentInquiry';
 }elseif(isset($_GET['DriverPaymentInquiry'])){
+	unset($_GET['supplier_id']);
 	$_POST['Mode'] = 'DriverPaymentInquiry';
 }elseif(isset($_GET['DriverTransactions'])){
 	$_POST['Mode'] = 'DriverTransactions';

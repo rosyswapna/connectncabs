@@ -184,6 +184,15 @@
 		meta_forward('reporting/reports_main.php?Class=6&REP_ID=709');
 		
 	}
+	elseif(isset($_GET['DriverGLInquiry'])){
+		meta_forward('gl/inquiry/driver_gl_account_inquiry.php','DriverGLInquiry='.$_GET['DriverGLInquiry']);
+		
+	}
+	elseif(isset($_GET['OwnerGLInquiry'])){
+		meta_forward('gl/inquiry/owner_gl_account_inquiry.php','OwnerGLInquiry='.$_GET['OwnerGLInquiry']);
+		
+	}
+
 
 
 
