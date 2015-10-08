@@ -2239,12 +2239,18 @@ $('.trips-booking-div .vehicle-list').on('change',function(){
 				data=jQuery.parseJSON(data);
 			
 				$(".trips-booking-div .supplier").val(data.owner_id);
-				//$('.trips-booking-div .supplier option[value!="'+data.owner_id+'"]').remove();
-				
+
+				$(".trips-booking-div .supplier").attr('disabled',true);
+				$(".trips-booking-div input[name='supplier_list']").attr('disabled',false);
+
+				$(".trips-booking-div .supplier").after('<input type="hidden" name="supplier_list" value="'+data.owner_id+'"/>');
 				
 			
 			}else{
 				$(".trips-booking-div .supplier").val('');
+				$(".trips-booking-div .supplier").attr('disabled',false);
+
+				$(".trips-booking-div input[name='supplier_list']").attr('disabled',true);
 				
 			}
 			

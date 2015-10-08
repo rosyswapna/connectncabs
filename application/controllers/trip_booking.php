@@ -149,8 +149,7 @@ class Trip_booking extends CI_Controller {
 			
 			if(isset($_REQUEST['book_trip'])){
 
-			echo $this->input->post('available_vehicle');exit;
-
+			
 				$my_customer = $this->session->userdata('customer_id');
 				
 				if(empty($my_customer) && $_REQUEST['customer_group']==gINVALID){
@@ -460,6 +459,17 @@ class Trip_booking extends CI_Controller {
 			}else{ 
 				 $data['supplier_id'] = $this->trip_booking_model->addSupplierFromTripBooking($this->input->post('supplier_list'));
 			}
+
+			//-----vehicle mapping------------------------
+			if((is_numeric($data['vehicle_id']) && $data['vehicle_id'] > 0) && (is_numeric($data['supplier_id']) && $data['supplier_id'] > 0)) {
+				$vmap = $this->vehicle_model->get_owner($data['vehicle_id']);
+
+				if($vmap->owner_id != $data['supplier_id']){
+					$this->vehicle_model->map_vehicle($data['vehicle_id'],$data['supplier_id']);
+				}
+			}
+
+			//----------------------------------------
 
 			//---------------if driver not selected get driver from vehicle if selected------------
 			if($data['driver_id'] == gINVALID && $data['vehicle_id']  > 0){
