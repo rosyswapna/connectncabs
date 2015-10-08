@@ -25,15 +25,19 @@ if (!@$_GET['popup'])
 	if ($use_date_picker)
 		$js .= get_js_date_picker();
 
-	if(isset($_GET['DriverPaymentInquiry']) || isset($_GET['OwnerPaymentInquiry']))
-		page(_($help_context = "Transactions"), isset($_GET['supplier_id']), false, "", $js);
-	elseif(isset($_GET['DriverTransactions']) || $_POST['supplier_type'] == CNC_DRIVER)
-		page(_($help_context = "Driver Transactions"), isset($_GET['supplier_id']), false, "", $js);
-	elseif(isset($_GET['OwnerTransactions']) || $_POST['supplier_type'] == CNC_VEHICLE_OWNER)
-		page(_($help_context = "Vehicle Owner Transactions"), isset($_GET['supplier_id']), false, "", $js);
-	else
-		page(_($help_context = "Supplier Inquiry"), isset($_GET['supplier_id']), false, "", $js);
+	page(_($help_context = "Transactions"), isset($_GET['supplier_id']), false, "", $js);
 }
+
+if(isset($_GET['OwnerPaymentInquiry'])){
+	$_POST['Mode'] = 'OwnerPaymentInquiry';
+}elseif(isset($_GET['DriverPaymentInquiry'])){
+	$_POST['Mode'] = 'DriverPaymentInquiry';
+}elseif(isset($_GET['DriverTransactions'])){
+	$_POST['Mode'] = 'DriverTransactions';
+}elseif(isset($_GET['OwnerTransactions'])){
+	$_POST['Mode'] = 'OwnerTransactions';
+}
+
 
 if (isset($_SESSION['cnc_driver'])){
 	 	
@@ -55,34 +59,37 @@ if (isset($_GET['ToDate'])){
 if (!@$_GET['popup'])
 	start_form();
 	
-	$button_label='<button type="button" class="inputsubmit" style="height:25px; line-height:0.5; width:45px; margin-left:90%;">List</button>';
-	if(isset($_GET['DriverTransactions'])){
+
+$button_label='<button type="button" class="inputsubmit" style="height:25px; line-height:0.5; width:45px; margin-left:90%;">List</button>';
+if($_POST['Mode'] == 'DriverTransactions'){
 	hyperlink_params("$path_to_root/gl/inquiry/journal_inquiry.php", $button_label,"inquiry_type=driver");
-	}else if(isset($_GET['OwnerTransactions'])){
+}else if($_POST['Mode'] == 'OwnerTransactions'){
 	hyperlink_params("$path_to_root/gl/inquiry/journal_inquiry.php", $button_label,"inquiry_type=owner");
-	}
+}
 	
 
 if (!isset($_POST['supplier_id']))
 	$_POST['supplier_id'] = get_global_supplier();
 
+hidden('Mode');
+
 start_table_left(TABLESTYLE_NOBORDER);
 start_row();
 
 if (!@$_GET['popup']){
-	if(isset($_GET['DriverPaymentInquiry']) || isset($_SESSION['cnc_driver'])){
+	if($_POST['Mode'] =='DriverPaymentInquiry' || isset($_SESSION['cnc_driver'])){
 		hidden('supplier_id');
 		$_POST['supplier_type'] = CNC_DRIVER;
 	}
-	elseif(isset($_GET['OwnerPaymentInquiry'])){
+	elseif($_POST['Mode'] =='OwnerPaymentInquiry'){
 		hidden('supplier_id');
 		$_POST['supplier_type'] = CNC_VEHICLE_OWNER;
 	}
-	elseif(isset($_GET['DriverTransactions']) || $_POST['supplier_type'] == CNC_DRIVER){
+	elseif($_POST['Mode'] == 'DriverTransactions' || $_POST['supplier_type'] == CNC_DRIVER){
 		driver_list_cells(_("Select Driver:"), 'supplier_id', null, true, false, false, !@$_GET['popup']);
 		$_POST['supplier_type'] = CNC_DRIVER;
 	}
-	elseif(isset($_GET['OwnerTransactions']) || $_POST['supplier_type'] == CNC_VEHICLE_OWNER){
+	elseif($_POST['Mode'] == 'OwnerTransactions' || $_POST['supplier_type'] == CNC_VEHICLE_OWNER){
 		owner_list_cells(_("Select Vehicle Owner:"), 'supplier_id', null, true, false, false, !@$_GET['popup']);
 		$_POST['supplier_type'] = CNC_VEHICLE_OWNER;
 	}		

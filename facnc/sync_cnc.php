@@ -108,7 +108,7 @@
 		
 	}
 	elseif(isset($_GET['OwnerPaymentInquiry'])){
-		meta_forward('purchasing/inquiry/supplier_inquiry.php','OwnerPaymentInquiry='.$_GET['DriverPaymentInquiry']);
+		meta_forward('purchasing/inquiry/supplier_inquiry.php','OwnerPaymentInquiry='.$_GET['OwnerPaymentInquiry']);
 		
 	}
 	elseif(isset($_GET['CustomerPayment'])){
