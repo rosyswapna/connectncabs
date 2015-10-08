@@ -2409,17 +2409,17 @@ public function profile() {
 					 $TotalExpense['ots'][$expense->value]:0;
 				$Total['ots'] += $TotalExAmt;
 				
-				$Particulars[]= array("label"=>"Less ".$expense->description,"tariff"=>0,"credit"=>0,"outstanding"=>$TotalExAmt);
+				$Particulars[]= array("label"=>"Add ".$expense->description,"tariff"=>0,"credit"=>0,"outstanding"=>$TotalExAmt);
 
 				$totalExpense += $TotalExAmt;
 		
 			}
-			$TDSamt =($Particulars[3]['outstanding']-$totalExpense) / 100;
+			$TDSamt =($Particulars[3]['outstanding']+$totalExpense) / 100;
 			
 			$Particulars[]= array("label"=>"TDS 1 %","tariff"=>0,"credit"=>0,"outstanding"=>$TDSamt);
 			
 			//total table footer
-			$netPayableAmt = $Particulars[3]['outstanding']-$totalExpense-$TDSamt;
+			$netPayableAmt = $Particulars[3]['outstanding']+$totalExpense+$TDSamt;
 			$totalTable['tfooter']= array("label"=>"Net Amount Payable","tariff"=>number_format(0,2),"credit"=>number_format(0,2),"outstanding"=>number_format($netPayableAmt,2));
 			$totalTable['tdata'] = $Particulars;
 			

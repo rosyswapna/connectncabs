@@ -360,6 +360,8 @@ $qry='SELECT TV.total_trip_amount,TV.start_km_reading,TV.end_km_reading,TV.end_k
 		if(is_array($vehicle_id) && count($vehicle_id)>0)
 			$this->db->where_in('T.vehicle_id',$vehicle_id);
 
+
+		$this->db->order_by('T.pick_up_date');
 		$query = $this->db->get();
 		if($query->num_rows() > 0){
 			return $query->result_array();
@@ -372,6 +374,8 @@ $qry='SELECT TV.total_trip_amount,TV.start_km_reading,TV.end_km_reading,TV.end_k
 			$this->db->where($where_basic);
 			if(is_array($vehicle_id) && count($vehicle_id)>0)
 			$this->db->where_in('T.vehicle_id',$vehicle_id);
+			
+			$this->db->order_by('T.pick_up_date');
 			$query = $this->db->get();
 			if($query->num_rows() > 0){
 				return $query->result_array();
