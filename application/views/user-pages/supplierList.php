@@ -55,7 +55,7 @@
 				</tr>
 				<?php 
 				$attributes=array('class'=>'label-font-style');
-				if(isset($suppliers)){ 
+				if(is_array($suppliers)){ 
 					foreach ($suppliers as $supplier):
 					$phone_numbers='';
 				?>

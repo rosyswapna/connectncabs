@@ -2373,16 +2373,17 @@ public function profile() {
 					);
 
 				$expenseValue = unserialize($trip['trip_expense']);
-			
-				foreach($expenses as $expense){
-					$expAmt = (isset($expenseValue[$expense->value]) && $expenseValue[$expense->value] != null)?$expenseValue[$expense->value]:0;
-					array_push($tdata[$i],number_format($expAmt,2));
+				if(is_array($expenses)){
+					foreach($expenses as $expense){
+						$expAmt = (isset($expenseValue[$expense->value]) && $expenseValue[$expense->value] != null)?$expenseValue[$expense->value]:0;
+						array_push($tdata[$i],number_format($expAmt,2));
 
-					//total expense
-					if(isset($TotalExpense['ots'][$expense->value]))
-						$TotalExpense['ots'][$expense->value]	+= $expAmt;
-					else
-						$TotalExpense['ots'][$expense->value]	= $expAmt;
+						//total expense
+						if(isset($TotalExpense['ots'][$expense->value]))
+							$TotalExpense['ots'][$expense->value]	+= $expAmt;
+						else
+							$TotalExpense['ots'][$expense->value]	= $expAmt;
+					}
 				}
 				$Particulars[0]['outstanding'] += $trip['vehicle_trip_amount'];
 				$Particulars[1]['outstanding'] += $trip['vehicle_payment_amount'];
@@ -2400,19 +2401,21 @@ public function profile() {
 			
 			$tripsTable['tdata'] = $tdata;
 			$totalExpense = 0;
-			foreach($expenses as $expense){
-				//trip table headers for expense
-				array_push($tripsTable['theader'] ,$expense->description);
+			if(is_array($expenses)){
+				foreach($expenses as $expense){
+					//trip table headers for expense
+					array_push($tripsTable['theader'] ,$expense->description);
 
-				//build total Trip Expense Fields
-				$TotalExAmt =(array_key_exists($expense->value,$TotalExpense['ots']))?
-					 $TotalExpense['ots'][$expense->value]:0;
-				$Total['ots'] += $TotalExAmt;
+					//build total Trip Expense Fields
+					$TotalExAmt =(array_key_exists($expense->value,$TotalExpense['ots']))?
+						 $TotalExpense['ots'][$expense->value]:0;
+					$Total['ots'] += $TotalExAmt;
 				
-				$Particulars[]= array("label"=>"Add ".$expense->description,"tariff"=>0,"credit"=>0,"outstanding"=>$TotalExAmt);
+					$Particulars[]= array("label"=>"Add ".$expense->description,"tariff"=>0,"credit"=>0,"outstanding"=>$TotalExAmt);
 
-				$totalExpense += $TotalExAmt;
+					$totalExpense += $TotalExAmt;
 		
+				}
 			}
 			$TDSamt =($Particulars[3]['outstanding']+$totalExpense) / 100;
 			
