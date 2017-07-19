@@ -25,7 +25,8 @@ class Account extends CI_Controller {
 		$tax = 0;
 		foreach($res as $row){
 
-			$taxable_amount = $amount*40/100;
+			// $taxable_amount = $amount*40/100;
+			$taxable_amount = $amount*100/100;
 			$tax += ($taxable_amount*$row['rate']/100);
 		}
 		echo round($tax,2);
