@@ -124,9 +124,9 @@
 		$this->Line1($head_right3,0,$r_box_left,$this->pageWidth - $this->rightMargin);
 	
 		$this->NewLine(2);
-		$this->Text($r_txt_left, _("Service Tax Reg. No."));
+		$this->Text($r_txt_left, _("GSTIN"));  
 		$this->Text($mcol + 120, " : ");
-		$this->Text($mcol + 130, "AADCC0959NST001");
+		$this->Text($mcol + 130, "32AADCC0959N1ZJ");
 
 		$this->NewLine();
 		$this->Text($r_txt_left, _("Category"));

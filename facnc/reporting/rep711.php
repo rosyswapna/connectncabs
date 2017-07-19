@@ -200,7 +200,7 @@ function print_invoices()
 				$Tax += $tax_item['amount'];
 
 				if($tax_item['rate']==12){
-				 $taxDsp[] = array('name'=>$tax_item['tax_type_name'].' of 40% of '.$DisplaySubTot,
+				 $taxDsp[] = array('name'=>$tax_item['tax_type_name'],
 						'value' => number_format2($tax_item['amount'], $dec)
 				 		);
 				$modPrice =  number_format2($tax_item['amount'], $dec);
@@ -267,6 +267,11 @@ function print_invoices()
 			$rep->Text($rep->totals_column + 5, 'BALANCE');
 			$rep->Text($rep->totals_column + 192, ":");
 			$rep->Text($rep->totals_column + 200, $DisplayBalance);
+			$rep->NewLine(1.2);
+
+			$rep->Text($rep->totals_column + 5, 'Reverse Charge Mechanism');
+			$rep->Text($rep->totals_column + 192, ":");
+			$rep->Text($rep->totals_column + 200, 'No');
 			$rep->NewLine(1.2);
 			
 			$rep->Font();

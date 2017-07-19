@@ -3196,3 +3196,13 @@
 [16-Jun-2015 15:13:08 Asia/Kolkata] 1:divya:connect_db.inc:27: mysql_connect(): The mysql extension is deprecated and will be removed in the future: use mysqli or PDO instead
 [16-Jun-2015 15:13:08 Asia/Kolkata] 1:divya:connect_db.inc:27: mysql_connect(): The mysql extension is deprecated and will be removed in the future: use mysqli or PDO instead
 [16-Jun-2015 15:13:40 Asia/Kolkata] 1:divya:connect_db.inc:27: mysql_connect(): The mysql extension is deprecated and will be removed in the future: use mysqli or PDO instead
+[19-Jul-2017 14:35:26 Asia/Kolkata] 0::connect_db.inc:27: mysql_connect(): The mysql extension is deprecated and will be removed in the future: use mysqli or PDO instead
+[19-Jul-2017 14:38:46 Asia/Kolkata] 0::connect_db.inc:27: mysql_connect(): The mysql extension is deprecated and will be removed in the future: use mysqli or PDO instead
+[19-Jul-2017 14:39:41 Asia/Kolkata] 0::connect_db.inc:27: mysql_connect(): The mysql extension is deprecated and will be removed in the future: use mysqli or PDO instead
+[19-Jul-2017 14:40:07 Asia/Kolkata] 0::connect_db.inc:27: mysql_connect(): The mysql extension is deprecated and will be removed in the future: use mysqli or PDO instead
+[19-Jul-2017 14:40:51 Asia/Kolkata] 0::connect_db.inc:27: mysql_connect(): The mysql extension is deprecated and will be removed in the future: use mysqli or PDO instead
+[19-Jul-2017 14:41:45 Asia/Kolkata] 0::connect_db.inc:27: mysql_connect(): The mysql extension is deprecated and will be removed in the future: use mysqli or PDO instead
+[19-Jul-2017 14:41:45 Asia/Kolkata] 1::connect_db.inc:27: mysql_connect(): The mysql extension is deprecated and will be removed in the future: use mysqli or PDO instead
+[19-Jul-2017 14:41:46 Asia/Kolkata] 1:cab_admin:connect_db.inc:27: mysql_connect(): The mysql extension is deprecated and will be removed in the future: use mysqli or PDO instead
+[19-Jul-2017 14:42:00 Asia/Kolkata] 1:cab_admin:connect_db.inc:27: mysql_connect(): The mysql extension is deprecated and will be removed in the future: use mysqli or PDO instead
+[19-Jul-2017 14:42:01 Asia/Kolkata] 1:cab_admin:connect_db.inc:27: mysql_connect(): The mysql extension is deprecated and will be removed in the future: use mysqli or PDO instead
