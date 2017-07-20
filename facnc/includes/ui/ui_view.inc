@@ -519,7 +519,7 @@ function display_edit_tax_items($taxes, $columns, $tax_included, $rightspan=0, $
 			} else {
 
 				if($cnc_voucher){
-					$value = ($cnc_voucher['amount']*0.4)*$taxitem['rate']/100;
+					$value = $cnc_voucher['amount']*$taxitem['rate']/100;
 					//$value = number_format2($taxitem['Value'],user_price_dec());
 					$value = number_format2($value,user_price_dec());
 				}else{
@@ -575,7 +575,7 @@ function display_edit_tax_items_with_tax_group($taxes, $columns, $tax_group, $ri
 			} else {
 
 				if($cnc_voucher){
-					$value = ($cnc_voucher['amount']*0.4)*$taxitem['rate']/100;
+					$value = $cnc_voucher['amount']*$taxitem['rate']/100;
 					//$value = number_format2($taxitem['Value'],user_price_dec());
 					$value = number_format2($value,user_price_dec());
 				}else{

@@ -90,7 +90,8 @@ function get_full_price_for_item($stock_id, $price, $tax_group, $tax_included, $
 	}
 	
 
-	$taxable_amount = $price * 0.4;
+	
+	$taxable_amount = $price;
 	//echo "price-".$price."<br/>";
 	//echo "taxable_amount-".$taxable_amount."<br/>";
 	//echo round($taxable_amount * (1 + ($tax_multiplier / 100)),  user_price_dec());exit;

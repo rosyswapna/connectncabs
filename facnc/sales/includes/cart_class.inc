@@ -708,8 +708,8 @@ class line_details
 		$this->qty_done = $qty_done;
 		$this->standard_cost = $standard_cost;
 		$this->valid = true;
-		$this->trip_voucher = $trip_voucher;
-		$this->unit_taxable_amount = $this->price * 0.4;
+		$this->trip_voucher = $trip_voucher;		
+		$this->unit_taxable_amount = $this->price ;
 	}
 
 	// get unit price as stated on document
