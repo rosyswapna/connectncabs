@@ -134,6 +134,12 @@
 		$this->Text($mcol + 130, "Tour Operator / Cab Operator");
 
 		$this->NewLine();
+		$this->Text($r_txt_left, _("HSN/SAC Code"));
+		$this->Text($mcol + 120, " : ");
+		$this->Text($mcol + 130, "044");
+
+
+		$this->NewLine();
 		$this->Text($r_txt_left, _("PAN No."));
 		$this->Text($mcol + 120, " : ");
 		$this->Text($mcol + 130, "AADCC0959N");
