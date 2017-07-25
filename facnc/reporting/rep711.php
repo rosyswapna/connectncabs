@@ -237,12 +237,15 @@ function print_invoices()
 			$words = price_in_words_custom($Balance);
 			$rep->row = $rep->words_row;	
 			$rep->NewLine();
+			$rep->Text($rep->words_column, "Reverse Charge Mechanism : ");	
+			$rep->TextColLines(3,4, 'No');
+
+			$rep->NewLine();
 			$rep->Text($rep->words_column, "Rupees : ");
 			if ($words != "")
 				$rep->TextWrapLines($rep->words_column+50, $rep->words_column +180, $words." Only", 'left');
-			
+			$rep->NewLine(2);
 
-			$rep->NewLine(3);
 			$rep->Text($rep->words_column,"Net Payable : Rs. ".$DisplayBalance);
 
 			$rep->row = $rep->totals_row;	
@@ -268,12 +271,7 @@ function print_invoices()
 			$rep->Text($rep->totals_column + 192, ":");
 			$rep->Text($rep->totals_column + 200, $DisplayBalance);
 			$rep->NewLine(1.2);
-
-			$rep->Text($rep->totals_column + 5, 'Reverse Charge Mechanism');
-			$rep->Text($rep->totals_column + 192, ":");
-			$rep->Text($rep->totals_column + 200, 'No');
-			$rep->NewLine(1.2);
-			
+						
 			$rep->Font();
 			if ($email == 1)
 			{
