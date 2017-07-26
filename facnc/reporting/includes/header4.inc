@@ -131,12 +131,12 @@
 		$this->NewLine();
 		$this->Text($r_txt_left, _("Category"));
 		$this->Text($mcol + 120, " : ");
-		$this->Text($mcol + 130, "Tour Operator / Cab Operator");
+		$this->Text($mcol + 130, "Cab Operator");
 
 		$this->NewLine();
-		$this->Text($r_txt_left, _("HSN/SAC Code"));
+		$this->Text($r_txt_left, _("SAC"));
 		$this->Text($mcol + 120, " : ");
-		$this->Text($mcol + 130, "044");
+		$this->Text($mcol + 130, "9966");
 
 
 		$this->NewLine();
