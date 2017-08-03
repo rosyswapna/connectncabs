@@ -3441,3 +3441,9 @@
 [26-Jul-2017 11:42:27 Asia/Kolkata] 1:user:connect_db.inc:27: mysql_connect(): The mysql extension is deprecated and will be removed in the future: use mysqli or PDO instead
 [26-Jul-2017 11:42:32 Asia/Kolkata] 1:user:connect_db.inc:27: mysql_connect(): The mysql extension is deprecated and will be removed in the future: use mysqli or PDO instead
 [26-Jul-2017 11:43:12 Asia/Kolkata] 1:user:connect_db.inc:27: mysql_connect(): The mysql extension is deprecated and will be removed in the future: use mysqli or PDO instead
+[03-Aug-2017 12:48:51 Asia/Kolkata] 0::connect_db.inc:27: mysql_connect(): The mysql extension is deprecated and will be removed in the future: use mysqli or PDO instead
+[03-Aug-2017 12:48:51 Asia/Kolkata] 1::connect_db.inc:27: mysql_connect(): The mysql extension is deprecated and will be removed in the future: use mysqli or PDO instead
+[03-Aug-2017 12:48:51 Asia/Kolkata] 1:user:connect_db.inc:27: mysql_connect(): The mysql extension is deprecated and will be removed in the future: use mysqli or PDO instead
+[03-Aug-2017 12:49:06 Asia/Kolkata] 1:user:connect_db.inc:27: mysql_connect(): The mysql extension is deprecated and will be removed in the future: use mysqli or PDO instead
+[03-Aug-2017 12:49:13 Asia/Kolkata] 1:user:connect_db.inc:27: mysql_connect(): The mysql extension is deprecated and will be removed in the future: use mysqli or PDO instead
+[03-Aug-2017 12:50:15 Asia/Kolkata] 1:user:connect_db.inc:27: mysql_connect(): The mysql extension is deprecated and will be removed in the future: use mysqli or PDO instead
