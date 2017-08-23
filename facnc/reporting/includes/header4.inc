@@ -136,7 +136,7 @@
 		$this->NewLine();
 		$this->Text($r_txt_left, _("SAC"));
 		$this->Text($mcol + 120, " : ");
-		$this->Text($mcol + 130, "996601");
+		$this->Text($mcol + 130, "9966");
 
 
 		$this->NewLine();
