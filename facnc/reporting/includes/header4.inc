@@ -34,7 +34,7 @@
 
 		$icol = $this->pageWidth / 2;
 		$ccol = $this->cols[0] + 4;
-		$c2col = $ccol + 60;
+		$c2col = $ccol + 10;
 		$ccol2 = $icol / 2;
 		$mcol = $icol + 8;
 		$mcol2 = $this->pageWidth - $ccol2;
@@ -88,6 +88,10 @@
 			$this->TextWrap($left, $this->row, $right, $email,'center');
 
 		}
+		$this->Font('bold');
+		$this->NewLine(1.5);
+		$this->TextWrap($left, $this->row, $right, $this->title,'center');
+
 		//draw line after header
 		$this->NewLine();
 		$this->Font();

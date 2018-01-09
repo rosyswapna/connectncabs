@@ -93,7 +93,7 @@ function print_invoices()
 	$cur = get_company_Pref('curr_default');
 
 	if ($email == 0)
-		$rep = new FrontReport(_('INVOICE'), "InvoiceBulk", user_pagesize(), 9, $orientation);
+		$rep = new FrontReport(_('TAX INVOICE'), "InvoiceBulk", user_pagesize(), 9, $orientation);
 	if ($orientation == 'L')
 		recalculate_cols($cols);
 	for ($i = $from; $i <= $to; $i++)
@@ -116,7 +116,7 @@ function print_invoices()
 			if ($email == 1)
 			{
 				$rep = new FrontReport("", "", user_pagesize(), 9, $orientation);
-				$rep->title = _('INVOICE');
+				$rep->title = _('TAX INVOICE');
 				$rep->filename = "Invoice" . $myrow['reference'] . ".pdf";
 			}	
 			$rep->SetHeaderType('Header4');
